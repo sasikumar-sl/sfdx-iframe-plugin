@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/sfdx-iframe-plugin/static/css/main.e6c13ad2.css",
+    "main.js": "/sfdx-iframe-plugin/static/js/main.8ad36a10.js",
+    "static/js/787.fc9bc880.chunk.js": "/sfdx-iframe-plugin/static/js/787.fc9bc880.chunk.js",
+    "index.html": "/sfdx-iframe-plugin/index.html",
+    "main.e6c13ad2.css.map": "/sfdx-iframe-plugin/static/css/main.e6c13ad2.css.map",
+    "main.8ad36a10.js.map": "/sfdx-iframe-plugin/static/js/main.8ad36a10.js.map",
+    "787.fc9bc880.chunk.js.map": "/sfdx-iframe-plugin/static/js/787.fc9bc880.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.8ad36a10.js"
+  ]
+}
