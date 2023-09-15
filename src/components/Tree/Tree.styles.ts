@@ -1,10 +1,15 @@
 import styled from 'styled-components';
 
-export const AppContainer = styled.div`
+export const TreeContainer = styled.div`
   padding: 0;
   margin: 0;
   width: 100%;
   height: 100%;
+
+  ul {
+    height: 100%;
+    min-height: 400px;
+  }
 `;
 
 export const InputWrapper = styled.div`
