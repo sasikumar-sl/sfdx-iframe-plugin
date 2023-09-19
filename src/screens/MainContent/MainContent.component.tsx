@@ -7,7 +7,9 @@ import Sentiments from '../../components/Sentiments/Sentiments.component';
 
 import { MainContainer, Content } from './MainContent.styles';
 
-export const MainContent: React.FC = () =>  {
+type Props = {};
+
+export const MainContent: React.FC<Props> = () =>  {
 return (
     <MainContainer>
         <Header/>

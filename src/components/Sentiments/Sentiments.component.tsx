@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { WithTooltip } from '@supportlogic/frontend-library';
 
 import SentimentsScorePopover from '../SentimentScorePopover/SentimentScorePopover.component';
 import AttentionScorePopover from '../AttentionScorePopover/AttentionScorePopover.component';
+import PlaceHolder from '../PlaceHolder/PlaceHolder.components';
 
 import {
     SentimentsContainer,
@@ -10,16 +11,31 @@ import {
     ScoreWrapper,
     ScoreCardsWrapper,
     StyledInfoIcon,
-    StyledScore
+    StyledScore,
+    Card,
 } from './Sentiments.styles';
+
+export type SentimentType = {
+    id: string;
+    description: string; 
+};
 
 type Props = {
     sentimentScore: number;
     attentionScore: number;
+    sentiments?: SentimentType[]
 };
 
-export const Sentiments: React.FC<Props> = ({ sentimentScore, attentionScore }) =>  {
-return (
+export const Sentiments: React.FC<Props> = ({ sentimentScore, attentionScore, sentiments = [] }) =>  {
+   
+    const Sentiment = useMemo(() => {
+        if(!sentiments.length) {
+            return <PlaceHolder/>
+        }
+
+        return <Card/>;
+    }, [sentiments]);
+    return (
     <SentimentsContainer>
         <Scorers>
             <ScoreWrapper>
@@ -45,7 +61,9 @@ return (
                 </WithTooltip>
             </ScoreWrapper>
         </Scorers>
-        <ScoreCardsWrapper/>
+        <ScoreCardsWrapper>
+            {Sentiment}
+        </ScoreCardsWrapper>
     </SentimentsContainer>
     );
 };
