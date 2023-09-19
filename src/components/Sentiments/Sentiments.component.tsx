@@ -1,4 +1,8 @@
 import React from 'react';
+import { WithTooltip } from '@supportlogic/frontend-library';
+
+import SentimentsScorePopover from '../SentimentScorePopover/SentimentScorePopover.component';
+import AttentionScorePopover from '../AttentionScorePopover/AttentionScorePopover.component';
 
 import {
     SentimentsContainer,
@@ -9,17 +13,36 @@ import {
     StyledScore
 } from './Sentiments.styles';
 
-export const Sentiments: React.FC = () =>  {
+type Props = {
+    sentimentScore: number;
+    attentionScore: number;
+};
+
+export const Sentiments: React.FC<Props> = ({ sentimentScore, attentionScore }) =>  {
 return (
     <SentimentsContainer>
         <Scorers>
             <ScoreWrapper>
-                <StyledScore  type="Sentiment" value={35} showTooltip/>
-                <StyledInfoIcon/>
+                <StyledScore  type="Sentiment"  label="Attention Score" value={sentimentScore}/>
+                <WithTooltip 
+                    placement="bottom"
+                    content={<SentimentsScorePopover/>}
+                    backgroundColor="white"
+                    textColor="black"
+                >
+                    <StyledInfoIcon/>
+                </WithTooltip>
             </ScoreWrapper>
             <ScoreWrapper>
-                <StyledScore  type="Attention" label="Attention Score" value={50} />
-                <StyledInfoIcon/>
+                <StyledScore  type="Attention" label="Attention Score" value={attentionScore} />
+                <WithTooltip 
+                    placement="bottom"
+                    content={<AttentionScorePopover/>}
+                    backgroundColor="white"
+                    textColor="black"
+                >
+                    <StyledInfoIcon/>
+                </WithTooltip>
             </ScoreWrapper>
         </Scorers>
         <ScoreCardsWrapper/>

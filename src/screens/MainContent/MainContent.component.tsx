@@ -12,7 +12,7 @@ return (
     <MainContainer>
         <Header/>
         <Content>
-            <Sentiments/>
+            <Sentiments sentimentScore={35} attentionScore={50} />
         </Content>
         <Footer />
     </MainContainer>
