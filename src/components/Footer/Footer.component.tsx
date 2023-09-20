@@ -2,9 +2,23 @@ import React from 'react';
 
 import { FooterContainer, Label, StyledDoubleDownIcon } from './Footer.styles';
 
-type Props = {};
+export type AnnotationType = {
+    id: string;
+    text: string;
+    [k: string]: any;
+};
 
-const Footer: React.FC<Props> = () => {
+type Props = {
+    annotations: AnnotationType[]
+};
+
+const Footer: React.FC<Props> = ({ annotations = [] }) => {
+    if(!annotations.length) {
+        return <FooterContainer>
+            <Label>No Case Annotations</Label>
+        </FooterContainer>
+    }
+
     return (
         <FooterContainer>
             <Label>Case Annotations</Label>

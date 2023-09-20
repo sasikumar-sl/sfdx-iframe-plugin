@@ -3,10 +3,13 @@ import { ReactComponent as TalkingBubblesIcon } from '../../icons/talking-bubble
 
 
 export const PlaceHolderWrapper = styled.div`
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 30px;
     justify-content: center;
+    align-items: center;
+    gap: 30px;
 `;
 
 export const Title = styled.span`
