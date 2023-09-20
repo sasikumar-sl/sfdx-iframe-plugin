@@ -15,7 +15,7 @@ import {
 } from './Slider.styles';
   
 type Props = {
-    sentiments: any[];
+    items: any[];
     sliderSettings?: Settings; 
     renderer: (item: any) => React.ReactNode;
     showPagination?: boolean;
@@ -23,7 +23,7 @@ type Props = {
 };
 
 const Sliders: React.FC<Props> = ({
-  sentiments,
+  items,
   renderer = () => <div/>,
   showPagination = false,
   paginationPosition = 'top-right',
@@ -43,15 +43,15 @@ const Sliders: React.FC<Props> = ({
   const sliderWrapper = useRef<any>();
 
   const MemoizedSlides = useMemo(() => {
-    return sentiments?.map(renderer);
-  }, [sentiments, renderer])
+    return items?.map(renderer);
+  }, [items, renderer])
 
   return (
-    <Wrapper ref={sliderWrapper} numberOfSlides={sentiments?.length ?? 0}>
+    <Wrapper ref={sliderWrapper} numberOfSlides={items?.length ?? 0}>
       <Slider ref={slider} {...sliderSettings}  afterChange={(current: number) => setSlide(current)} dotsClass="slick-dots slick-dots-custom">
         {MemoizedSlides}
       </Slider>
-      {showPagination && sentiments?.length > 1 && (
+      {showPagination && items?.length > 1 && (
         <Pagination className='pagination' position={paginationPosition}>
 
           {slide !== 0 && (
@@ -61,11 +61,11 @@ const Sliders: React.FC<Props> = ({
           )}
 
           <PaginationText>
-            {`${slide+1} / ${ sentiments?.length}`}
+            {`${slide+1} / ${ items?.length}`}
           </PaginationText>
 
           {slide + (sliderSettings?.slidesToShow ?? 0) <
-            (sentiments?.length ?? 0) && (
+            (items?.length ?? 0) && (
             <PaginationButton onClick={() => slider?.current?.slickNext()}>
               <StyledArrowRightIcon />
             </PaginationButton>

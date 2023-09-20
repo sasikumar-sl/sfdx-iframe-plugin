@@ -21,6 +21,8 @@ export const Wrapper = styled.div<WrapperType>`
 
   .slick-dots-custom {
     & li {
+      margin: 0 2px;
+      
       & button::before {
         font-size: 10px;
         color: #CDCDCD;

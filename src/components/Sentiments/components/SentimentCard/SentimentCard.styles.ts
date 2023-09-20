@@ -19,7 +19,12 @@ export const Wrapper = styled.div`
 export const SignalLabels = styled.div`
     display: flex;
     flex-wrap: wrap;
-    grid-row-gap: 10px;
+    row-gap: 10px;
+
+    span {
+       padding: 0px 9px 0px 8px;
+       line-height: 22px;
+    }
 `;
 
 export const SignalTextContainer = styled.div`

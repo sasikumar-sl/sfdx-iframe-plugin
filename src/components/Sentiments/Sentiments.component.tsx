@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { WithTooltip } from '@supportlogic/frontend-library';
 
 import SentimentsScorePopover from '../SentimentScorePopover/SentimentScorePopover.component';
@@ -20,6 +20,7 @@ import {
     Title,
 } from './Sentiments.styles';
 import { SentimentType } from './Sentiments.interface';
+import useCaseContext from '../../reactCustomHooks/useCaseContext';
 
 const tooltipStyles = { width: 'auto', maxWidth: 'calc(75% - 40px)' };
 
@@ -30,8 +31,10 @@ type Props = {
 };
 
 export const Sentiments: React.FC<Props> = ({ sentimentScore, attentionScore, sentiments = [] }) =>  {
+
+    const { setSelectedSentiment } = useCaseContext();
     
-    const sliderSettings = useRef({
+    const sliderSettings = {
         dots: true,
         infinite: false,
         speed: 500,
@@ -39,8 +42,9 @@ export const Sentiments: React.FC<Props> = ({ sentimentScore, attentionScore, se
         slidesToScroll: 1,
         swipe: false,
         arrows: false,
-        className: 'sentiments-slider'
-    });
+        className: 'sentiments-slider',
+        beforeChange: (old: number, index: number) => setSelectedSentiment(sentiments[index] ?? 1),
+    };
 
     const renderer = (sentiment: SentimentType) => (
         <Slide className='sentiments-slide-wrapper' key={sentiment?.id ?? generateUniqKey()}>
@@ -81,8 +85,8 @@ export const Sentiments: React.FC<Props> = ({ sentimentScore, attentionScore, se
                     <>
                         <Title>Sentiments Detected</Title>
                         <Sliders
-                            sentiments={sentiments}
-                            sliderSettings={sliderSettings?.current}
+                            items={sentiments}
+                            sliderSettings={sliderSettings}
                             renderer={renderer}
                             showPagination
                         />
