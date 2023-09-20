@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const ScaleWrapper = styled.div`
-  max-width: 580px;
+  max-width: 445px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -47,7 +47,7 @@ type LinkingLineType = {
 
 export const LinkingLine = styled.div<LinkingLineType>`
   height: 5px;
-  width: 37px;
+  width: 1.3vw;
   background: linear-gradient(90deg, ${({ from }) => from}, ${({ to }) => to});
 `;
 
@@ -73,5 +73,5 @@ export const Label = styled.div<LabelType>`
   font-weight: 300;
   white-space: nowrap;
   line-height: normal;
-  margin-left: -16px;
+  margin-left: -14px;
 `;

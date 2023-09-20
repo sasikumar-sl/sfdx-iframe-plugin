@@ -24,6 +24,23 @@ import useCaseContext from '../../reactCustomHooks/useCaseContext';
 
 const tooltipStyles = { width: 'auto', maxWidth: 'calc(75% - 40px)' };
 
+type TooltipProps = {
+    icon: React.ReactNode;
+    content: React.ReactNode;
+};
+
+const Tooltip:React.FC<TooltipProps> = ({ icon, content }) => (
+    <WithTooltip 
+        zIndex={9999}
+        placement="bottom"
+        textColor="black"
+        backgroundColor="white"
+        content={content}
+    >
+        {icon}
+    </WithTooltip>
+);
+
 type Props = {
     sentimentScore: number;
     attentionScore: number;
@@ -33,7 +50,7 @@ type Props = {
 export const Sentiments: React.FC<Props> = ({ sentimentScore, attentionScore, sentiments = [] }) =>  {
 
     const { setSelectedSentiment } = useCaseContext();
-    
+
     const sliderSettings = {
         dots: true,
         infinite: false,
@@ -46,9 +63,9 @@ export const Sentiments: React.FC<Props> = ({ sentimentScore, attentionScore, se
         beforeChange: (old: number, index: number) => setSelectedSentiment(sentiments[index] ?? 1),
     };
 
-    const renderer = (sentiment: SentimentType) => (
+    const renderer = (sentiment: SentimentType, index: number) => (
         <Slide className='sentiments-slide-wrapper' key={sentiment?.id ?? generateUniqKey()}>
-           <SentimentCard sentiment={sentiment} tooltipStyles={tooltipStyles} />
+           <SentimentCard sentiment={sentiment} tooltipStyles={tooltipStyles} isBlured={index > 2} />
         </Slide>
     );
 
@@ -57,25 +74,11 @@ export const Sentiments: React.FC<Props> = ({ sentimentScore, attentionScore, se
         <Scorers>
             <ScoreWrapper>
                 <StyledScore  type="Sentiment"  label="Attention Score" value={sentimentScore}/>
-                <WithTooltip 
-                    placement="bottom"
-                    content={<SentimentsScorePopover/>}
-                    backgroundColor="white"
-                    textColor="black"
-                >
-                    <StyledInfoIcon/>
-                </WithTooltip>
+                <Tooltip icon={<StyledInfoIcon/>} content={<SentimentsScorePopover/>}/>
             </ScoreWrapper>
             <ScoreWrapper>
                 <StyledScore  type="Attention" label="Attention Score" value={attentionScore} />
-                <WithTooltip 
-                    placement="bottom"
-                    content={<AttentionScorePopover/>}
-                    backgroundColor="white"
-                    textColor="black"
-                >
-                    <StyledInfoIcon/>
-                </WithTooltip>
+                <Tooltip icon={<StyledInfoIcon/>} content={<AttentionScorePopover/>}/>
             </ScoreWrapper>
         </Scorers>
         <ScoreCardsWrapper>

@@ -1,12 +1,14 @@
 import styled from "styled-components";
 
 export const Card = styled.div`
+    position: relative;
     min-width: 339px;
     width: 60%;
     height: 124px;
     background-repeat: no-repeat;
     background-size: cover;
     border: 1px solid #E1E1E1;
+    border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     box-sizing: border-box;
@@ -49,4 +51,34 @@ export const SignalFooterText = styled.div`
     font-weight: 500;
     font-size: 12px;
     line-height: 16px;
+`;
+
+export const BluredWrapper = styled.div`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    border-radius: 4px;
+    background: rgba(237, 237, 237, 0.67);
+    backdrop-filter: blur(4px);
+    top: 0;
+    left: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+export const BluredTitle = styled.span`
+    color: #4A4A4A;
+    font-family: Avenir;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    & a {
+        text-decoration: none;
+        color: #0EA9E0;
+    }
 `;

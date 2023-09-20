@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useMemo } from "react";
 import { formatDistance } from 'date-fns';
 import { SignalLabel, WithTooltip } from "@supportlogic/frontend-library";
 
@@ -7,22 +7,35 @@ import { getSignalLabelStyles, formatLabels } from '../../../../common/helpers/s
 import {
     Card,
     Wrapper,
-    SignalLabels,
     SignalText,
+    BluredTitle,
+    SignalLabels,
+    BluredWrapper,
+    SignalFooterText,
     SignalTextContainer,
-    SignalFooterText
 } from "./SentimentCard.styles";
 import { SentimentType } from "../../Sentiments.interface";
 
 type Props = {
+    isBlured: boolean;
     sentiment: SentimentType;
-    tooltipStyles?: CSSProperties; 
+    tooltipStyles?: CSSProperties;
 };
 
-const SentimentCard: React.FC<Props> = ({ sentiment, tooltipStyles }) => {
+const SentimentCard: React.FC<Props> = ({ sentiment, tooltipStyles, isBlured }) => {
+
     const labels = formatLabels(sentiment.labels);
     const timestamp = new Date(sentiment.created_at).getTime();
+
+    const Blured = useMemo(() => {
+        if(!isBlured) return null;
+        return <BluredWrapper>
+            <BluredTitle>Visit <a href="https://www.supportlogic.com/" target="_blank" rel="noreferrer">SupportLogic</a> to view more sentiments </BluredTitle>
+        </BluredWrapper>
+    }, [isBlured]);
+
     return <Card>
+        {Blured}
         <Wrapper>
             <SignalLabels>
             {labels.map((label, index) => (

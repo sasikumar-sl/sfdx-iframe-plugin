@@ -17,7 +17,7 @@ import {
 type Props = {
     items: any[];
     sliderSettings?: Settings; 
-    renderer: (item: any) => React.ReactNode;
+    renderer: (item: any, index: number) => React.ReactNode;
     showPagination?: boolean;
     paginationPosition?: paginationPostion;
 };
