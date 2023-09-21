@@ -69,7 +69,8 @@ export const CollapsibleHeader = styled.div<CollapsibleHeaderType>`
 `;
 
 export const CollapsibleBody = styled.div`
-  height: 249px;
+  margin-top: 10px;
+  height: 270px;
   width: 100%;
   border: 1px solid #D7D7D7;
   border-top: none;
@@ -77,7 +78,7 @@ export const CollapsibleBody = styled.div`
   position: relative;
 
   .annotations-slider {
-    margin-top: 10px;
+    /* margin-top: 10px; */
   }
 `;
 
@@ -101,6 +102,16 @@ export const Slide = styled.div`
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    margin-top: 6px;
+    /* margin-top: 6px; */
   }
+`;
+
+export const CommentsWrapper = styled.div`
+  height: 140px;
+  width: 100%;
+  border: 1px solid #D7D7D7;
+  background: #FFF;
+
+  position: absolute;
+  bottom: 0;
 `;

@@ -8,6 +8,7 @@ export type paginationPostion = 'top-left' | 'top-right' | 'bottom-left' | 'bott
 
 type WrapperType = {
   numberOfSlides?: number;
+  height?: string | number;
 };
 
 export const Wrapper = styled.div<WrapperType>`
@@ -35,6 +36,8 @@ export const Wrapper = styled.div<WrapperType>`
   }
 
   .slick-slide {
+    margin-top: 10px;
+    
     ${({ numberOfSlides }) =>
       numberOfSlides === 1 &&
       css`
@@ -49,7 +52,7 @@ export const Wrapper = styled.div<WrapperType>`
 
     & > div,
     & > div > div {
-      height: 131px;
+      height: ${({ height = 131 }) => height && typeof height === 'string' ? height : `${height}px`};
     }
 
   }

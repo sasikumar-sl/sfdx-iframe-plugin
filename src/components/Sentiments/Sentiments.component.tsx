@@ -5,6 +5,9 @@ import SentimentsScorePopover from '../SentimentScorePopover/SentimentScorePopov
 import AttentionScorePopover from '../AttentionScorePopover/AttentionScorePopover.component';
 import PlaceHolder from '../PlaceHolder/PlaceHolder.components';
 
+import { SentimentType } from './Sentiments.interface';
+import useCaseContext from 'reactCustomHooks/useCaseContext';
+
 import Sliders from '../Slider/Slider.component';
 import { generateUniqKey } from '../../common';
 import SentimentCard from './components/SentimentCard/SentimentCard.component';
@@ -19,8 +22,6 @@ import {
     Slide,
     Title,
 } from './Sentiments.styles';
-import { SentimentType } from './Sentiments.interface';
-import useCaseContext from '../../reactCustomHooks/useCaseContext';
 
 const tooltipStyles = { width: 'auto', maxWidth: 'calc(75% - 40px)' };
 
@@ -88,6 +89,7 @@ export const Sentiments: React.FC<Props> = ({ sentimentScore, attentionScore, se
                     <>
                         <Title>Sentiments Detected</Title>
                         <Sliders
+                            height={125}
                             items={sentiments}
                             sliderSettings={sliderSettings}
                             renderer={renderer}

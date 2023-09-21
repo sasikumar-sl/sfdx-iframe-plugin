@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import { Score } from '@supportlogic/frontend-library';
 
-import { ReactComponent as InfoIcon } from '../../icons/circled-information.svg'; 
-
+import { ReactComponent as InfoIcon } from 'icons/circled-information.svg'; 
 
 export const SentimentsContainer = styled.div`
     width: 100%;
@@ -46,7 +45,7 @@ export const StyledInfoIcon = styled(InfoIcon)`
 `;
 
 export const ScoreCardsWrapper = styled.div`
-    height: 190px;
+    height: 200px;
     background: #F8F8F8;
     position: relative;
 `;
@@ -71,7 +70,7 @@ export const Slide = styled.div`
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    margin-top: 6px;
+    /* margin-top: 6px; */
   }
 `;
 

@@ -1,5 +1,11 @@
 {
   "compilerOptions": {
+    "paths": {
+      "icons/*": ["./src/icons/*"],
+      "common/*": ["./src/common/*"],
+      "components/*": ["./src/components/*"],
+      "reactCustomHooks/*": ["./src/reactCustomHooks/*"],
+    },
     "target": "es5",
     "lib": [
       "dom",

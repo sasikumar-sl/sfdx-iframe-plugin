@@ -1,11 +1,11 @@
-import React, { Component, ErrorInfo } from 'react';
+import React, { ErrorInfo } from 'react';
 
 interface Props {
   children: any;
   onError: (error: Error, errorInfo: ErrorInfo) => void;
 }
 
-export class ErrorBoundary extends Component<Props, {}> {
+export class ErrorBoundary extends React.Component<Props, {}> {
     componentDidCatch(error: Error, errorInfo: ErrorInfo) {
         this.props.onError(error, errorInfo);
     }

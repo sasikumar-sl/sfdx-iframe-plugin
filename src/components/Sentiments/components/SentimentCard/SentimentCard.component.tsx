@@ -1,8 +1,10 @@
 import React, { CSSProperties, useMemo } from "react";
 import { formatDistance } from 'date-fns';
+
 import { SignalLabel, WithTooltip } from "@supportlogic/frontend-library";
 
-import { getSignalLabelStyles, formatLabels } from '../../../../common/helpers/sentiments/sentimentsHelper';
+import { getSignalLabelStyles, formatLabels } from 'common/helpers/sentiments/sentimentsHelper';
+import { SentimentType } from "../../Sentiments.interface";
 
 import {
     Card,
@@ -14,7 +16,6 @@ import {
     SignalFooterText,
     SignalTextContainer,
 } from "./SentimentCard.styles";
-import { SentimentType } from "../../Sentiments.interface";
 
 type Props = {
     isBlured: boolean;

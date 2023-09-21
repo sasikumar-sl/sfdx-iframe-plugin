@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Card, Annatation } from "./AnnotationCard.styles";
 import { AnnotationType } from "./Annotation.interface";
+import { Card, Annatation } from "./AnnotationCard.styles";
 
 type Props = {
     annotation: AnnotationType;

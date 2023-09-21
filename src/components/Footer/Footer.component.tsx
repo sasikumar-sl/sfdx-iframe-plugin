@@ -1,9 +1,9 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Collapsible from 'react-collapsible';
 
 import { generateUniqKey } from '../../common';
 import Sliders from '../Slider/Slider.component';
-import useCaseContext from '../../reactCustomHooks/useCaseContext';
+import useCaseContext from 'reactCustomHooks/useCaseContext';
 import AnnotationCard from '../AnnotationCard/AnnotationCard.component';
 import { AnnotationType } from '../AnnotationCard/Annotation.interface';
 
@@ -11,12 +11,14 @@ import {
     Label,
     Slide,
     IconWrapper,
+    CommentsWrapper,
     FooterContainer,
     CollapsibleBody,
     CollapsibleHeader,
     StyledDoubleUpIcon,
     StyledDoubleDownIcon,
 } from './Footer.styles';
+import Comments from 'components/Comments/Comments.component';
 
 type Props = {
     annotations?: AnnotationType[]
@@ -67,11 +69,15 @@ const Footer: React.FC<Props> = () => {
         >
             <CollapsibleBody>
                 <Sliders
+                    height={124}
                     items={annotations ?? []}
                     renderer={renderer}
                     sliderSettings={sliderSettings}
                     showPagination
                 />
+                <CommentsWrapper>
+                    <Comments/>
+                </CommentsWrapper>
             </CollapsibleBody>
         </Collapsible>
        

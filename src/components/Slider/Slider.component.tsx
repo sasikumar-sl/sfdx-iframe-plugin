@@ -16,14 +16,16 @@ import {
   
 type Props = {
     items: any[];
+    height?: string | number;
     sliderSettings?: Settings; 
-    renderer: (item: any, index: number) => React.ReactNode;
     showPagination?: boolean;
     paginationPosition?: paginationPostion;
+    renderer: (item: any, index: number) => React.ReactNode;
 };
 
 const Sliders: React.FC<Props> = ({
   items,
+  height,
   renderer = () => <div/>,
   showPagination = false,
   paginationPosition = 'top-right',
@@ -47,7 +49,7 @@ const Sliders: React.FC<Props> = ({
   }, [items, renderer])
 
   return (
-    <Wrapper ref={sliderWrapper} numberOfSlides={items?.length ?? 0}>
+    <Wrapper ref={sliderWrapper} numberOfSlides={items?.length ?? 0} height={height}>
       <Slider ref={slider} {...sliderSettings}  afterChange={(current: number) => setSlide(current)} dotsClass="slick-dots slick-dots-custom">
         {MemoizedSlides}
       </Slider>

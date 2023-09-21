@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { ReactComponent as SupportLogicIcon} from '../../icons/supportlogic.svg'; // Import the SVG file as a component
-import { ReactComponent as OpenInNewTabIcon } from '../../icons/open-in-new-tab.svg'; // Import the SVG file as a component
+import { ReactComponent as SupportLogicIcon} from 'icons/supportlogic.svg'; // Import the SVG file as a component
+import { ReactComponent as OpenInNewTabIcon } from 'icons/open-in-new-tab.svg'; // Import the SVG file as a component
 
 import { HeaderContainer, LinkWrapper, Text } from './Header.styles';
 
