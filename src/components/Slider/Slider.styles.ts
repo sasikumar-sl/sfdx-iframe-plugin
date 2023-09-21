@@ -9,6 +9,7 @@ export type paginationPostion = 'top-left' | 'top-right' | 'bottom-left' | 'bott
 type WrapperType = {
   numberOfSlides?: number;
   height?: string | number;
+  hasPagination?: boolean;
 };
 
 export const Wrapper = styled.div<WrapperType>`
@@ -36,9 +37,9 @@ export const Wrapper = styled.div<WrapperType>`
   }
 
   .slick-slide {
-    margin-top: 10px;
-    
-    ${({ numberOfSlides }) =>
+    ${({ hasPagination }) => hasPagination && 'margin-top: 10px;'}
+
+${({ numberOfSlides }) =>
       numberOfSlides === 1 &&
       css`
         &:first-child {
@@ -132,3 +133,27 @@ export const PaginationButton = styled.span`
 
 export const StyledArrowRightIcon = styled(ArrowRightIcon)``;
 export const StyledArrowLeftIcon = styled(ArrowLeftIcon)``;
+
+const arrowStyles = `
+    position: absolute;
+    height: 32px;
+    width: 32px;
+    border-radius: 100%;
+    cursor: pointer;
+    background: rgb(255, 255, 255);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.5); 
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: rgb(231, 248, 254);
+    }
+`;
+
+export const StyledPrevButton = styled(ArrowLeftIcon)`
+    ${arrowStyles}
+    left: 10%;
+`;
+export const StyledNextButton = styled(ArrowRightIcon)`
+    ${arrowStyles}
+    right: 10%;
+`;

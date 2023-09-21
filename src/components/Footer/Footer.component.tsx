@@ -3,14 +3,14 @@ import Collapsible from 'react-collapsible';
 
 import { generateUniqKey } from '../../common';
 import Sliders from '../Slider/Slider.component';
-import useCaseContext from 'reactCustomHooks/useCaseContext';
+import useCaseContext from '../../reactCustomHooks/useCaseContext';
 import AnnotationCard from '../AnnotationCard/AnnotationCard.component';
 import { AnnotationType } from '../AnnotationCard/Annotation.interface';
 
 import {
     Label,
-    Slide,
     IconWrapper,
+    AnnotationSlide,
     CommentsWrapper,
     FooterContainer,
     CollapsibleBody,
@@ -18,7 +18,7 @@ import {
     StyledDoubleUpIcon,
     StyledDoubleDownIcon,
 } from './Footer.styles';
-import Comments from 'components/Comments/Comments.component';
+import Comments from '../../components/Comments/Comments.component';
 
 type Props = {
     annotations?: AnnotationType[]
@@ -48,9 +48,9 @@ const Footer: React.FC<Props> = () => {
     }
 
     const renderer = (annotation: any) => (
-        <Slide className='annotations-slide-wrapper' key={annotation?.id ?? generateUniqKey()}>
+        <AnnotationSlide className='annotations-slide-wrapper' key={annotation?.id ?? generateUniqKey()}>
            <AnnotationCard annotation={annotation} />
-        </Slide>
+        </AnnotationSlide>
     );
     const icon =  isOpen ?  <StyledDoubleUpIcon/> : <StyledDoubleDownIcon/>
 

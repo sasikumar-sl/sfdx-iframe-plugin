@@ -69,7 +69,7 @@ export const CollapsibleHeader = styled.div<CollapsibleHeaderType>`
 `;
 
 export const CollapsibleBody = styled.div`
-  margin-top: 10px;
+  padding-top: 10px;
   height: 270px;
   width: 100%;
   border: 1px solid #D7D7D7;
@@ -82,7 +82,7 @@ export const CollapsibleBody = styled.div`
   }
 `;
 
-export const Slide = styled.div`
+export const AnnotationSlide = styled.div`
   position: relative;
 
   & + & {

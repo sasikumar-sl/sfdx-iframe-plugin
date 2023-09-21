@@ -3,7 +3,7 @@ import { formatDistance } from 'date-fns';
 
 import { SignalLabel, WithTooltip } from "@supportlogic/frontend-library";
 
-import { getSignalLabelStyles, formatLabels } from 'common/helpers/sentiments/sentimentsHelper';
+import { getSignalLabelStyles, formatLabels } from '../../../../common/helpers/sentiments/sentimentsHelper';
 import { SentimentType } from "../../Sentiments.interface";
 
 import {

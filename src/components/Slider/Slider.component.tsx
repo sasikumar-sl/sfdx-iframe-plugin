@@ -9,11 +9,13 @@ import {
     Pagination,
     PaginationText,
     PaginationButton,
-    StyledArrowRightIcon,
-    StyledArrowLeftIcon,
+    StyledPrevButton,
+    StyledNextButton,
     paginationPostion,
+    StyledArrowLeftIcon,
+    StyledArrowRightIcon,
 } from './Slider.styles';
-  
+
 type Props = {
     items: any[];
     height?: string | number;
@@ -21,6 +23,7 @@ type Props = {
     showPagination?: boolean;
     paginationPosition?: paginationPostion;
     renderer: (item: any, index: number) => React.ReactNode;
+    showArrows?: boolean;
 };
 
 const Sliders: React.FC<Props> = ({
@@ -28,6 +31,7 @@ const Sliders: React.FC<Props> = ({
   height,
   renderer = () => <div/>,
   showPagination = false,
+  showArrows = false,
   paginationPosition = 'top-right',
   sliderSettings = {
     dots: true,
@@ -44,20 +48,40 @@ const Sliders: React.FC<Props> = ({
   const slider = useRef<any>();
   const sliderWrapper = useRef<any>();
 
+  const handlePrevBtnClick  = (): void => {
+    slider?.current?.slickPrev();
+  };
+  
+  const handleNextBtnClick  = (): void => {
+    slider?.current?.slickNext();
+  } ;
+
   const MemoizedSlides = useMemo(() => {
     return items?.map(renderer);
   }, [items, renderer])
 
+  const Arrows = useMemo(() => {
+    if (!(showArrows && items?.length)) return null;
+
+    return <>
+      <StyledPrevButton className='pre-button' onClick={handlePrevBtnClick} />
+      <StyledNextButton className='next-button' onClick={handleNextBtnClick} />
+    </>
+  }, [showArrows, items?.length]);
+
   return (
-    <Wrapper ref={sliderWrapper} numberOfSlides={items?.length ?? 0} height={height}>
+    <Wrapper ref={sliderWrapper} numberOfSlides={items?.length ?? 0} height={height} hasPagination={showPagination} >
+      {Arrows}
+
       <Slider ref={slider} {...sliderSettings}  afterChange={(current: number) => setSlide(current)} dotsClass="slick-dots slick-dots-custom">
         {MemoizedSlides}
       </Slider>
+
       {showPagination && items?.length > 1 && (
         <Pagination className='pagination' position={paginationPosition}>
 
           {slide !== 0 && (
-            <PaginationButton onClick={() => slider?.current?.slickPrev()}>
+            <PaginationButton onClick={handlePrevBtnClick}>
               <StyledArrowLeftIcon />
             </PaginationButton>
           )}
@@ -68,7 +92,7 @@ const Sliders: React.FC<Props> = ({
 
           {slide + (sliderSettings?.slidesToShow ?? 0) <
             (items?.length ?? 0) && (
-            <PaginationButton onClick={() => slider?.current?.slickNext()}>
+            <PaginationButton onClick={handleNextBtnClick}>
               <StyledArrowRightIcon />
             </PaginationButton>
           )}

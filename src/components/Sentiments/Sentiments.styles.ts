@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Score } from '@supportlogic/frontend-library';
 
-import { ReactComponent as InfoIcon } from 'icons/circled-information.svg'; 
+import { ReactComponent as InfoIcon } from '../../icons/circled-information.svg'; 
 
 export const SentimentsContainer = styled.div`
     width: 100%;
@@ -50,7 +50,7 @@ export const ScoreCardsWrapper = styled.div`
     position: relative;
 `;
 
-export const Slide = styled.div`
+export const SentimentSlide = styled.div`
   position: relative;
 
   & + & {
@@ -66,7 +66,7 @@ export const Slide = styled.div`
     }
   }
 
-  &.sentiments-slide-wrapper {
+  &.sentiment-slide-wrapper {
     display: inline-flex !important;
     align-items: center;
     justify-content: center;

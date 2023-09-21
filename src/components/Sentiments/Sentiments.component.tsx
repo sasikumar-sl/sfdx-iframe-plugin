@@ -6,7 +6,7 @@ import AttentionScorePopover from '../AttentionScorePopover/AttentionScorePopove
 import PlaceHolder from '../PlaceHolder/PlaceHolder.components';
 
 import { SentimentType } from './Sentiments.interface';
-import useCaseContext from 'reactCustomHooks/useCaseContext';
+import useCaseContext from '../../reactCustomHooks/useCaseContext';
 
 import Sliders from '../Slider/Slider.component';
 import { generateUniqKey } from '../../common';
@@ -19,7 +19,7 @@ import {
     ScoreCardsWrapper,
     StyledInfoIcon,
     StyledScore,
-    Slide,
+    SentimentSlide,
     Title,
 } from './Sentiments.styles';
 
@@ -60,14 +60,14 @@ export const Sentiments: React.FC<Props> = ({ sentimentScore, attentionScore, se
         slidesToScroll: 1,
         swipe: false,
         arrows: false,
-        className: 'sentiments-slider',
+        className: 'sentiment-slider',
         beforeChange: (old: number, index: number) => setSelectedSentiment(sentiments[index] ?? 1),
     };
 
     const renderer = (sentiment: SentimentType, index: number) => (
-        <Slide className='sentiments-slide-wrapper' key={sentiment?.id ?? generateUniqKey()}>
+        <SentimentSlide className='sentiment-slide-wrapper' key={sentiment?.id ?? generateUniqKey()}>
            <SentimentCard sentiment={sentiment} tooltipStyles={tooltipStyles} isBlured={index > 2} />
-        </Slide>
+        </SentimentSlide>
     );
 
     return (
