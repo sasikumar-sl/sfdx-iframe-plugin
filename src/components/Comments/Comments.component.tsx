@@ -8,6 +8,8 @@ import Comment from './Comment/Comment.component';
 
 import { Wrapper, CommentSlide } from './Comments.styes';
 
+type Props = {};
+
 function Comments(): JSX.Element {
   const { selectedSentiment } = useCaseContext();
 

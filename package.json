@@ -31,8 +31,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start:port": "PORT=3006 react-scripts start",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix",
+    "lint": "eslint . --ext .ts,.tsx --fix",
     "prepare": "husky install"
   },
   "eslintConfig": {
