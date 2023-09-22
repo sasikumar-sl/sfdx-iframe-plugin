@@ -6,12 +6,7 @@ import Sliders from '../Slider/Slider.component';
 import { generateUniqKey } from '../../common/helpers/utils/IdGenerater';
 import Comment from './Comment/Comment.component';
 
-import {
-  Wrapper,
-  CommentSlide,
-  // StyledPrevButton,
-  // StyledNextButton,
-} from './Comments.styes';
+import { Wrapper, CommentSlide } from './Comments.styes';
 
 function Comments(): JSX.Element {
   const { selectedSentiment } = useCaseContext();
@@ -30,8 +25,6 @@ function Comments(): JSX.Element {
     swipe: false,
     arrows: false,
     className: 'comments-slider',
-    // prevArrow: <StyledPrevButton/>,
-    // nextArrow: <StyledNextButton/>,
   };
 
   const renderer = (annotation: any) => (
