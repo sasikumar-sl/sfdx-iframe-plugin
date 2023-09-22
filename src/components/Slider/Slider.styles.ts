@@ -23,7 +23,7 @@ export const Wrapper = styled.div<WrapperType>`
 
   .slick-dots-custom {
     & li {
-      margin: 0 2px;
+      margin: 0;
       
       & button::before {
         font-size: 10px;
@@ -69,7 +69,7 @@ export const Pagination = styled.div<PagintionType>`
   height: 24px;
   padding: 0 6px;
 
-  background: #fafafa;
+  background: #E6E6E6;
   box-shadow: 0px 0px 4px #bebebe;
   border-radius: 12px;
 
@@ -108,16 +108,13 @@ export const PaginationText = styled.div`
 `;
 
 export const PaginationButton = styled.span`
-  background: #ffffff;
+  background: #E6E6E6;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.3s ease;
   cursor: pointer;
   border-radius: 100%;
-  /* border: 1px solid #e1e1e1; */
-  // width: 25px;
-  // height: 25px;
 
   &:hover {
     background: #e7f8fe;
@@ -135,14 +132,17 @@ export const StyledArrowRightIcon = styled(ArrowRightIcon)``;
 export const StyledArrowLeftIcon = styled(ArrowLeftIcon)``;
 
 const arrowStyles = `
-    position: absolute;
-    height: 32px;
+    top: 50%;
+    z-index: 2;
     width: 32px;
-    border-radius: 100%;
+    height: 32px;
     cursor: pointer;
+    position: absolute;
+    border-radius: 100%;
+    transform: translateY(-50%);
     background: rgb(255, 255, 255);
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.5); 
     transition: background-color 0.3s;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.5); 
 
     &:hover {
       background-color: rgb(231, 248, 254);

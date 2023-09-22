@@ -1,4 +1,4 @@
-import React,  { CSSProperties, useMemo } from 'react';
+import React,  { useMemo } from 'react';
 
 import useCaseContext from '../../reactCustomHooks/useCaseContext';
 import Sliders from '../../components/Slider/Slider.component';
@@ -9,8 +9,8 @@ import Comment from './Comment/Comment.component';
 import {
     Wrapper,
     CommentSlide,
-    StyledPrevButton,
-    StyledNextButton,
+    // StyledPrevButton,
+    // StyledNextButton,
 } from './Comments.styes';
 
 
@@ -48,7 +48,6 @@ const Comments: React.FC<Props> = () => {
                     sliderSettings={sliderSettings}
                     renderer={renderer}
                     showArrows
-                    // showPagination
                 />
         </Wrapper>
     );

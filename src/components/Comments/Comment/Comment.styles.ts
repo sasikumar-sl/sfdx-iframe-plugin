@@ -54,5 +54,6 @@ export const CommentBody = styled.div`
     color: #4A4A4A;
     font-size: 13px;
     font-weight: 400;
+    height: 54px;
     ${commonFontStyles}
 `;

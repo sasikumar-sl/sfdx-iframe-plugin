@@ -5,7 +5,7 @@
             "common/*": ["./src/common/*"],
             "components/*": ["./src/components/*"],
             "reactCustomHooks/*": ["./src/reactCustomHooks/*"],
-            },
+        },
         "target": "es5",
         "lib": [
             "dom",
@@ -28,5 +28,7 @@
     },
     "include": [
     "src"
-    ]
+    ],
+  "exclude": ["build", "node_modules", "**/__test__"]
+
   }

@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import Slider, { Settings } from 'react-slick';
 
 import "slick-carousel/slick/slick.css";
@@ -18,12 +18,12 @@ import {
 
 type Props = {
     items: any[];
+    showArrows?: boolean;
     height?: string | number;
     sliderSettings?: Settings; 
     showPagination?: boolean;
     paginationPosition?: paginationPostion;
     renderer: (item: any, index: number) => React.ReactNode;
-    showArrows?: boolean;
 };
 
 const Sliders: React.FC<Props> = ({
@@ -48,13 +48,13 @@ const Sliders: React.FC<Props> = ({
   const slider = useRef<any>();
   const sliderWrapper = useRef<any>();
 
-  const handlePrevBtnClick  = (): void => {
+  const handlePrevBtnClick  = useCallback((): void => {
     slider?.current?.slickPrev();
-  };
+  }, [slider]);
   
-  const handleNextBtnClick  = (): void => {
+  const handleNextBtnClick  =  useCallback((): void => {
     slider?.current?.slickNext();
-  } ;
+  }, [slider]) ;
 
   const MemoizedSlides = useMemo(() => {
     return items?.map(renderer);
@@ -67,7 +67,7 @@ const Sliders: React.FC<Props> = ({
       <StyledPrevButton className='pre-button' onClick={handlePrevBtnClick} />
       <StyledNextButton className='next-button' onClick={handleNextBtnClick} />
     </>
-  }, [showArrows, items?.length]);
+  }, [showArrows, items?.length, handlePrevBtnClick, handleNextBtnClick]);
 
   return (
     <Wrapper ref={sliderWrapper} numberOfSlides={items?.length ?? 0} height={height} hasPagination={showPagination} >
