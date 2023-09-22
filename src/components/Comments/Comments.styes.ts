@@ -1,21 +1,19 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import { ReactComponent as ArrowLeftIcon } from '../../icons/arrow-left.svg'; // Import the SVG file as a component
 import { ReactComponent as ArrowRightIcon } from '../../icons/arrow-right.svg'; // Import the SVG file as a component
 
-
 export const Wrapper = styled.div`
+  .comments-slider {
+    .slick-arrow {
+      &.slick-prev {
+        /* left: 10%; */
+      }
 
-    .comments-slider {
-        .slick-arrow {
-            &.slick-prev {
-                /* left: 10%; */
-            }
-
-            &.slick-next {
-                /* right: 10%; */
-            }
-        }   
+      &.slick-next {
+        /* right: 10%; */
+      }
     }
+  }
 `;
 
 export const CommentSlide = styled.div`
@@ -57,10 +55,9 @@ const arrowStyles = `
 `;
 
 export const StyledPrevButton = styled(ArrowLeftIcon)`
-    ${arrowStyles}
-
-    z-index: 3;
+  ${arrowStyles}
 `;
+
 export const StyledNextButton = styled(ArrowRightIcon)`
-    ${arrowStyles}
+  ${arrowStyles}
 `;

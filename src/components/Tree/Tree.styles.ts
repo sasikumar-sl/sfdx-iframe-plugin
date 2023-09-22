@@ -37,9 +37,8 @@ export const InputWrapper = styled.div`
     cursor: pointer;
     font-size: 16px;
   }
-  
+
   button:hover {
     background-color: #0056b3;
   }
-  
 `;

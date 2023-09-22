@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-
 export const LoginContainer = styled.div`
-    text-align: center;
+  text-align: center;
 `;

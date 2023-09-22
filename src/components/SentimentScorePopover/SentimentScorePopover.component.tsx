@@ -63,34 +63,28 @@ const ranges: SentimentScoreRangeType[] = [
   },
 ];
 
-type Props  = {
-  score?: number;
-};
-
-const SentimentsScorePopover: React.FC<Props> = () => {
+function SentimentsScorePopover(): JSX.Element {
   return (
     <ScaleWrapper>
       {ranges.map((range, index) => (
         <div key={range.title}>
           <RangeWrapper>
-            <RangeBall
-              background={range.background}
-              color={range.color}
-            >
+            <RangeBall background={range.background} color={range.color}>
               <span>{range.min}</span>
-              {range?.max ? <span>-{range.max}</span> : <span>+</span>}
+              {range?.max ? <span>-{range?.max}</span> : <span>+</span>}
             </RangeBall>
             {ranges[index + 1] && (
-              <LinkingLine from={range.background} to={ranges[index + 1].background} />
+              <LinkingLine
+                from={range.background}
+                to={ranges[index + 1].background}
+              />
             )}
           </RangeWrapper>
-          <Label>
-            {range.title}
-          </Label>
+          <Label>{range.title}</Label>
         </div>
       ))}
     </ScaleWrapper>
   );
-};
+}
 
 export default SentimentsScorePopover;

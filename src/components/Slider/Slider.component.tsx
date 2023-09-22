@@ -1,35 +1,35 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import Slider, { Settings } from 'react-slick';
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 import {
-    Wrapper,
-    Pagination,
-    PaginationText,
-    PaginationButton,
-    StyledPrevButton,
-    StyledNextButton,
-    paginationPostion,
-    StyledArrowLeftIcon,
-    StyledArrowRightIcon,
+  Wrapper,
+  Pagination,
+  PaginationText,
+  PaginationButton,
+  StyledPrevButton,
+  StyledNextButton,
+  PaginationPostion,
+  StyledArrowLeftIcon,
+  StyledArrowRightIcon,
 } from './Slider.styles';
 
 type Props = {
-    items: any[];
-    showArrows?: boolean;
-    height?: string | number;
-    sliderSettings?: Settings; 
-    showPagination?: boolean;
-    paginationPosition?: paginationPostion;
-    renderer: (item: any, index: number) => React.ReactNode;
+  items: any[];
+  showArrows?: boolean;
+  height?: string | number;
+  sliderSettings?: Settings;
+  showPagination?: boolean;
+  paginationPosition?: PaginationPostion;
+  renderer: (item: any, index: number) => React.ReactNode;
 };
 
-const Sliders: React.FC<Props> = ({
+function Sliders({
   items,
   height,
-  renderer = () => <div/>,
+  renderer = () => <div />,
   showPagination = false,
   showArrows = false,
   paginationPosition = 'top-right',
@@ -41,54 +41,64 @@ const Sliders: React.FC<Props> = ({
     slidesToScroll: 1,
     swipe: false,
     arrows: false,
-    className: 'sliders'
-}}) => {
-
+    className: 'sliders',
+  },
+}: Props): JSX.Element {
   const [slide, setSlide] = useState(0);
   const slider = useRef<any>();
   const sliderWrapper = useRef<any>();
 
-  const handlePrevBtnClick  = useCallback((): void => {
+  const handlePrevBtnClick = useCallback((): void => {
     slider?.current?.slickPrev();
   }, [slider]);
-  
-  const handleNextBtnClick  =  useCallback((): void => {
-    slider?.current?.slickNext();
-  }, [slider]) ;
 
-  const MemoizedSlides = useMemo(() => {
-    return items?.map(renderer);
-  }, [items, renderer])
+  const handleNextBtnClick = useCallback((): void => {
+    slider?.current?.slickNext();
+  }, [slider]);
+
+  const MemoizedSlides = useMemo(() => items?.map(renderer), [items, renderer]);
 
   const Arrows = useMemo(() => {
     if (!(showArrows && items?.length)) return null;
 
-    return <>
-      <StyledPrevButton className='pre-button' onClick={handlePrevBtnClick} />
-      <StyledNextButton className='next-button' onClick={handleNextBtnClick} />
-    </>
+    return (
+      <>
+        <StyledPrevButton className='pre-button' onClick={handlePrevBtnClick} />
+        <StyledNextButton
+          className='next-button'
+          onClick={handleNextBtnClick}
+        />
+      </>
+    );
   }, [showArrows, items?.length, handlePrevBtnClick, handleNextBtnClick]);
 
   return (
-    <Wrapper ref={sliderWrapper} numberOfSlides={items?.length ?? 0} height={height} hasPagination={showPagination} >
+    <Wrapper
+      ref={sliderWrapper}
+      numberOfSlides={items?.length ?? 0}
+      height={height}
+      hasPagination={showPagination}
+    >
       {Arrows}
 
-      <Slider ref={slider} {...sliderSettings}  afterChange={(current: number) => setSlide(current)} dotsClass="slick-dots slick-dots-custom">
+      <Slider
+        ref={slider}
+        afterChange={(current: number) => setSlide(current)}
+        dotsClass='slick-dots slick-dots-custom'
+        {...sliderSettings}
+      >
         {MemoizedSlides}
       </Slider>
 
       {showPagination && items?.length > 1 && (
         <Pagination className='pagination' position={paginationPosition}>
-
           {slide !== 0 && (
             <PaginationButton onClick={handlePrevBtnClick}>
               <StyledArrowLeftIcon />
             </PaginationButton>
           )}
 
-          <PaginationText>
-            {`${slide+1} / ${ items?.length}`}
-          </PaginationText>
+          <PaginationText>{`${slide + 1} / ${items?.length}`}</PaginationText>
 
           {slide + (sliderSettings?.slidesToShow ?? 0) <
             (items?.length ?? 0) && (
@@ -100,6 +110,6 @@ const Sliders: React.FC<Props> = ({
       )}
     </Wrapper>
   );
-};
+}
 
 export default Sliders;

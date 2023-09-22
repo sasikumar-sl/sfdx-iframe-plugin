@@ -1,10 +1,13 @@
 import styled, { css } from 'styled-components';
 
-import { ReactComponent as ArrowRightIcon } from '../../icons/arrow-right.svg'; 
-import { ReactComponent as ArrowLeftIcon } from '../../icons/arrow-left.svg'; 
+import { ReactComponent as ArrowRightIcon } from '../../icons/arrow-right.svg';
+import { ReactComponent as ArrowLeftIcon } from '../../icons/arrow-left.svg';
 
-
-export type paginationPostion = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+export type PaginationPostion =
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right';
 
 type WrapperType = {
   numberOfSlides?: number;
@@ -24,14 +27,14 @@ export const Wrapper = styled.div<WrapperType>`
   .slick-dots-custom {
     & li {
       margin: 0;
-      
+
       & button::before {
         font-size: 10px;
-        color: #CDCDCD;
+        color: #cdcdcd;
       }
-      
+
       &.slick-active button::before {
-        color: #9B9B9B;
+        color: #9b9b9b;
       }
     }
   }
@@ -39,7 +42,7 @@ export const Wrapper = styled.div<WrapperType>`
   .slick-slide {
     ${({ hasPagination }) => hasPagination && 'margin-top: 10px;'}
 
-${({ numberOfSlides }) =>
+    ${({ numberOfSlides }) =>
       numberOfSlides === 1 &&
       css`
         &:first-child {
@@ -53,15 +56,15 @@ ${({ numberOfSlides }) =>
 
     & > div,
     & > div > div {
-      height: ${({ height = 131 }) => height && typeof height === 'string' ? height : `${height}px`};
+      height: ${({ height = 131 }) =>
+        height && typeof height === 'string' ? height : `${height}px`};
     }
-
   }
 `;
 
 type PagintionType = {
-  position?: paginationPostion;
-}
+  position?: PaginationPostion;
+};
 export const Pagination = styled.div<PagintionType>`
   display: flex;
   align-items: center;
@@ -69,22 +72,24 @@ export const Pagination = styled.div<PagintionType>`
   height: 24px;
   padding: 0 6px;
 
-  background: #E6E6E6;
+  background: #e6e6e6;
   box-shadow: 0px 0px 4px #bebebe;
   border-radius: 12px;
 
-  ${({ position = 'top-right'}) => {
+  ${({ position = 'top-right' }) => {
     if (position === 'top-left') {
       return `
         top: 0;
         left: 21%;
       `;
-    } else if (position === 'bottom-right') {
+    }
+    if (position === 'bottom-right') {
       return `
         bottom: 0;
         right: 21%;
       `;
-    } else if (position === 'bottom-left') {
+    }
+    if (position === 'bottom-left') {
       return `
         bottom: 0;
         left: 21%;
@@ -108,7 +113,7 @@ export const PaginationText = styled.div`
 `;
 
 export const PaginationButton = styled.span`
-  background: #E6E6E6;
+  background: #e6e6e6;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,10 +155,10 @@ const arrowStyles = `
 `;
 
 export const StyledPrevButton = styled(ArrowLeftIcon)`
-    ${arrowStyles}
-    left: 10%;
+  ${arrowStyles}
+  left: 10%;
 `;
 export const StyledNextButton = styled(ArrowRightIcon)`
-    ${arrowStyles}
-    right: 10%;
+  ${arrowStyles}
+  right: 10%;
 `;

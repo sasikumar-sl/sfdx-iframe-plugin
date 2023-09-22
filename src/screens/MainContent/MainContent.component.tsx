@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 
-import { CaseContext } from '../../reactCustomHooks/useCaseContext'
-;
+import { CaseContext } from '../../reactCustomHooks/useCaseContext';
+
 // import Tree from 'components/Tree/Tree.component';
 import Header from '../../components/Header/Header.component';
 import Footer from '../../components/Footer/Footer.component';
@@ -13,30 +13,31 @@ import MockData from './MockData';
 
 const sentiments: SentimentType[] = MockData;
 
-type Props = {};
+export function MainContent() {
+  const [selectedSentiment, setSelectedSentiment] =
+    useState<SentimentType | null>(sentiments?.[0] ?? null);
 
-export const MainContent: React.FC<Props> = () =>  {
+  const contextValue = useMemo(
+    () => ({
+      selectedSentiment,
+      setSelectedSentiment,
+    }),
+    [selectedSentiment],
+  );
 
-    const [selectedSentiment, setSelectedSentiment] = useState<SentimentType | null>(sentiments?.[0] ?? null);
-
-    const contextValue = useMemo(() => {
-        return {
-            selectedSentiment,
-            setSelectedSentiment,
-        }
-    }, [selectedSentiment]);
-
-    return (
-        <MainContainer>
-            <CaseContext.Provider value={contextValue}>
-                <Header/>
-                <Content>
-                    <Sentiments sentimentScore={35} attentionScore={50} sentiments={sentiments} />
-                </Content>
-                <Footer />
-            </CaseContext.Provider>
-        </MainContainer>
-        );
-};
-
-
+  return (
+    <MainContainer>
+      <CaseContext.Provider value={contextValue}>
+        <Header />
+        <Content>
+          <Sentiments
+            sentimentScore={35}
+            attentionScore={50}
+            sentiments={sentiments}
+          />
+        </Content>
+        <Footer />
+      </CaseContext.Provider>
+    </MainContainer>
+  );
+}

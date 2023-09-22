@@ -58,31 +58,28 @@ const ranges: AttentionScoreRangeType[] = [
   },
 ];
 
-type Props = {
-    score?: number;
-};
-  
-const AttentionScorePopover: React.FC<Props> = () => {
+function AttentionScorePopover(): JSX.Element {
   return (
     <ScaleWrapper>
-    {ranges.map((range, index) => (
+      {ranges.map((range, index) => (
         <div key={range.title}>
-            <RangeWrapper>
-                <RangeBall
-                background={range.background}
-                >
-                <span>{range.min}</span>
-                {range?.max ? <span>-{range.max}</span> : <span>+</span>}
-                </RangeBall>
-                {ranges[index + 1] && (
-                <LinkingLine from={range.background} to={ranges[index + 1].background} />
-                )}
-            </RangeWrapper>
-            <Label> {range.title}</Label>
+          <RangeWrapper>
+            <RangeBall background={range.background}>
+              <span>{range.min}</span>
+              {range?.max ? <span>-{range.max}</span> : <span>+</span>}
+            </RangeBall>
+            {ranges[index + 1] && (
+              <LinkingLine
+                from={range.background}
+                to={ranges[index + 1].background}
+              />
+            )}
+          </RangeWrapper>
+          <Label> {range.title}</Label>
         </div>
-    ))}
+      ))}
     </ScaleWrapper>
   );
-}; 
+}
 
 export default AttentionScorePopover;

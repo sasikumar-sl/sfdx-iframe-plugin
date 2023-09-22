@@ -1,8 +1,5 @@
 import React from 'react';
-import { WithTooltip } from '@supportlogic/frontend-library';
 
-import SentimentsScorePopover from '../SentimentScorePopover/SentimentScorePopover.component';
-import AttentionScorePopover from '../AttentionScorePopover/AttentionScorePopover.component';
 import PlaceHolder from '../PlaceHolder/PlaceHolder.components';
 
 import { SentimentType } from './Sentiments.interface';
@@ -13,97 +10,87 @@ import { generateUniqKey } from '../../common';
 import SentimentCard from './components/SentimentCard/SentimentCard.component';
 
 import {
-    SentimentsContainer,
-    Scorers,
-    ScoreWrapper,
-    ScoreCardsWrapper,
-    StyledInfoIcon,
-    StyledScore,
-    SentimentSlide,
-    Title,
+  SentimentsContainer,
+  Scorers,
+  ScoreCardsWrapper,
+  SentimentSlide,
+  Title,
 } from './Sentiments.styles';
+import Score from './components/Score/Score.component';
 
 const tooltipStyles = { width: 'auto', maxWidth: 'calc(75% - 40px)' };
 
-type TooltipProps = {
-    icon: React.ReactNode;
-    content: React.ReactNode;
-};
-
-const Tooltip:React.FC<TooltipProps> = ({ icon, content }) => (
-    <WithTooltip 
-        zIndex={9999}
-        placement="bottom"
-        textColor="black"
-        backgroundColor="white"
-        content={content}
-    >
-        {icon}
-    </WithTooltip>
-);
-
 type Props = {
-    sentimentScore: number;
-    attentionScore: number;
-    sentiments?: SentimentType[]
+  sentimentScore: number;
+  attentionScore: number;
+  sentiments?: SentimentType[];
 };
 
-export const Sentiments: React.FC<Props> = ({ sentimentScore, attentionScore, sentiments = [] }) =>  {
+function Sentiments({
+  sentimentScore,
+  attentionScore,
+  sentiments = [],
+}: Props): JSX.Element {
+  const { setSelectedSentiment } = useCaseContext();
 
-    const { setSelectedSentiment } = useCaseContext();
+  const sliderSettings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    swipe: false,
+    arrows: false,
+    className: 'sentiment-slider',
+    beforeChange: (_old: number, index: number) =>
+      setSelectedSentiment(sentiments[index] ?? 1),
+  };
 
-    const sliderSettings = {
-        dots: true,
-        infinite: false,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        swipe: false,
-        arrows: false,
-        className: 'sentiment-slider',
-        beforeChange: (old: number, index: number) => setSelectedSentiment(sentiments[index] ?? 1),
-    };
+  const renderer = (sentiment: SentimentType, index: number) => (
+    <SentimentSlide
+      className='sentiment-slide-wrapper'
+      key={sentiment?.id ?? generateUniqKey()}
+    >
+      <SentimentCard
+        sentiment={sentiment}
+        tooltipStyles={tooltipStyles}
+        isBlured={index > 2}
+      />
+    </SentimentSlide>
+  );
 
-    const renderer = (sentiment: SentimentType, index: number) => (
-        <SentimentSlide className='sentiment-slide-wrapper' key={sentiment?.id ?? generateUniqKey()}>
-           <SentimentCard sentiment={sentiment} tooltipStyles={tooltipStyles} isBlured={index > 2} />
-        </SentimentSlide>
-    );
-
-    return (
+  return (
     <SentimentsContainer>
-        <Scorers>
-            <ScoreWrapper>
-                <StyledScore  type="Sentiment"  label="Attention Score" value={sentimentScore}/>
-                <Tooltip icon={<StyledInfoIcon/>} content={<SentimentsScorePopover/>}/>
-            </ScoreWrapper>
-            <ScoreWrapper>
-                <StyledScore  type="Attention" label="Attention Score" value={attentionScore} />
-                <Tooltip icon={<StyledInfoIcon/>} content={<AttentionScorePopover/>}/>
-            </ScoreWrapper>
-        </Scorers>
-        <ScoreCardsWrapper>
-            {
-                sentiments.length
-                ? (
-                    <>
-                        <Title>Sentiments Detected</Title>
-                        <Sliders
-                            height={125}
-                            items={sentiments}
-                            sliderSettings={sliderSettings}
-                            renderer={renderer}
-                            showPagination
-                        />
-                    </>
-                )
-                : <PlaceHolder/>
-            }
-        </ScoreCardsWrapper>
+      <Scorers>
+        <Score
+          type='Sentiment'
+          label='Sentiment Score'
+          value={sentimentScore}
+        />
+        <Score
+          type='Attention'
+          label='Attention Score'
+          value={attentionScore}
+        />
+      </Scorers>
+      <ScoreCardsWrapper>
+        {sentiments.length ? (
+          <>
+            <Title>Sentiments Detected</Title>
+            <Sliders
+              height={125}
+              items={sentiments}
+              sliderSettings={sliderSettings}
+              renderer={renderer}
+              showPagination
+            />
+          </>
+        ) : (
+          <PlaceHolder />
+        )}
+      </ScoreCardsWrapper>
     </SentimentsContainer>
-    );
-};
+  );
+}
 
 export default Sentiments;
-
-

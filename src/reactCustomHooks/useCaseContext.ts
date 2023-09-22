@@ -3,23 +3,25 @@ import noop from 'lodash/noop';
 import { SentimentType } from '../components/Sentiments/Sentiments.interface';
 
 export interface ICaseContext {
-    selectedSentiment: SentimentType | null;
-    setSelectedSentiment: Dispatch<SetStateAction<SentimentType | null>>;
+  selectedSentiment: SentimentType | null;
+  setSelectedSentiment: Dispatch<SetStateAction<SentimentType | null>>;
 }
 
 export const CaseContext = createContext<ICaseContext>({
-    selectedSentiment: null,
-    setSelectedSentiment: noop,
+  selectedSentiment: null,
+  setSelectedSentiment: noop,
 });
 
 function useCaseContext() {
-    const context = useContext(CaseContext);
+  const context = useContext(CaseContext);
 
-    if (!context) {
-        throw new Error("useCaseContext must be used within a CaseContext.Provider");
-    }
+  if (!context) {
+    throw new Error(
+      'useCaseContext must be used within a CaseContext.Provider',
+    );
+  }
 
-    return context;
+  return context;
 }
 
 export default useCaseContext;

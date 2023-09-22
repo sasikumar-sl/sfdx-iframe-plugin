@@ -67,7 +67,7 @@ export const Label = styled.div<LabelType>`
     display: block;
   }
 
-  color: #4A4A4A;
+  color: #4a4a4a;
   font-family: Avenir;
   font-style: normal;
   font-weight: 300;
