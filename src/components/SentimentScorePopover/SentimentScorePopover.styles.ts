@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { TLabel, TLinkLine, TRangeBall } from './SentimentScorePopover.types';
 
 export const ScaleWrapper = styled.div`
   max-width: 445px;
@@ -15,13 +16,7 @@ export const RangeWrapper = styled.div`
   align-items: center;
 `;
 
-type RangeBallType = {
-  isActive?: boolean;
-  background: string;
-  color?: string;
-};
-
-export const RangeBall = styled.div<RangeBallType>`
+export const RangeBall = styled.div<TRangeBall>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,22 +36,13 @@ export const RangeBall = styled.div<RangeBallType>`
   }
 `;
 
-type LinkLineType = {
-  from: string;
-  to: string;
-};
-
-export const LinkingLine = styled.div<LinkLineType>`
+export const LinkingLine = styled.div<TLinkLine>`
   height: 5px;
   width: 1.3vw;
   background: linear-gradient(90deg, ${({ from }) => from}, ${({ to }) => to});
 `;
 
-type LabelType = {
-  isActive?: boolean;
-};
-
-export const Label = styled.div<LabelType>`
+export const Label = styled.div<TLabel>`
   text-align: center;
   font-size: 12px;
   margin-top: 10px;

@@ -1,4 +1,7 @@
 import React from 'react';
+
+import { TAttentionScoreRange } from './AnnotationScorePopover.types';
+
 import {
   RangeWrapper,
   RangeBall,
@@ -7,14 +10,7 @@ import {
   ScaleWrapper,
 } from './AttentionScorePopover.styles';
 
-type AttentionScoreRangeType = {
-  min: number;
-  max?: number;
-  title: string;
-  background: string;
-};
-
-const ranges: AttentionScoreRangeType[] = [
+const ranges: TAttentionScoreRange[] = [
   {
     min: 0,
     max: 39,

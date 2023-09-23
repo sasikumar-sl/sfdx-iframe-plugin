@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { TSentimentScoreRange } from './SentimentScorePopover.types';
+
 import {
   RangeWrapper,
   RangeBall,
@@ -8,15 +10,7 @@ import {
   ScaleWrapper,
 } from './SentimentScorePopover.styles';
 
-type SentimentScoreRangeType = {
-  min: number;
-  max?: number;
-  title: string;
-  background: string;
-  color?: string;
-};
-
-const ranges: SentimentScoreRangeType[] = [
+const ranges: TSentimentScoreRange[] = [
   {
     min: 0,
     max: 30,

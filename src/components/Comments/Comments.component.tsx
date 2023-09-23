@@ -7,7 +7,7 @@ import { generateUniqKey } from '../../common/helpers/utils/IdGenerater';
 import Comment from './Comment/Comment.component';
 
 import { Wrapper, CommentSlide } from './Comments.styes';
-import { CommentType } from './Comments.interface';
+import { TComment } from './Comments.types';
 
 function Comments(): React.JSX.Element {
   const { selectedAnnotation } = useCaseContext();
@@ -28,7 +28,7 @@ function Comments(): React.JSX.Element {
     className: 'comments-slider',
   };
 
-  const renderer = (comment: CommentType) => (
+  const renderer = (comment: TComment) => (
     <CommentSlide
       className="comment-slide-wrapper"
       key={comment?.id ?? generateUniqKey()}

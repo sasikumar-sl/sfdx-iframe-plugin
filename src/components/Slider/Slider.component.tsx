@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import Slider, { Settings } from 'react-slick';
 
 import 'slick-carousel/slick/slick.css';
@@ -13,7 +7,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { ReactComponent as ArrowRightIcon } from '../../icons/arrow-right.svg';
 import { ReactComponent as ArrowLeftIcon } from '../../icons/arrow-left.svg';
 
-import { PaginationPostion } from './Slider.interface';
+import { TPaginationPostion } from './Slider.types';
 
 import {
   Wrapper,
@@ -30,7 +24,7 @@ type Props = {
   sliderSettings?: Settings;
   showPagination?: boolean;
   onAfterChange?: (current: number) => void;
-  paginationPosition?: PaginationPostion;
+  paginationPosition?: TPaginationPostion;
   renderer: (item: any, index: number) => React.ReactNode;
 };
 

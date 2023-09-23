@@ -2,11 +2,11 @@ import { CSSProperties } from 'react';
 import { sentimentColors } from './sentimentsColors';
 import { API_SENTIMENT_COLORS } from '../../constants';
 
-export interface IShTimelineItemLabel {
+export type TShTimelineItemLabel = {
   text: string;
   background: string;
   color: string;
-}
+};
 
 export const sentimentNames = {
   negativeSentiments: 'Negative',
@@ -90,7 +90,7 @@ export const getSentimentStyle = (score: number) => {
   return { ...colors, backgroundColor: sentimentColors.veryNegativeBackground };
 };
 
-export const formatLabels = (labels: string[]): IShTimelineItemLabel[] =>
+export const formatLabels = (labels: string[]): TShTimelineItemLabel[] =>
   labels.map((label) => ({
     text: label,
     background:

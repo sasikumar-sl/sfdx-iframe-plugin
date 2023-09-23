@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import { HeightType, WrapperType, PagintionType } from './Slider.interface';
+import { THeight, TWrapper, TPagintion } from './Slider.types';
 
-const getHeight = (height: HeightType = 131): string => {
+const getHeight = (height: THeight = 131): string => {
   if (typeof height === 'number') return `height: ${height}px;`;
   return `height: ${height};`;
 };
@@ -10,7 +10,7 @@ const getHeight = (height: HeightType = 131): string => {
 const getMarginTop = (value: boolean): any =>
   value ? 'margin-top: 10px;' : null;
 
-export const Wrapper = styled.div<WrapperType>`
+export const Wrapper = styled.div<TWrapper>`
   position: relative;
 
   .slick-track {
@@ -44,7 +44,7 @@ export const Wrapper = styled.div<WrapperType>`
   }
 `;
 
-export const Pagination = styled.div<PagintionType>`
+export const Pagination = styled.div<TPagintion>`
   display: flex;
   align-items: center;
   position: absolute;

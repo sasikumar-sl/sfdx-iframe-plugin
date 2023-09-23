@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 
 import PlaceHolder from '../PlaceHolder/PlaceHolder.components';
 
-import { SentimentType } from './Sentiments.interface';
+import { TSentiment } from './Sentiments.types';
 import useCaseContext from '../../reactCustomHooks/useCaseContext';
 
 import Sliders from '../Slider/Slider.component';
@@ -23,7 +23,7 @@ const tooltipStyles = { width: 'auto', maxWidth: 'calc(75% - 40px)' };
 type Props = {
   sentimentScore: number;
   attentionScore: number;
-  sentiments?: SentimentType[];
+  sentiments?: TSentiment[];
 };
 
 function Sentiments({
@@ -51,7 +51,7 @@ function Sentiments({
     [sentiments, setSelectedSentiment],
   );
 
-  const renderer = (sentiment: SentimentType, index: number) => (
+  const renderer = (sentiment: TSentiment, index: number) => (
     <SentimentSlide
       className="sentiment-slide-wrapper"
       key={sentiment?.id ?? generateUniqKey()}

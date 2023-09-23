@@ -6,21 +6,22 @@ import { CaseContext } from '../../reactCustomHooks/useCaseContext';
 import Header from '../../components/Header/Header.component';
 import Footer from '../../components/Footer/Footer.component';
 import Sentiments from '../../components/Sentiments/Sentiments.component';
-import { SentimentType } from '../../components/Sentiments/Sentiments.interface';
-import { AnnotationType } from '../../components/AnnotationCard/Annotation.interface';
+import { TSentiment } from '../../components/Sentiments/Sentiments.types';
+import { TAnnotation } from '../../components/AnnotationCard/Annotation.types';
 
 import { MainContainer, Content } from './MainContent.styles';
 import MockData from './MockData';
 
-const sentiments: SentimentType[] = MockData;
+const sentiments: TSentiment[] = MockData;
 
 export function MainContent(): React.JSX.Element {
-  const sentiment: SentimentType = sentiments?.[0];
+  const sentiment: TSentiment = sentiments?.[0];
 
-  const [selectedSentiment, setSelectedSentiment] =
-    useState<SentimentType | null>(sentiment ?? null);
+  const [selectedSentiment, setSelectedSentiment] = useState<TSentiment | null>(
+    sentiment ?? null,
+  );
   const [selectedAnnotation, setSelectedAnnotation] =
-    useState<AnnotationType | null>(sentiment.annotations?.[0] ?? null);
+    useState<TAnnotation | null>(sentiment.annotations?.[0] ?? null);
 
   const contextValue = useMemo(
     () => ({

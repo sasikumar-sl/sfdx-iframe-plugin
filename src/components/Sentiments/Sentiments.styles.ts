@@ -18,6 +18,7 @@ export const ScoreCardsWrapper = styled.div`
   height: 200px;
   background: #f8f8f8;
   position: relative;
+  padding-top: 12px;
 `;
 
 export const SentimentSlide = styled.div`
@@ -40,7 +41,6 @@ export const SentimentSlide = styled.div`
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    /* margin-top: 6px; */
   }
 `;
 
@@ -52,5 +52,4 @@ export const Title = styled.div`
   font-weight: 800;
   line-height: normal;
   text-align: center;
-  padding: 6px 0 0;
 `;

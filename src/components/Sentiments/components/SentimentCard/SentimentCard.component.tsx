@@ -7,7 +7,7 @@ import {
   getSignalLabelStyles,
   formatLabels,
 } from '../../../../common/helpers/sentiments/sentimentsHelper';
-import { SentimentType } from '../../Sentiments.interface';
+import { TSentiment } from '../../Sentiments.types';
 
 import {
   Card,
@@ -22,7 +22,7 @@ import {
 
 type Props = {
   isBlured: boolean;
-  sentiment: SentimentType;
+  sentiment: TSentiment;
   tooltipStyles?: CSSProperties;
 };
 

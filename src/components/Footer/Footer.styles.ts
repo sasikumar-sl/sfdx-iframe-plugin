@@ -46,10 +46,11 @@ export const StyledDoubleDownIcon = styled(DoubleDownIcon)``;
 
 export const StyledDoubleUpIcon = styled(DoubleUpIcon)``;
 
-type CollapsibleHeaderType = {
+type TCollapsibleHeader = {
   noBorder?: boolean;
 };
-export const CollapsibleHeader = styled.div<CollapsibleHeaderType>`
+
+export const CollapsibleHeader = styled.div<TCollapsibleHeader>`
   height: 40px;
   flex-shrink: 0;
   background: #fff;

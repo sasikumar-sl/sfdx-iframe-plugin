@@ -1,13 +1,13 @@
 import { useContext, createContext, Dispatch, SetStateAction } from 'react';
 import noop from 'lodash/noop';
-import { AnnotationType } from 'components/AnnotationCard/Annotation.interface';
-import { SentimentType } from 'components/Sentiments/Sentiments.interface';
+import { TAnnotation } from 'components/AnnotationCard/Annotation.types';
+import { TSentiment } from 'components/Sentiments/Sentiments.types';
 
 export interface ICaseContext {
-  selectedSentiment: SentimentType | null;
-  setSelectedSentiment: Dispatch<SetStateAction<SentimentType | null>>;
-  selectedAnnotation: AnnotationType | null;
-  setSelectedAnnotation: Dispatch<SetStateAction<AnnotationType | null>>;
+  selectedSentiment: TSentiment | null;
+  setSelectedSentiment: Dispatch<SetStateAction<TSentiment | null>>;
+  selectedAnnotation: TAnnotation | null;
+  setSelectedAnnotation: Dispatch<SetStateAction<TAnnotation | null>>;
 }
 
 export const CaseContext = createContext<ICaseContext>({
