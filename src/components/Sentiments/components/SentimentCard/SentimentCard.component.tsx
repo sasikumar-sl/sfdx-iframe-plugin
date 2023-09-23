@@ -30,7 +30,7 @@ function SentimentCard({
   sentiment,
   tooltipStyles,
   isBlured,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const labels = formatLabels(sentiment.labels);
   const timestamp = new Date(sentiment.created_at).getTime();
 
@@ -39,11 +39,11 @@ function SentimentCard({
     return (
       <BluredWrapper>
         <BluredTitle>
-          Visit
+          Visit{' '}
           <a
-            href='https://www.supportlogic.com/'
-            target='_blank'
-            rel='noreferrer'
+            href="https://www.supportlogic.com/"
+            target="_blank"
+            rel="noreferrer"
           >
             SupportLogic
           </a>{' '}
@@ -70,7 +70,7 @@ function SentimentCard({
           <WithTooltip
             styles={tooltipStyles}
             zIndex={9999}
-            placement='bottom'
+            placement="bottom"
             content={sentiment?.text}
             containerStyle={{ width: '100%' }}
           >

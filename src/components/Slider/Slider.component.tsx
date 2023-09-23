@@ -1,19 +1,26 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import Slider, { Settings } from 'react-slick';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
+import { ReactComponent as ArrowRightIcon } from '../../icons/arrow-right.svg';
+import { ReactComponent as ArrowLeftIcon } from '../../icons/arrow-left.svg';
+
+import { PaginationPostion } from './Slider.interface';
+
 import {
   Wrapper,
   Pagination,
+  ArrowsWrapper,
   PaginationText,
   PaginationButton,
-  StyledPrevButton,
-  StyledNextButton,
-  PaginationPostion,
-  StyledArrowLeftIcon,
-  StyledArrowRightIcon,
 } from './Slider.styles';
 
 type Props = {
@@ -22,6 +29,7 @@ type Props = {
   height?: string | number;
   sliderSettings?: Settings;
   showPagination?: boolean;
+  onAfterChange?: (current: number) => void;
   paginationPosition?: PaginationPostion;
   renderer: (item: any, index: number) => React.ReactNode;
 };
@@ -32,6 +40,7 @@ function Sliders({
   renderer = () => <div />,
   showPagination = false,
   showArrows = false,
+  onAfterChange = () => {},
   paginationPosition = 'top-right',
   sliderSettings = {
     dots: true,
@@ -43,7 +52,7 @@ function Sliders({
     arrows: false,
     className: 'sliders',
   },
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const [slide, setSlide] = useState(0);
   const slider = useRef<any>();
   const sliderWrapper = useRef<any>();
@@ -62,15 +71,20 @@ function Sliders({
     if (!(showArrows && items?.length)) return null;
 
     return (
-      <>
-        <StyledPrevButton className='pre-button' onClick={handlePrevBtnClick} />
-        <StyledNextButton
-          className='next-button'
-          onClick={handleNextBtnClick}
+      <ArrowsWrapper>
+        <ArrowLeftIcon
+          id="pre-arrow"
+          onClick={handlePrevBtnClick}
+          className={slide === 0 ? 'disabled' : ''}
         />
-      </>
+        <ArrowRightIcon
+          id="next-arrow"
+          onClick={handleNextBtnClick}
+          className={slide === items.length - 1 ? 'disabled' : ''}
+        />
+      </ArrowsWrapper>
     );
-  }, [showArrows, items?.length, handlePrevBtnClick, handleNextBtnClick]);
+  }, [showArrows, items, slide, handlePrevBtnClick, handleNextBtnClick]);
 
   return (
     <Wrapper
@@ -83,18 +97,21 @@ function Sliders({
 
       <Slider
         ref={slider}
-        afterChange={(current: number) => setSlide(current)}
-        dotsClass='slick-dots slick-dots-custom'
+        afterChange={(current: number) => {
+          setSlide(current);
+          onAfterChange(current);
+        }}
+        dotsClass="slick-dots slick-dots-custom"
         {...sliderSettings}
       >
         {MemoizedSlides}
       </Slider>
 
       {showPagination && items?.length > 1 && (
-        <Pagination className='pagination' position={paginationPosition}>
+        <Pagination className="pagination" position={paginationPosition}>
           {slide !== 0 && (
             <PaginationButton onClick={handlePrevBtnClick}>
-              <StyledArrowLeftIcon />
+              <ArrowLeftIcon />
             </PaginationButton>
           )}
 
@@ -103,7 +120,7 @@ function Sliders({
           {slide + (sliderSettings?.slidesToShow ?? 0) <
             (items?.length ?? 0) && (
             <PaginationButton onClick={handleNextBtnClick}>
-              <StyledArrowRightIcon />
+              <ArrowRightIcon />
             </PaginationButton>
           )}
         </Pagination>

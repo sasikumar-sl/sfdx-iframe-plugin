@@ -49,15 +49,15 @@ type Props = {
   value: number;
 };
 
-function Score({ type, value, label }: Props): JSX.Element {
+function Score({ type, value, label }: Props): React.JSX.Element {
   return (
     <ScoreWrapper>
       <StyledScore type={type} label={label} value={value} />
       <WithTooltip
         zIndex={9999}
-        placement='bottom'
-        textColor='black'
-        backgroundColor='white'
+        placement="bottom"
+        textColor="black"
+        backgroundColor="white"
         content={popoverObject[type]}
       >
         <StyledInfoIcon />

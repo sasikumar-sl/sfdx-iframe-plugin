@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatDistance } from 'date-fns';
 
 import {
   Profile,
@@ -10,25 +11,24 @@ import {
 } from './Comment.styles';
 
 type Props = {
-  // eslint-disable-next-line react/no-unused-prop-types
   comment?: any;
 };
 
-// eslint-disable-next-line no-empty-pattern
-function Comment({}: Props): JSX.Element {
+function Comment({ comment }: Props): React.JSX.Element {
+  const timestamp = new Date(comment?.created_at).getTime();
+
   return (
     <Container>
       <CommentWrapper>
         <CommentHeader>
           <Profile>
-            <span>Sasikumar Ganesan</span>
+            <span>{comment?.name}</span>
           </Profile>
-          <CommentedAt>Yesterday, 3:11PM</CommentedAt>
+          <CommentedAt>
+            {formatDistance(timestamp, Date.now(), { addSuffix: true })}
+          </CommentedAt>
         </CommentHeader>
-        <CommentBody>
-          This should be escalated as quickly as possible to ensure that our
-          customer gets the prompt help they need
-        </CommentBody>
+        <CommentBody>{comment?.text}</CommentBody>
       </CommentWrapper>
     </Container>
   );

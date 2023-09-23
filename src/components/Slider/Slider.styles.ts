@@ -1,19 +1,14 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-import { ReactComponent as ArrowRightIcon } from '../../icons/arrow-right.svg';
-import { ReactComponent as ArrowLeftIcon } from '../../icons/arrow-left.svg';
+import { HeightType, WrapperType, PagintionType } from './Slider.interface';
 
-export type PaginationPostion =
-  | 'top-left'
-  | 'top-right'
-  | 'bottom-left'
-  | 'bottom-right';
-
-type WrapperType = {
-  numberOfSlides?: number;
-  height?: string | number;
-  hasPagination?: boolean;
+const getHeight = (height: HeightType = 131): string => {
+  if (typeof height === 'number') return `height: ${height}px;`;
+  return `height: ${height};`;
 };
+
+const getMarginTop = (value: boolean): any =>
+  value ? 'margin-top: 10px;' : null;
 
 export const Wrapper = styled.div<WrapperType>`
   position: relative;
@@ -40,31 +35,15 @@ export const Wrapper = styled.div<WrapperType>`
   }
 
   .slick-slide {
-    ${({ hasPagination }) => hasPagination && 'margin-top: 10px;'}
-
-    ${({ numberOfSlides }) =>
-      numberOfSlides === 1 &&
-      css`
-        &:first-child {
-          /* width: 349px !important; */
-        }
-
-        &:last-child {
-          /* width: 100% !important; */
-        }
-      `}
+    ${({ hasPagination = false }) => getMarginTop(hasPagination)}
 
     & > div,
     & > div > div {
-      height: ${({ height = 131 }) =>
-        height && typeof height === 'string' ? height : `${height}px`};
+      ${({ height }) => getHeight(height)}
     }
   }
 `;
 
-type PagintionType = {
-  position?: PaginationPostion;
-};
 export const Pagination = styled.div<PagintionType>`
   display: flex;
   align-items: center;
@@ -133,9 +112,6 @@ export const PaginationButton = styled.span`
   }
 `;
 
-export const StyledArrowRightIcon = styled(ArrowRightIcon)``;
-export const StyledArrowLeftIcon = styled(ArrowLeftIcon)``;
-
 const arrowStyles = `
     top: 50%;
     z-index: 2;
@@ -147,18 +123,38 @@ const arrowStyles = `
     transform: translateY(-50%);
     background: rgb(255, 255, 255);
     transition: background-color 0.3s;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.5); 
+
+    /* Floating buttons shadow */
+    box-shadow: 0px 3px 10px 0px rgba(151, 151, 151, 0.30);
 
     &:hover {
       background-color: rgb(231, 248, 254);
     }
+
+    & > path {
+      fill: #4a4a4a;
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+      & > path {
+        fill: #9b9b9b;
+      }
+    }
+
 `;
 
-export const StyledPrevButton = styled(ArrowLeftIcon)`
-  ${arrowStyles}
-  left: 10%;
-`;
-export const StyledNextButton = styled(ArrowRightIcon)`
-  ${arrowStyles}
-  right: 10%;
+export const ArrowsWrapper = styled.div`
+  svg {
+    &#pre-arrow {
+      ${arrowStyles}
+      left: 10%;
+    }
+
+    &#next-arrow {
+      ${arrowStyles}
+      right: 10%;
+    }
+  }
 `;

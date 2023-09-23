@@ -66,13 +66,13 @@ function Tree() {
     <TreeContainer>
       <InputWrapper>
         <input
-          type='text'
-          placeholder='Type something...'
+          type="text"
+          placeholder="Type something..."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           ref={inputRef}
         />
-        <button type='button' onClick={handleSendClick}>
+        <button type="button" onClick={handleSendClick}>
           Send
         </button>
       </InputWrapper>

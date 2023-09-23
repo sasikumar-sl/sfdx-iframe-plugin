@@ -5,7 +5,7 @@ import Login from './screens/Login/Login.component';
 import ThemeProvider from './common/helpers/utils/ThemeProvider';
 import { ErrorBoundary } from './common';
 
-function App(): JSX.Element {
+function App(): React.JSX.Element {
   const [isUserLoggedIn] = React.useState<boolean>(true);
 
   const component = isUserLoggedIn ? <MainContent /> : <Login />;

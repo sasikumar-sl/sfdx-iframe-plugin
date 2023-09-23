@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import PlaceHolder from '../PlaceHolder/PlaceHolder.components';
 
@@ -30,7 +30,7 @@ function Sentiments({
   sentimentScore,
   attentionScore,
   sentiments = [],
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const { setSelectedSentiment } = useCaseContext();
 
   const sliderSettings = {
@@ -42,13 +42,18 @@ function Sentiments({
     swipe: false,
     arrows: false,
     className: 'sentiment-slider',
-    beforeChange: (_old: number, index: number) =>
-      setSelectedSentiment(sentiments[index] ?? 1),
   };
+
+  const onHandleSliderChange = useCallback(
+    (current: number): void => {
+      setSelectedSentiment(sentiments[current] ?? 0);
+    },
+    [sentiments, setSelectedSentiment],
+  );
 
   const renderer = (sentiment: SentimentType, index: number) => (
     <SentimentSlide
-      className='sentiment-slide-wrapper'
+      className="sentiment-slide-wrapper"
       key={sentiment?.id ?? generateUniqKey()}
     >
       <SentimentCard
@@ -63,13 +68,13 @@ function Sentiments({
     <SentimentsContainer>
       <Scorers>
         <Score
-          type='Sentiment'
-          label='Sentiment Score'
+          type="Sentiment"
+          label="Sentiment Score"
           value={sentimentScore}
         />
         <Score
-          type='Attention'
-          label='Attention Score'
+          type="Attention"
+          label="Attention Score"
           value={attentionScore}
         />
       </Scorers>
@@ -79,10 +84,11 @@ function Sentiments({
             <Title>Sentiments Detected</Title>
             <Sliders
               height={125}
-              items={sentiments}
-              sliderSettings={sliderSettings}
-              renderer={renderer}
               showPagination
+              items={sentiments}
+              renderer={renderer}
+              sliderSettings={sliderSettings}
+              onAfterChange={onHandleSliderChange}
             />
           </>
         ) : (

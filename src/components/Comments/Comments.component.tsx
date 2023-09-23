@@ -7,15 +7,14 @@ import { generateUniqKey } from '../../common/helpers/utils/IdGenerater';
 import Comment from './Comment/Comment.component';
 
 import { Wrapper, CommentSlide } from './Comments.styes';
+import { CommentType } from './Comments.interface';
 
-type Props = {};
-
-function Comments(): JSX.Element {
-  const { selectedSentiment } = useCaseContext();
+function Comments(): React.JSX.Element {
+  const { selectedAnnotation } = useCaseContext();
 
   const comments = useMemo(
-    () => selectedSentiment?.annotations ?? [],
-    [selectedSentiment],
+    () => selectedAnnotation?.comments ?? [],
+    [selectedAnnotation],
   );
 
   const sliderSettings = {
@@ -29,23 +28,23 @@ function Comments(): JSX.Element {
     className: 'comments-slider',
   };
 
-  const renderer = (annotation: any) => (
+  const renderer = (comment: CommentType) => (
     <CommentSlide
-      className='comment-slide-wrapper'
-      key={annotation?.id ?? generateUniqKey()}
+      className="comment-slide-wrapper"
+      key={comment?.id ?? generateUniqKey()}
     >
-      <Comment />
+      <Comment comment={comment} />
     </CommentSlide>
   );
 
   return (
     <Wrapper>
       <Sliders
+        showArrows
         height={140}
         items={comments}
-        sliderSettings={sliderSettings}
         renderer={renderer}
-        showArrows
+        sliderSettings={sliderSettings}
       />
     </Wrapper>
   );

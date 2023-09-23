@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { startTransition, useCallback, useMemo, useState } from 'react';
 import Collapsible from 'react-collapsible';
 
 import { generateUniqKey } from '../../common';
@@ -19,10 +19,10 @@ import {
 } from './Footer.styles';
 import Comments from '../Comments/Comments.component';
 
-function Footer(): JSX.Element {
+function Footer(): React.JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { selectedSentiment, setSelectedAnnotation } = useCaseContext();
 
-  const { selectedSentiment } = useCaseContext();
   const annotations = useMemo(
     () => selectedSentiment?.annotations ?? [],
     [selectedSentiment],
@@ -39,6 +39,13 @@ function Footer(): JSX.Element {
     className: 'annotations-slider',
   };
 
+  const onHandleSliderChange = useCallback(
+    (current: number): void => {
+      setSelectedAnnotation(annotations[current] ?? 0);
+    },
+    [annotations, setSelectedAnnotation],
+  );
+
   if (!annotations.length) {
     return (
       <FooterContainer>
@@ -49,7 +56,7 @@ function Footer(): JSX.Element {
 
   const renderer = (annotation: any) => (
     <AnnotationSlide
-      className='annotations-slide-wrapper'
+      className="annotations-slide-wrapper"
       key={annotation?.id ?? generateUniqKey()}
     >
       <AnnotationCard annotation={annotation} />
@@ -60,7 +67,7 @@ function Footer(): JSX.Element {
   return (
     <Collapsible
       key={generateUniqKey()}
-      openedClassName='collapse-open'
+      openedClassName="collapse-open"
       open={isOpen}
       handleTriggerClick={() => setIsOpen((val) => !val)}
       trigger={
@@ -73,10 +80,11 @@ function Footer(): JSX.Element {
       <CollapsibleBody>
         <Sliders
           height={124}
-          items={annotations ?? []}
-          renderer={renderer}
-          sliderSettings={sliderSettings}
           showPagination
+          renderer={renderer}
+          items={annotations ?? []}
+          sliderSettings={sliderSettings}
+          onAfterChange={onHandleSliderChange}
         />
         <CommentsWrapper>
           <Comments />

@@ -7,7 +7,7 @@ type Props = {
   annotation: AnnotationType;
 };
 
-function AnnotationCard({ annotation }: Props): JSX.Element {
+function AnnotationCard({ annotation }: Props): React.JSX.Element {
   return (
     <Card>
       <Annatation>
