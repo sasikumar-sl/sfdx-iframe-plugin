@@ -32,7 +32,7 @@ function Sentiments({
   attentionScore,
   sentiments = [],
 }: Props) {
-  const { isLoading, setCurrentSentimentIdx } = useCaseContext();
+  const { isLoading, handleSentimentChanges } = useCaseContext();
 
   const sliderSettings = {
     dots: true,
@@ -47,10 +47,9 @@ function Sentiments({
 
   const onHandleSliderChange = useCallback(
     (current = 0): void => {
-      console.log('============== current sentiment #: ', current);
-      setCurrentSentimentIdx(current);
+      handleSentimentChanges(current);
     },
-    [setCurrentSentimentIdx],
+    [handleSentimentChanges],
   );
 
   const renderer = (sentiment: TSentiment, index: number) => (

@@ -28,7 +28,7 @@ type Props = {
 
 function Footer({ annotations = [] }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { isLoading, currentAnnotationIdx, setCurrentAnnotationIdx } =
+  const { isLoading, currentAnnotationIdx, handleAnnotationChanges } =
     useCaseContext();
 
   const sliderSettings = {
@@ -44,10 +44,9 @@ function Footer({ annotations = [] }: Props) {
 
   const onHandleSliderChange = useCallback(
     (current: number): void => {
-      console.log('============== current Annotation #: ', current);
-      setCurrentAnnotationIdx(current ?? 0);
+      handleAnnotationChanges(current ?? 0);
     },
-    [setCurrentAnnotationIdx],
+    [handleAnnotationChanges],
   );
 
   const comments: TComment[] = useMemo(

@@ -10,7 +10,7 @@ import Footer from '../../components/Footer/Footer.component';
 import Sentiments from '../../components/Sentiments/Sentiments.component';
 
 import { MainContainer, Content } from './MainContent.styles';
-import { TAnnotation, TCase } from '../../common';
+import { TAnnotation, TCaseDetails } from '../../common';
 
 import CaseMockData from './MockData';
 
@@ -20,15 +20,15 @@ function wait(duration = 1000) {
   });
 }
 
-const placeholderData: TCase = {
+const placeholderData: TCaseDetails = {
   sentimentScore: 0,
   attentionScore: 0,
   sentiments: [],
 };
 
 export function MainContent() {
-  const { isLoading, data }: UseQueryResult<TCase, Error> = useQuery<
-    TCase,
+  const { isLoading, data }: UseQueryResult<TCaseDetails, Error> = useQuery<
+    TCaseDetails,
     Error
   >(['case'], () => wait(1000).then(() => CaseMockData), {
     placeholderData,
@@ -37,20 +37,27 @@ export function MainContent() {
   const [currentSentimentIdx, setCurrentSentimentIdx] = useState(0);
   const [currentAnnotationIdx, setCurrentAnnotationIdx] = useState(0);
 
+  const handleSentimentChanges =(idx: number) => {
+    setCurrentSentimentIdx(idx);
+  };
+  const handleAnnotationChanges =(idx: number) => {
+    setCurrentAnnotationIdx(idx);
+  };
+
   const contextValue = useMemo(
     () => ({
       isLoading,
 
       currentSentimentIdx,
-      setCurrentSentimentIdx,
+      handleSentimentChanges,
 
       currentAnnotationIdx,
-      setCurrentAnnotationIdx,
+      handleAnnotationChanges,
     }),
     [isLoading, currentSentimentIdx, currentAnnotationIdx],
   );
 
-  const { sentimentScore, attentionScore, sentiments }: TCase =
+  const { sentimentScore, attentionScore, sentiments }: TCaseDetails =
     data ?? placeholderData;
   const annotations: TAnnotation[] = useMemo(
     () => sentiments?.[currentSentimentIdx]?.annotations ?? [],

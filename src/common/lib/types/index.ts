@@ -24,7 +24,7 @@ export type TSentiment = {
   [k: string]: any;
 };
 
-export type TCase = {
+export type TCaseDetails = {
   sentimentScore: number;
   attentionScore: number;
   sentiments: TSentiment[];
