@@ -10,15 +10,9 @@ import Footer from '../../components/Footer/Footer.component';
 import Sentiments from '../../components/Sentiments/Sentiments.component';
 
 import { MainContainer, Content } from './MainContent.styles';
-import { TAnnotation, TCaseDetails } from '../../common';
+import { TAnnotation, TCaseDetails, wait } from '../../common';
 
 import CaseMockData from './MockData';
-
-function wait(duration = 1000) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, duration);
-  });
-}
 
 const placeholderData: TCaseDetails = {
   sentimentScore: 0,
