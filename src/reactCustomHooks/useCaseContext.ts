@@ -8,7 +8,7 @@ export type TCaseContext = {
 
   currentAnnotationIdx: number;
   setCurrentAnnotationIdx: Dispatch<SetStateAction<number>>;
-}
+};
 
 export const CaseContext = createContext<TCaseContext>({
   isLoading: false,
