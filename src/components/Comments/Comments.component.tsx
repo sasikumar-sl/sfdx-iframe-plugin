@@ -13,8 +13,6 @@ type Props = {
 };
 
 function Comments({ comments = [] }: Props) {
-  console.log('================ comments: ', comments);
-
   const sliderSettings = {
     dots: false,
     infinite: false,
