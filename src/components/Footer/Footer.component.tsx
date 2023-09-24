@@ -1,14 +1,17 @@
-import React, { startTransition, useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import Collapsible from 'react-collapsible';
 
-import { generateUniqKey } from '../../common';
+import { FancyLoader } from '@supportlogic/frontend-library';
+import { TAnnotation, TComment, generateUniqKey } from '../../common';
 import Sliders from '../Slider/Slider.component';
 import useCaseContext from '../../reactCustomHooks/useCaseContext';
 import AnnotationCard from '../AnnotationCard/AnnotationCard.component';
 
 import {
   Label,
+  Title,
   IconWrapper,
+  LoaderWrapper,
   AnnotationSlide,
   CommentsWrapper,
   FooterContainer,
@@ -19,14 +22,14 @@ import {
 } from './Footer.styles';
 import Comments from '../Comments/Comments.component';
 
-function Footer(): React.JSX.Element {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { selectedSentiment, setSelectedAnnotation } = useCaseContext();
+type Props = {
+  annotations: TAnnotation[];
+};
 
-  const annotations = useMemo(
-    () => selectedSentiment?.annotations ?? [],
-    [selectedSentiment],
-  );
+function Footer({ annotations = [] }: Props) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { isLoading, currentAnnotationIdx, setCurrentAnnotationIdx } =
+    useCaseContext();
 
   const sliderSettings = {
     dots: false,
@@ -41,10 +44,25 @@ function Footer(): React.JSX.Element {
 
   const onHandleSliderChange = useCallback(
     (current: number): void => {
-      setSelectedAnnotation(annotations[current] ?? 0);
+      console.log('============== current Annotation #: ', current);
+      setCurrentAnnotationIdx(current ?? 0);
     },
-    [annotations, setSelectedAnnotation],
+    [setCurrentAnnotationIdx],
   );
+
+  const comments: TComment[] = useMemo(
+    () => annotations?.[currentAnnotationIdx]?.comments ?? [],
+    [annotations, currentAnnotationIdx],
+  );
+
+  if (isLoading) {
+    return (
+      <LoaderWrapper>
+        <Title>Case Annotations</Title>
+        <FancyLoader size={10} />
+      </LoaderWrapper>
+    );
+  }
 
   if (!annotations.length) {
     return (
@@ -87,7 +105,7 @@ function Footer(): React.JSX.Element {
           onAfterChange={onHandleSliderChange}
         />
         <CommentsWrapper>
-          <Comments />
+          <Comments comments={comments ?? []} />
         </CommentsWrapper>
       </CollapsibleBody>
     </Collapsible>

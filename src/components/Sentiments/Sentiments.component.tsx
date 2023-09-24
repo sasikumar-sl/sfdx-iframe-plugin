@@ -1,20 +1,21 @@
 import React, { useCallback } from 'react';
 
+import { FancyLoader } from '@supportlogic/frontend-library';
 import PlaceHolder from '../PlaceHolder/PlaceHolder.components';
 
-import { TSentiment } from './Sentiments.types';
 import useCaseContext from '../../reactCustomHooks/useCaseContext';
 
 import Sliders from '../Slider/Slider.component';
-import { generateUniqKey } from '../../common';
+import { TSentiment, generateUniqKey } from '../../common';
 import SentimentCard from './components/SentimentCard/SentimentCard.component';
 
 import {
-  SentimentsContainer,
-  Scorers,
-  ScoreCardsWrapper,
-  SentimentSlide,
   Title,
+  Scorers,
+  LoaderWrapper,
+  SentimentSlide,
+  ScoreCardsWrapper,
+  SentimentsContainer,
 } from './Sentiments.styles';
 import Score from './components/Score/Score.component';
 
@@ -30,8 +31,8 @@ function Sentiments({
   sentimentScore,
   attentionScore,
   sentiments = [],
-}: Props): React.JSX.Element {
-  const { setSelectedSentiment } = useCaseContext();
+}: Props) {
+  const { isLoading, setCurrentSentimentIdx } = useCaseContext();
 
   const sliderSettings = {
     dots: true,
@@ -45,10 +46,11 @@ function Sentiments({
   };
 
   const onHandleSliderChange = useCallback(
-    (current: number): void => {
-      setSelectedSentiment(sentiments[current] ?? 0);
+    (current = 0): void => {
+      console.log('============== current sentiment #: ', current);
+      setCurrentSentimentIdx(current);
     },
-    [sentiments, setSelectedSentiment],
+    [setCurrentSentimentIdx],
   );
 
   const renderer = (sentiment: TSentiment, index: number) => (
@@ -63,6 +65,14 @@ function Sentiments({
       />
     </SentimentSlide>
   );
+
+  if (isLoading) {
+    return (
+      <LoaderWrapper>
+        <FancyLoader size={30} />
+      </LoaderWrapper>
+    );
+  }
 
   return (
     <SentimentsContainer>

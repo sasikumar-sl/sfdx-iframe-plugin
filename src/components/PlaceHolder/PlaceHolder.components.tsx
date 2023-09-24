@@ -5,7 +5,7 @@ import {
   StylesTalkingBubblesIcon,
 } from './Placeholder.styles';
 
-function PlaceHolder(): React.JSX.Element {
+function PlaceHolder() {
   return (
     <PlaceHolderWrapper>
       <Title>No Sentiments Detected</Title>

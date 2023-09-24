@@ -14,7 +14,7 @@ type Props = {
   comment?: any;
 };
 
-function Comment({ comment }: Props): React.JSX.Element {
+function Comment({ comment }: Props) {
   const timestamp = new Date(comment?.created_at).getTime();
 
   return (

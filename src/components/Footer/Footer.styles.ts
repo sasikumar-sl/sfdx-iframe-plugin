@@ -3,26 +3,38 @@ import styled from 'styled-components';
 import { ReactComponent as DoubleDownIcon } from '../../icons/chevron-double-down.svg';
 import { ReactComponent as DoubleUpIcon } from '../../icons/chevron-double-up.svg';
 
-export const FooterContainer = styled.section`
-  height: 40px;
-  flex-shrink: 0;
+const Border = styled.section`
+  display: flex;
+  align-items: center;
+
   border: 1px solid #d7d7d7;
   background: #fff;
   padding: 0 12px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 `;
 
-export const Label = styled.div`
+export const LoaderWrapper = styled(Border)`
+  justify-content: center;
+  width: 100%;
+  min-height: 40px;
+  gap: 10px;
+`;
+
+export const FooterContainer = styled(Border)`
+  justify-content: space-between;
+  height: 40px;
+  flex-shrink: 0;
+`;
+
+export const Title = styled.div`
   color: #4a4a4a;
   font-family: Avenir;
   font-size: 13px;
   font-style: normal;
   font-weight: 800;
   line-height: normal;
+`;
 
+export const Label = styled(Title)`
   flex-grow: 1;
   text-align: center;
 `;

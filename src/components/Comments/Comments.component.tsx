@@ -1,21 +1,19 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
-import useCaseContext from '../../reactCustomHooks/useCaseContext';
+// import useCaseContext from '../../reactCustomHooks/useCaseContext';
 import Sliders from '../Slider/Slider.component';
 
-import { generateUniqKey } from '../../common/helpers/utils/IdGenerater';
+import { generateUniqKey, TComment } from '../../common';
 import Comment from './Comment/Comment.component';
 
 import { Wrapper, CommentSlide } from './Comments.styes';
-import { TComment } from './Comments.types';
 
-function Comments(): React.JSX.Element {
-  const { selectedAnnotation } = useCaseContext();
+type Props = {
+  comments: TComment[];
+};
 
-  const comments = useMemo(
-    () => selectedAnnotation?.comments ?? [],
-    [selectedAnnotation],
-  );
+function Comments({ comments = [] }: Props) {
+  console.log('================ comments: ', comments);
 
   const sliderSettings = {
     dots: false,

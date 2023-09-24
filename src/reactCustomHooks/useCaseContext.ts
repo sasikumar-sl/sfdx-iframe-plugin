@@ -1,21 +1,23 @@
 import { useContext, createContext, Dispatch, SetStateAction } from 'react';
 import noop from 'lodash/noop';
-import { TAnnotation } from 'components/AnnotationCard/Annotation.types';
-import { TSentiment } from 'components/Sentiments/Sentiments.types';
 
-export interface ICaseContext {
-  selectedSentiment: TSentiment | null;
-  setSelectedSentiment: Dispatch<SetStateAction<TSentiment | null>>;
-  selectedAnnotation: TAnnotation | null;
-  setSelectedAnnotation: Dispatch<SetStateAction<TAnnotation | null>>;
+export type TCaseContext = {
+  isLoading: boolean;
+  currentSentimentIdx: number;
+  setCurrentSentimentIdx: Dispatch<SetStateAction<number>>;
+
+  currentAnnotationIdx: number;
+  setCurrentAnnotationIdx: Dispatch<SetStateAction<number>>;
 }
 
-export const CaseContext = createContext<ICaseContext>({
-  selectedSentiment: null,
-  setSelectedSentiment: noop,
+export const CaseContext = createContext<TCaseContext>({
+  isLoading: false,
 
-  selectedAnnotation: null,
-  setSelectedAnnotation: noop,
+  currentSentimentIdx: 0,
+  setCurrentSentimentIdx: noop,
+
+  currentAnnotationIdx: 0,
+  setCurrentAnnotationIdx: noop,
 });
 
 function useCaseContext() {

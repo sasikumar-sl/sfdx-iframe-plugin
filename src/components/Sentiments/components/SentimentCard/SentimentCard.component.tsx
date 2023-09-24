@@ -7,7 +7,6 @@ import {
   getSignalLabelStyles,
   formatLabels,
 } from '../../../../common/helpers/sentiments/sentimentsHelper';
-import { TSentiment } from '../../Sentiments.types';
 
 import {
   Card,
@@ -19,6 +18,7 @@ import {
   SignalFooterText,
   SignalTextContainer,
 } from './SentimentCard.styles';
+import { TSentiment } from '../../../../common';
 
 type Props = {
   isBlured: boolean;
@@ -26,11 +26,7 @@ type Props = {
   tooltipStyles?: CSSProperties;
 };
 
-function SentimentCard({
-  sentiment,
-  tooltipStyles,
-  isBlured,
-}: Props): React.JSX.Element {
+function SentimentCard({ sentiment, tooltipStyles, isBlured }: Props) {
   const labels = formatLabels(sentiment.labels);
   const timestamp = new Date(sentiment.created_at).getTime();
 

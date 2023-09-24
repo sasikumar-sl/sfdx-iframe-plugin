@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { TAnnotation } from './Annotation.types';
 import { Card, Annatation } from './AnnotationCard.styles';
+import { TAnnotation } from '../../common';
 
 type Props = {
   annotation: TAnnotation;
 };
 
-function AnnotationCard({ annotation }: Props): React.JSX.Element {
+function AnnotationCard({ annotation }: Props) {
   return (
     <Card>
       <Annatation>

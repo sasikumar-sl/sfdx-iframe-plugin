@@ -54,7 +54,7 @@ const ranges: TAttentionScoreRange[] = [
   },
 ];
 
-function AttentionScorePopover(): React.JSX.Element {
+function AttentionScorePopover() {
   return (
     <ScaleWrapper>
       {ranges.map((range, index) => (

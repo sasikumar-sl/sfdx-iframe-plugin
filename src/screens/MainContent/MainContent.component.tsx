@@ -1,37 +1,60 @@
 import React, { useMemo, useState } from 'react';
 
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { CaseContext } from '../../reactCustomHooks/useCaseContext';
 
 // import Tree from 'components/Tree/Tree.component';
 import Header from '../../components/Header/Header.component';
 import Footer from '../../components/Footer/Footer.component';
 import Sentiments from '../../components/Sentiments/Sentiments.component';
-import { TSentiment } from '../../components/Sentiments/Sentiments.types';
-import { TAnnotation } from '../../components/AnnotationCard/Annotation.types';
 
 import { MainContainer, Content } from './MainContent.styles';
-import MockData from './MockData';
+import { TAnnotation, TCase } from '../../common';
 
-const sentiments: TSentiment[] = MockData;
+import CaseMockData from './MockData';
 
-export function MainContent(): React.JSX.Element {
-  const sentiment: TSentiment = sentiments?.[0];
+function wait(duration = 1000) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, duration);
+  });
+}
 
-  const [selectedSentiment, setSelectedSentiment] = useState<TSentiment | null>(
-    sentiment ?? null,
-  );
-  const [selectedAnnotation, setSelectedAnnotation] =
-    useState<TAnnotation | null>(sentiment.annotations?.[0] ?? null);
+const placeholderData: TCase = {
+  sentimentScore: 0,
+  attentionScore: 0,
+  sentiments: [],
+};
+
+export function MainContent() {
+  const { isLoading, data }: UseQueryResult<TCase, Error> = useQuery<
+    TCase,
+    Error
+  >(['case'], () => wait(1000).then(() => CaseMockData), {
+    placeholderData,
+  });
+
+  const [currentSentimentIdx, setCurrentSentimentIdx] = useState(0);
+  const [currentAnnotationIdx, setCurrentAnnotationIdx] = useState(0);
 
   const contextValue = useMemo(
     () => ({
-      selectedSentiment,
-      setSelectedSentiment,
+      isLoading,
 
-      selectedAnnotation,
-      setSelectedAnnotation,
+      currentSentimentIdx,
+      setCurrentSentimentIdx,
+
+      currentAnnotationIdx,
+      setCurrentAnnotationIdx,
     }),
-    [selectedSentiment, selectedAnnotation],
+    [isLoading, currentSentimentIdx, currentAnnotationIdx],
+  );
+
+  const { sentimentScore, attentionScore, sentiments }: TCase =
+    data ?? placeholderData;
+  const annotations: TAnnotation[] = useMemo(
+    () => sentiments?.[currentSentimentIdx]?.annotations ?? [],
+    [sentiments, currentSentimentIdx],
   );
 
   return (
@@ -40,12 +63,12 @@ export function MainContent(): React.JSX.Element {
         <Header />
         <Content>
           <Sentiments
-            sentimentScore={35}
-            attentionScore={50}
-            sentiments={sentiments}
+            sentimentScore={sentimentScore}
+            attentionScore={attentionScore}
+            sentiments={sentiments ?? []}
           />
         </Content>
-        <Footer />
+        <Footer annotations={annotations} />
       </CaseContext.Provider>
     </MainContainer>
   );

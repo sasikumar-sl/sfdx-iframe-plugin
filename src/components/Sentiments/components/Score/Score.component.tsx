@@ -16,7 +16,7 @@ type Props = {
   value: number;
 };
 
-function Score({ type, value, label }: Props): React.JSX.Element {
+function Score({ type, value, label }: Props) {
   return (
     <ScoreWrapper>
       <StyledScore type={type} label={label} value={value} />

@@ -5,7 +5,7 @@ import { ReactComponent as OpenInNewTabIcon } from '../../icons/open-in-new-tab.
 
 import { HeaderContainer, LinkWrapper, Text } from './Header.styles';
 
-function Header(): React.JSX.Element {
+function Header() {
   return (
     <HeaderContainer>
       <SupportLogicIcon />

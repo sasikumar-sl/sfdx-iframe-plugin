@@ -2,7 +2,7 @@ import React from 'react';
 
 import { LoginContainer } from './Login.styles';
 
-function Login(): React.JSX.Element {
+function Login() {
   return <LoginContainer>Login</LoginContainer>;
 }
 

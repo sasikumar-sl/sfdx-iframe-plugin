@@ -1,15 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { QueryClientProvider } from '@tanstack/react-query';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import './index.css';
+import { queryClient } from './common';
 
 const root = ReactDOM.createRoot(
   document.getElementById('app-conatiner') as HTMLElement,
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
   </React.StrictMode>,
 );
 

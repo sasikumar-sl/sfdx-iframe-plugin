@@ -46,7 +46,7 @@ function Sliders({
     arrows: false,
     className: 'sliders',
   },
-}: Props): React.JSX.Element {
+}: Props) {
   const [slide, setSlide] = useState(0);
   const slider = useRef<any>();
   const sliderWrapper = useRef<any>();

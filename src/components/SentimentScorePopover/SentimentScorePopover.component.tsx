@@ -57,7 +57,7 @@ const ranges: TSentimentScoreRange[] = [
   },
 ];
 
-function SentimentsScorePopover(): React.JSX.Element {
+function SentimentsScorePopover() {
   return (
     <ScaleWrapper>
       {ranges.map((range, index) => (
