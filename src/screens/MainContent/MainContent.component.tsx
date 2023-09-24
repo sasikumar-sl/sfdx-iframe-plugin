@@ -31,10 +31,10 @@ export function MainContent() {
   const [currentSentimentIdx, setCurrentSentimentIdx] = useState(0);
   const [currentAnnotationIdx, setCurrentAnnotationIdx] = useState(0);
 
-  const handleSentimentChanges =(idx: number) => {
+  const handleSentimentChanges = (idx: number) => {
     setCurrentSentimentIdx(idx);
   };
-  const handleAnnotationChanges =(idx: number) => {
+  const handleAnnotationChanges = (idx: number) => {
     setCurrentAnnotationIdx(idx);
   };
 
