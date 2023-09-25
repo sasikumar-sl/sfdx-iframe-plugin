@@ -72,13 +72,10 @@ export const CollapsibleHeader = styled.div<TCollapsibleHeader>`
   align-items: center;
   justify-content: space-between;
 
-  border: 1px solid #d7d7d7;
-
-  ${({ noBorder }) =>
-    noBorder &&
-    `
-      border-bottom: none;
-    `};
+  border-top: 1px solid #d7d7d7;
+  border-left: 1px solid #d7d7d7;
+  border-right: 1px solid #d7d7d7;
+  border-bottom: ${(props) => (props?.noBorder ? 'none' : '1px solid #d7d7d7')};
 `;
 
 export const CollapsibleBody = styled.div`
@@ -87,7 +84,7 @@ export const CollapsibleBody = styled.div`
   width: 100%;
   border: 1px solid #d7d7d7;
   border-top: none;
-
+  background: #f8f8f8;
   position: relative;
 
   .annotations-slider {
