@@ -10,9 +10,7 @@ type Props = {
 function AnnotationCard({ annotation }: Props) {
   return (
     <Card>
-      <Annatation>
-        {annotation?.id} - {annotation?.text}
-      </Annatation>
+      <Annatation>{annotation?.text}</Annatation>
     </Card>
   );
 }
