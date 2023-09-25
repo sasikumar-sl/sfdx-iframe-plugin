@@ -1,16 +1,20 @@
-import React from "react";
+import React from 'react';
 
-import { Card, Annatation } from "./AnnotationCard.styles";
-import { AnnotationType } from "./Annotation.interface";
+import { Card, Annatation } from './AnnotationCard.styles';
+import { TAnnotation } from '../../common';
 
 type Props = {
-    annotation: AnnotationType;
+  annotation: TAnnotation;
 };
 
-const AnnotationCard: React.FC<Props> = ({ annotation }) => {
-    return <Card>
-        <Annatation>{annotation?.id} - {annotation?.text}</Annatation>
+function AnnotationCard({ annotation }: Props) {
+  return (
+    <Card>
+      <Annatation>
+        {annotation?.id} - {annotation?.text}
+      </Annatation>
     </Card>
-};
+  );
+}
 
 export default AnnotationCard;

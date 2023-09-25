@@ -1,57 +1,35 @@
-import styled from "styled-components";
-import { Score } from '@supportlogic/frontend-library';
+import styled from 'styled-components';
 
-import { ReactComponent as InfoIcon } from '../../icons/circled-information.svg'; 
-
+export const LoaderWrapper = styled.section`
+  width: 100%;
+  min-height: 262px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export const SentimentsContainer = styled.div`
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 `;
-
 
 export const Scorers = styled.div`
-    height: 62px;
-    width: 100%;
-    background: #fff;
-    display: inline-flex;
-    justify-content: center;
-    gap: 40px;
-`;
-
-export const ScoreWrapper = styled.div`
-    display: inline-flex;
-    padding: 4px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-`;
-
-export const StyledScore = styled(Score)`
-    gap: 8px !important;
-    color: #4A4A4A;
-    font-family: Avenir;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    div:nth-child(2) {
-    }
-`;
-
-export const StyledInfoIcon = styled(InfoIcon)`
-    width: 16px;
-    height: 16px;
-    margin-top: 3px;
+  height: 62px;
+  width: 100%;
+  background: #fff;
+  display: inline-flex;
+  justify-content: center;
+  gap: 40px;
 `;
 
 export const ScoreCardsWrapper = styled.div`
-    height: 190px;
-    background: #F8F8F8;
-    position: relative;
+  height: 200px;
+  background: #f8f8f8;
+  position: relative;
+  padding-top: 12px;
 `;
 
-export const Slide = styled.div`
+export const SentimentSlide = styled.div`
   position: relative;
 
   & + & {
@@ -67,21 +45,19 @@ export const Slide = styled.div`
     }
   }
 
-  &.sentiments-slide-wrapper {
+  &.sentiment-slide-wrapper {
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    margin-top: 6px;
   }
 `;
 
 export const Title = styled.div`
-  color: #4A4A4A;
+  color: #4a4a4a;
   font-family: Avenir;
   font-size: 13px;
   font-style: normal;
   font-weight: 800;
   line-height: normal;
   text-align: center;
-  padding: 6px 0 0;
 `;

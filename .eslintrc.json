@@ -1,0 +1,98 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": [
+    "react-app",
+    "react-app/jest",
+    "airbnb",
+    "airbnb-typescript",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "ignorePatterns": ["build/**"],
+  "rules": {
+    "react/jsx-uses-react": ["warn"],
+    "react/react-in-jsx-scope": ["off"],
+
+    "react/display-name": 1,
+    "react/destructuring-assignment": 0,
+    "react/sort-comp": "warn",
+    "react/jsx-indent": ["warn", 2],
+    "react/jsx-indent-props": ["warn", 2],
+    "react/jsx-boolean-value": "warn",
+    "react/jsx-filename-extension": "off",
+    "react/prefer-stateless-function": "off",
+    "react/jsx-props-no-spreading": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "space-infix-ops": "warn",
+    "no-return-assign": "warn",
+    "arrow-parens": "off",
+    "import/prefer-default-export": "off",
+    "arrow-body-style": "warn",
+    "no-mixed-operators": "warn",
+    "linebreak-style": 0,
+    "no-plusplus": "warn",
+    "indent": ["warn", 2, { "SwitchCase": 1 }],
+    "camelcase": "off",
+    "object-curly-spacing": "warn",
+    "no-const-assign": "warn",
+    "no-this-before-super": "warn",
+    "no-undef": "warn",
+    "no-unreachable": "warn",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "constructor-super": "warn",
+    "valid-typeof": "warn",
+    "max-len": ["warn", { "code": 120 }],
+    "no-confusing-arrow": "off",
+    "no-use-before-define": "off",
+    "react/jsx-key": "warn",
+
+    // ---- TYPESCRIPT ----
+    // added to allow enums
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "warn",
+
+    // ---- OVERRRIDES ---
+
+    // Confirmed
+    "comma-dangle": [2, "always-multiline"],
+    "react/prop-types": "off",
+    "semi": ["error", "always"],
+    "quotes": ["error", "single", { "avoidEscape": true }],
+    "jsx-quotes": ["error", "prefer-double"],
+
+    // Not confirmed
+    "import/no-unresolved": "off", // breaks relative imports
+    "import/no-relative-packages": "off",
+    "react/function-component-definition": "off",
+    "import/extensions": "off",
+    "react/require-default-props": "off",
+    "react/jsx-no-constructed-context-values": "off",
+    "react/no-array-index-key": "warn",
+    "no-restricted-globals": "warn",
+    "react/no-unescaped-entities": "warn",
+    "react/jsx-no-bind": "warn",
+
+    "prettier/prettier": [
+      "warn",
+      {
+        "singleQuote": true // Turn off single quotes for string literals
+      }
+    ]
+  }
+}

@@ -1,30 +1,42 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { ReactComponent as DoubleDownIcon} from '../../icons/chevron-double-down.svg'; 
-import { ReactComponent as DoubleUpIcon} from '../../icons/chevron-double-up.svg';
+import { ReactComponent as DoubleDownIcon } from '../../icons/chevron-double-down.svg';
+import { ReactComponent as DoubleUpIcon } from '../../icons/chevron-double-up.svg';
 
-export const FooterContainer = styled.section`
-    height: 40px;
-    flex-shrink: 0;
-    border: 1px solid #D7D7D7;
-    background: #FFF;
-    padding: 0 12px;
+const Border = styled.section`
+  display: flex;
+  align-items: center;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  border: 1px solid #d7d7d7;
+  background: #fff;
+  padding: 0 12px;
 `;
 
-export const Label = styled.div`
-    color: #4A4A4A;
-    font-family: Avenir;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 800;
-    line-height: normal;
+export const LoaderWrapper = styled(Border)`
+  justify-content: center;
+  width: 100%;
+  min-height: 40px;
+  gap: 10px;
+`;
 
-    flex-grow: 1;
-    text-align: center; 
+export const FooterContainer = styled(Border)`
+  justify-content: space-between;
+  height: 40px;
+  flex-shrink: 0;
+`;
+
+export const Title = styled.div`
+  color: #4a4a4a;
+  font-family: Avenir;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+`;
+
+export const Label = styled(Title)`
+  flex-grow: 1;
+  text-align: center;
 `;
 
 export const IconWrapper = styled.span`
@@ -32,7 +44,7 @@ export const IconWrapper = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s ease;;
+  transition: transform 0.3s ease;
   cursor: pointer;
   border-radius: 100%;
 
@@ -42,46 +54,48 @@ export const IconWrapper = styled.span`
   }
 `;
 
-export const StyledDoubleDownIcon = styled(DoubleDownIcon)`
-`;
+export const StyledDoubleDownIcon = styled(DoubleDownIcon)``;
 
-export const StyledDoubleUpIcon = styled(DoubleUpIcon)`
-`;
+export const StyledDoubleUpIcon = styled(DoubleUpIcon)``;
 
-type CollapsibleHeaderType = {
+type TCollapsibleHeader = {
   noBorder?: boolean;
 };
-export const CollapsibleHeader = styled.div<CollapsibleHeaderType>`
-    height: 40px;
-    flex-shrink: 0;
-    background: #FFF;
-    padding: 0 12px;
-    
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 
-    border: 1px solid #D7D7D7;
+export const CollapsibleHeader = styled.div<TCollapsibleHeader>`
+  height: 40px;
+  flex-shrink: 0;
+  background: #fff;
+  padding: 0 12px;
 
-    ${({ noBorder }) => noBorder && `
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border: 1px solid #d7d7d7;
+
+  ${({ noBorder }) =>
+    noBorder &&
+    `
       border-bottom: none;
     `};
 `;
 
 export const CollapsibleBody = styled.div`
-  height: 249px;
+  padding-top: 10px;
+  height: 270px;
   width: 100%;
-  border: 1px solid #D7D7D7;
+  border: 1px solid #d7d7d7;
   border-top: none;
 
   position: relative;
 
   .annotations-slider {
-    margin-top: 10px;
+    /* margin-top: 10px; */
   }
 `;
 
-export const Slide = styled.div`
+export const AnnotationSlide = styled.div`
   position: relative;
 
   & + & {
@@ -101,6 +115,16 @@ export const Slide = styled.div`
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    margin-top: 6px;
+    /* margin-top: 6px; */
   }
+`;
+
+export const CommentsWrapper = styled.div`
+  height: 140px;
+  width: 100%;
+  border: 1px solid #d7d7d7;
+  background: #fff;
+
+  position: absolute;
+  bottom: 0;
 `;

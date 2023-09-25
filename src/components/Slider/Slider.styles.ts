@@ -1,16 +1,16 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-import { ReactComponent as ArrowRightIcon } from '../../icons/arrow-right.svg'; 
-import { ReactComponent as ArrowLeftIcon } from '../../icons/arrow-left.svg'; 
+import { THeight, TWrapper, TPagintion } from './Slider.types';
 
-
-export type paginationPostion = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
-
-type WrapperType = {
-  numberOfSlides?: number;
+const getHeight = (height: THeight = 131): string => {
+  if (typeof height === 'number') return `height: ${height}px;`;
+  return `height: ${height};`;
 };
 
-export const Wrapper = styled.div<WrapperType>`
+const getMarginTop = (value: boolean): any =>
+  value ? 'margin-top: 10px;' : null;
+
+export const Wrapper = styled.div<TWrapper>`
   position: relative;
 
   .slick-track {
@@ -21,66 +21,54 @@ export const Wrapper = styled.div<WrapperType>`
 
   .slick-dots-custom {
     & li {
-      margin: 0 2px;
-      
+      margin: 0;
+
       & button::before {
         font-size: 10px;
-        color: #CDCDCD;
+        color: #cdcdcd;
       }
-      
+
       &.slick-active button::before {
-        color: #9B9B9B;
+        color: #9b9b9b;
       }
     }
   }
 
   .slick-slide {
-    ${({ numberOfSlides }) =>
-      numberOfSlides === 1 &&
-      css`
-        &:first-child {
-          /* width: 349px !important; */
-        }
-
-        &:last-child {
-          /* width: 100% !important; */
-        }
-      `}
+    ${({ hasPagination = false }) => getMarginTop(hasPagination)}
 
     & > div,
     & > div > div {
-      height: 131px;
+      ${({ height }) => getHeight(height)}
     }
-
   }
 `;
 
-type PagintionType = {
-  position?: paginationPostion;
-}
-export const Pagination = styled.div<PagintionType>`
+export const Pagination = styled.div<TPagintion>`
   display: flex;
   align-items: center;
   position: absolute;
   height: 24px;
   padding: 0 6px;
 
-  background: #fafafa;
+  background: #e6e6e6;
   box-shadow: 0px 0px 4px #bebebe;
   border-radius: 12px;
 
-  ${({ position = 'top-right'}) => {
+  ${({ position = 'top-right' }) => {
     if (position === 'top-left') {
       return `
         top: 0;
         left: 21%;
       `;
-    } else if (position === 'bottom-right') {
+    }
+    if (position === 'bottom-right') {
       return `
         bottom: 0;
         right: 21%;
       `;
-    } else if (position === 'bottom-left') {
+    }
+    if (position === 'bottom-left') {
       return `
         bottom: 0;
         left: 21%;
@@ -104,16 +92,13 @@ export const PaginationText = styled.div`
 `;
 
 export const PaginationButton = styled.span`
-  background: #ffffff;
+  background: #e6e6e6;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.3s ease;
   cursor: pointer;
   border-radius: 100%;
-  /* border: 1px solid #e1e1e1; */
-  // width: 25px;
-  // height: 25px;
 
   &:hover {
     background: #e7f8fe;
@@ -127,5 +112,49 @@ export const PaginationButton = styled.span`
   }
 `;
 
-export const StyledArrowRightIcon = styled(ArrowRightIcon)``;
-export const StyledArrowLeftIcon = styled(ArrowLeftIcon)``;
+const arrowStyles = `
+    top: 50%;
+    z-index: 2;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    position: absolute;
+    border-radius: 100%;
+    transform: translateY(-50%);
+    background: rgb(255, 255, 255);
+    transition: background-color 0.3s;
+
+    /* Floating buttons shadow */
+    box-shadow: 0px 3px 10px 0px rgba(151, 151, 151, 0.30);
+
+    &:hover {
+      background-color: rgb(231, 248, 254);
+    }
+
+    & > path {
+      fill: #4a4a4a;
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+      & > path {
+        fill: #9b9b9b;
+      }
+    }
+
+`;
+
+export const ArrowsWrapper = styled.div`
+  svg {
+    &#pre-arrow {
+      ${arrowStyles}
+      left: 10%;
+    }
+
+    &#next-arrow {
+      ${arrowStyles}
+      right: 10%;
+    }
+  }
+`;

@@ -1,4 +1,9 @@
 import styled from 'styled-components';
+import {
+  TRangeBall,
+  TLabel,
+  TLinkingLine,
+} from './AnnotationScorePopover.types';
 
 export const ScaleWrapper = styled.div`
   max-width: 445px;
@@ -15,12 +20,7 @@ export const RangeWrapper = styled.div`
   align-items: center;
 `;
 
-type RangeBallType = {
-  isActive?: boolean;
-  background: string;
-};
-
-export const RangeBall = styled.div<RangeBallType>`
+export const RangeBall = styled.div<TRangeBall>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -40,22 +40,13 @@ export const RangeBall = styled.div<RangeBallType>`
   }
 `;
 
-type LinkingLineType = {
-  from: string;
-  to: string;
-};
-
-export const LinkingLine = styled.div<LinkingLineType>`
+export const LinkingLine = styled.div<TLinkingLine>`
   height: 5px;
   width: 1.3vw;
   background: linear-gradient(90deg, ${({ from }) => from}, ${({ to }) => to});
 `;
 
-type LabelType = {
-  isActive?: boolean;
-};
-
-export const Label = styled.div<LabelType>`
+export const Label = styled.div<TLabel>`
   color: ${({ theme }) => theme.colors.primaryBaseGray};
   text-align: center;
   font-size: 12px;
@@ -67,7 +58,7 @@ export const Label = styled.div<LabelType>`
     display: block;
   }
 
-  color: #4A4A4A;
+  color: #4a4a4a;
   font-family: Avenir;
   font-style: normal;
   font-weight: 300;

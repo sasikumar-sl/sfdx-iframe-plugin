@@ -1,16 +1,17 @@
-import React, { Component, ErrorInfo } from 'react';
+import React, { ErrorInfo } from 'react';
 
 interface Props {
   children: any;
   onError: (error: Error, errorInfo: ErrorInfo) => void;
 }
 
-export class ErrorBoundary extends Component<Props, {}> {
-    componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-        this.props.onError(error, errorInfo);
-    }
+export class ErrorBoundary extends React.Component<Props, {}> {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    // eslint-disable-next-line react/destructuring-assignment
+    this.props.onError(error, errorInfo);
+  }
 
-    render() {
-        return (this.props as Props).children;
-    }
+  render() {
+    return (this.props as Props).children;
+  }
 }

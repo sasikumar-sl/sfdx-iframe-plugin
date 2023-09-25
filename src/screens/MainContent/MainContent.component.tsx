@@ -1,41 +1,84 @@
 import React, { useMemo, useState } from 'react';
 
-// import Tree from '../../components/Tree/Tree.component';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { CaseContext } from '../../reactCustomHooks/useCaseContext';
+
+// import Tree from 'components/Tree/Tree.component';
 import Header from '../../components/Header/Header.component';
 import Footer from '../../components/Footer/Footer.component';
 import Sentiments from '../../components/Sentiments/Sentiments.component';
-import { SentimentType } from '../../components/Sentiments/Sentiments.interface';
-import { CaseContext } from '../../reactCustomHooks/useCaseContext';
 
 import { MainContainer, Content } from './MainContent.styles';
-import MockData from './MockData';
+import { TAnnotation, TCaseDetails, wait } from '../../common';
 
-const sentiments: SentimentType[] = MockData;
+import CaseMockData from './MockData';
 
-type Props = {};
-
-export const MainContent: React.FC<Props> = () =>  {
-
-const [selectedSentiment, setSelectedSentiment] = useState<SentimentType | null>(sentiments?.[0] ?? null);
-
-    const contextValue = useMemo(() => {
-        return {
-            selectedSentiment,
-            setSelectedSentiment,
-        }
-    }, [selectedSentiment]);
-
-    return (
-        <MainContainer>
-            <CaseContext.Provider value={contextValue}>
-                <Header/>
-                <Content>
-                    <Sentiments sentimentScore={35} attentionScore={50} sentiments={sentiments} />
-                </Content>
-                <Footer />
-            </CaseContext.Provider>
-        </MainContainer>
-        );
+const placeholderData: TCaseDetails = {
+  sentimentScore: 0,
+  attentionScore: 0,
+  sentiments: [],
 };
 
+export function MainContent() {
+  const { isLoading, data }: UseQueryResult<TCaseDetails, Error> = useQuery<
+    TCaseDetails,
+    Error
+  >(['case'], () => wait(1000).then(() => CaseMockData));
 
+  const [currentSentimentIdx, setCurrentSentimentIdx] = useState(0);
+  const [currentAnnotationIdx, setCurrentAnnotationIdx] = useState(0);
+
+  const handleSentimentChanges = (idx: number) => {
+    setCurrentSentimentIdx(idx);
+  };
+  const handleAnnotationChanges = (idx: number) => {
+    setCurrentAnnotationIdx(idx);
+  };
+
+  const contextValue = useMemo(
+    () => ({
+      isLoading,
+
+      currentSentimentIdx,
+      handleSentimentChanges,
+
+      currentAnnotationIdx,
+      handleAnnotationChanges,
+    }),
+    [isLoading, currentSentimentIdx, currentAnnotationIdx],
+  );
+
+  const { sentimentScore, attentionScore, sentiments }: TCaseDetails =
+    data ?? placeholderData;
+
+  const annotations: TAnnotation[] = useMemo(
+    () => sentiments?.[currentSentimentIdx]?.annotations ?? [],
+    [sentiments, currentSentimentIdx],
+  );
+
+  const collapsibleId = useMemo(
+    () => sentiments[currentSentimentIdx ?? 0]?.id,
+    [sentiments, currentSentimentIdx],
+  );
+
+  return (
+    <MainContainer>
+      <CaseContext.Provider value={contextValue}>
+        <Header />
+        <Content>
+          <Sentiments
+            sentimentScore={sentimentScore}
+            attentionScore={attentionScore}
+            sentiments={sentiments ?? []}
+          />
+        </Content>
+        <Footer
+          isOpen
+          annotations={annotations}
+          collapsibleId={collapsibleId}
+        />
+      </CaseContext.Provider>
+    </MainContainer>
+  );
+}
