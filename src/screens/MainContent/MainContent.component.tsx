@@ -24,9 +24,7 @@ export function MainContent() {
   const { isLoading, data }: UseQueryResult<TCaseDetails, Error> = useQuery<
     TCaseDetails,
     Error
-  >(['case'], () => wait(1000).then(() => CaseMockData), {
-    placeholderData,
-  });
+  >(['case'], () => wait(1000).then(() => CaseMockData));
 
   const [currentSentimentIdx, setCurrentSentimentIdx] = useState(0);
   const [currentAnnotationIdx, setCurrentAnnotationIdx] = useState(0);
