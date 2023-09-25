@@ -92,6 +92,7 @@ function Sentiments({
           <>
             <Title>Sentiments Detected</Title>
             <Sliders
+              id="sliders-wrapper-sentiments"
               height={125}
               showPagination
               items={sentiments}

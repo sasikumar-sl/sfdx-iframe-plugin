@@ -24,10 +24,11 @@ import Comments from '../Comments/Comments.component';
 
 type Props = {
   annotations: TAnnotation[];
+  isOpen?: boolean;
 };
 
-function Footer({ annotations = [] }: Props) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+function Footer({ annotations = [], isOpen = false }: Props) {
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(isOpen);
   const { isLoading, currentAnnotationIdx, handleAnnotationChanges } =
     useCaseContext();
 
@@ -79,16 +80,16 @@ function Footer({ annotations = [] }: Props) {
       <AnnotationCard annotation={annotation} />
     </AnnotationSlide>
   );
-  const icon = isOpen ? <StyledDoubleUpIcon /> : <StyledDoubleDownIcon />;
+  const icon = isCollapsed ? <StyledDoubleUpIcon /> : <StyledDoubleDownIcon />;
 
   return (
     <Collapsible
       key={generateUniqKey()}
       openedClassName="collapse-open"
-      open={isOpen}
-      handleTriggerClick={() => setIsOpen((val) => !val)}
+      open={isCollapsed}
+      handleTriggerClick={() => setIsCollapsed((val) => !val)}
       trigger={
-        <CollapsibleHeader noBorder={isOpen}>
+        <CollapsibleHeader noBorder={isCollapsed}>
           <Label>Case Annotations</Label>
           <IconWrapper>{icon}</IconWrapper>
         </CollapsibleHeader>
@@ -96,6 +97,7 @@ function Footer({ annotations = [] }: Props) {
     >
       <CollapsibleBody>
         <Sliders
+          id="sliders-wrapper-annotations"
           height={124}
           showPagination
           renderer={renderer}

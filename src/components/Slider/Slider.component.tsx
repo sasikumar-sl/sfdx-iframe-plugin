@@ -6,6 +6,7 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import { ReactComponent as ArrowRightIcon } from '../../icons/arrow-right.svg';
 import { ReactComponent as ArrowLeftIcon } from '../../icons/arrow-left.svg';
+import { generateUniqKey } from '../../common';
 
 import { TPaginationPostion } from './Slider.types';
 
@@ -18,6 +19,7 @@ import {
 } from './Slider.styles';
 
 type Props = {
+  id?: string;
   items: any[];
   showArrows?: boolean;
   height?: string | number;
@@ -29,6 +31,7 @@ type Props = {
 };
 
 function Sliders({
+  id = `slider-${generateUniqKey()}`,
   items,
   height,
   renderer = () => <div />,
@@ -82,6 +85,7 @@ function Sliders({
 
   return (
     <Wrapper
+      id={id}
       ref={sliderWrapper}
       numberOfSlides={items?.length ?? 0}
       height={height}

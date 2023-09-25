@@ -36,8 +36,9 @@ function Comments({ comments = [] }: Props) {
   return (
     <Wrapper>
       <Sliders
-        showArrows
+        id="sliders-wrapper-comments"
         height={140}
+        showArrows
         items={comments}
         renderer={renderer}
         sliderSettings={sliderSettings}

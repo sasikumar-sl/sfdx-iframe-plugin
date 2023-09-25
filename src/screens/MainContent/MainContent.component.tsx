@@ -69,7 +69,7 @@ export function MainContent() {
             sentiments={sentiments ?? []}
           />
         </Content>
-        <Footer annotations={annotations} />
+        <Footer isOpen annotations={annotations} />
       </CaseContext.Provider>
     </MainContainer>
   );
