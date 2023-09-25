@@ -84,7 +84,7 @@ export const CollapsibleBody = styled.div`
   width: 100%;
   border: 1px solid #d7d7d7;
   border-top: none;
-  background: #f8f8f8;
+  background: #ffffff;
   position: relative;
 
   .annotations-slider {
