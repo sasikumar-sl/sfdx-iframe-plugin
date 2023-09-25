@@ -1,5 +1,11 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { QueryClient } from '@tanstack/react-query';
+import { QueryClient, QueryCache } from '@tanstack/react-query';
+
+const queryCache = new QueryCache({
+  onError: (error) => {
+    console.log(error);
+  },
+});
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -11,4 +17,5 @@ export const queryClient = new QueryClient({
       refetchOnMount: false,
     },
   },
+  queryCache,
 });
