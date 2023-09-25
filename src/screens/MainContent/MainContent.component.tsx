@@ -51,8 +51,14 @@ export function MainContent() {
 
   const { sentimentScore, attentionScore, sentiments }: TCaseDetails =
     data ?? placeholderData;
+
   const annotations: TAnnotation[] = useMemo(
     () => sentiments?.[currentSentimentIdx]?.annotations ?? [],
+    [sentiments, currentSentimentIdx],
+  );
+
+  const collapsibleId = useMemo(
+    () => sentiments[currentSentimentIdx ?? 0]?.id,
     [sentiments, currentSentimentIdx],
   );
 
@@ -67,7 +73,11 @@ export function MainContent() {
             sentiments={sentiments ?? []}
           />
         </Content>
-        <Footer isOpen annotations={annotations} />
+        <Footer
+          isOpen
+          annotations={annotations}
+          collapsibleId={collapsibleId}
+        />
       </CaseContext.Provider>
     </MainContainer>
   );

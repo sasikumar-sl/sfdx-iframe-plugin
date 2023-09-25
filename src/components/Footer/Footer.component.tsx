@@ -25,9 +25,14 @@ import Comments from '../Comments/Comments.component';
 type Props = {
   annotations: TAnnotation[];
   isOpen?: boolean;
+  collapsibleId?: string;
 };
 
-function Footer({ annotations = [], isOpen = false }: Props) {
+function Footer({
+  annotations = [],
+  isOpen = false,
+  collapsibleId = generateUniqKey(),
+}: Props) {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(isOpen);
   const { isLoading, currentAnnotationIdx, handleAnnotationChanges } =
     useCaseContext();
@@ -84,7 +89,7 @@ function Footer({ annotations = [], isOpen = false }: Props) {
 
   return (
     <Collapsible
-      key={generateUniqKey()}
+      key={collapsibleId}
       openedClassName="collapse-open"
       open={isCollapsed}
       handleTriggerClick={() => setIsCollapsed((val) => !val)}
