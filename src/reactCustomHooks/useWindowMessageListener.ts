@@ -6,19 +6,17 @@ export function useWindowMessageListener<TReceivedData>() {
 
   useEffect(() => {
     const handler = (event: MessageEvent<TReceivedData & TMethodName>) => {
+      // eslint-disable-next-line no-console
+      console.log(
+        '############## <-- data from parent',
+        JSON.stringify(event?.data)
+      );
       if (typeof event.data !== 'object') return;
       if (!event.data?.methodName) return;
       setReceivedData((data) => ({
         ...data,
         [event?.data?.methodName ?? Date.now().toString()]: event?.data,
       }));
-      // eslint-disable-next-line no-console
-      console.log(
-        '############## <-- data from parent',
-        JSON.stringify(event?.data),
-        ' ########',
-        JSON.stringify(receivedData),
-      );
     };
 
     window.addEventListener('message', handler);
