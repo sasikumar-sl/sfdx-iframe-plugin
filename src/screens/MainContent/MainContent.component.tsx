@@ -12,7 +12,6 @@ import { MainContainer, Content } from './MainContent.styles';
 import { TAnnotation, TCaseDetails, wait } from '../../common';
 
 import CaseMockData from './MockData';
-import Tree from '../../components/Tree/Tree.component';
 
 const placeholderData: TCaseDetails = {
   sentimentScore: 0,
@@ -79,7 +78,6 @@ export function MainContent() {
           collapsibleId={collapsibleId}
         />
       </CaseContext.Provider>
-      <Tree />
     </MainContainer>
   );
 }
