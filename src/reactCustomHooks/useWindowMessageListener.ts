@@ -9,7 +9,7 @@ export function useWindowMessageListener<TReceivedData>() {
       // eslint-disable-next-line no-console
       console.log(
         '############## <-- data from parent',
-        JSON.stringify(event?.data)
+        JSON.stringify(event?.data),
       );
       if (typeof event.data !== 'object') return;
       if (!event.data?.methodName) return;
