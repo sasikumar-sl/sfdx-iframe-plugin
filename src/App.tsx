@@ -11,7 +11,10 @@ import { useWindowMessageListener } from './reactCustomHooks/useWindowMessageLis
 
 function App() {
   // Initiating the window message listener hook for get data from Parent
-  useWindowMessageListener<{ data: unknown }>();
+  const { receivedData } = useWindowMessageListener<{ data: unknown }>();
+
+  // eslint-disable-next-line no-console
+  console.log('################# Plugin APP: ', JSON.stringify(receivedData));
 
   const [isUserLoggedIn] = React.useState<boolean>(true);
 
