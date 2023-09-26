@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -6,19 +6,23 @@ import { AppContainer } from './App.styles';
 import { MainContent } from './screens/MainContent/MainContent.component';
 import Login from './screens/Login/Login.component';
 import ThemeProvider from './common/helpers/utils/ThemeProvider';
-import { ErrorBoundary } from './common';
+import { ErrorBoundary, TMethodName } from './common';
 import { useWindowMessageListener } from './reactCustomHooks/useWindowMessageListener';
-import { useWindowMessageSender } from './reactCustomHooks';
 
 function App() {
   // Initiating the window message listener hook for get data from Parent
   const { receivedData } = useWindowMessageListener<{ data: unknown }>();
-  const { handleSendClick } = useWindowMessageSender<{ data: unknown }>();
 
-  handleSendClick({
-    methodName: 'GET_SESSION_DETAILS',
-    data: 'Initiate API call to SF and get date',
-  });
+  const getCaseDetails = (payload: TMethodName & { data: unknown }): void =>
+    window.parent.postMessage(payload, '*');
+
+  useEffect(() => {
+    const payload = {
+      methodName: 'GET_SESSION_DETAILS',
+      data: 'Initiate API call to SF and get date',
+    };
+    getCaseDetails(payload);
+  }, []);
 
   // eslint-disable-next-line no-console
   console.log('################# Plugin APP: ', JSON.stringify(receivedData));

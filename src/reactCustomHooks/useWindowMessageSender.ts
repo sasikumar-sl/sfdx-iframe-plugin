@@ -20,7 +20,6 @@ export function useWindowMessageSender<TSenderData>() {
   };
 
   return {
-    sentData,
     handleSendClick,
   };
 }
