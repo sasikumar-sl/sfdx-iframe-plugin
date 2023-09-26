@@ -32,3 +32,8 @@ export type TCaseDetails = {
   attentionScore: number;
   sentiments: TSentiment[];
 };
+
+export type TMethodName = {
+  methodName: string;
+  [k: string]: unknown;
+};

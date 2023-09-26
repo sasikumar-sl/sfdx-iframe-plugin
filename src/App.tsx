@@ -7,14 +7,23 @@ import { MainContent } from './screens/MainContent/MainContent.component';
 import Login from './screens/Login/Login.component';
 import ThemeProvider from './common/helpers/utils/ThemeProvider';
 import { ErrorBoundary } from './common';
+import { useWindowMessageListener } from './reactCustomHooks/useWindowMessageListener';
 
 function App() {
+  // Initiating the window message listener hook for get data from Parent
+  useWindowMessageListener<{ data: unknown }>();
+
   const [isUserLoggedIn] = React.useState<boolean>(true);
 
   const component = isUserLoggedIn ? <MainContent /> : <Login />;
   return (
     <ThemeProvider>
-      <ErrorBoundary onError={(error) => console.log('On error: ', error)}>
+      <ErrorBoundary
+        onError={(error) => {
+          // eslint-disable-next-line no-console
+          console.log('On error: ', error);
+        }}
+      >
         <AppContainer>{component}</AppContainer>
         <ReactQueryDevtools initialIsOpen={false} />
       </ErrorBoundary>

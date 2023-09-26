@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { JSONTree } from 'react-json-tree';
 import { TreeContainer, InputWrapper } from './Tree.styles';
+import { useWindowMessageListener } from '../../reactCustomHooks/useWindowMessageListener';
+import { useWindowMessageSender } from '../../reactCustomHooks/useWindowMessageSender';
 
 const theme = {
   scheme: 'monokai',
@@ -23,44 +25,24 @@ const theme = {
   base0F: '#cc6633',
 };
 
-function Tree() {
-  const [inputValue, setInputValue] = useState('');
-  const [message, setMessage] = useState({});
+export default function Tree() {
+  const [value, setValue] = useState('');
   const inputRef = useRef(null);
 
-  const handleSendClick = () => {
-    // You can handle sending the input value here, for example, by logging it to the console.
-    console.log('Input Value:', inputValue);
+  const { receivedData } = useWindowMessageListener<{ data: unknown }>();
 
-    window.parent.postMessage(
-      {
-        methodName: 'button-click',
-        data: inputValue,
-      },
-      '*',
-    );
-    setInputValue('');
-  };
+  const { handleSendClick } = useWindowMessageSender<{
+    data: unknown;
+  }>();
 
-  useEffect(() => {
-    const handler = (
-      ev: MessageEvent<{ methodName: string; data: string }>,
-    ) => {
-      console.log('============ ev: ', ev.data);
-      if (typeof ev.data !== 'object') return;
-      if (!ev.data?.methodName) return;
-
-      setMessage((value) => ({
-        ...value,
-        [ev.data?.methodName]: ev.data?.data,
-      }));
+  const handleOnClick = () => {
+    const payload = {
+      methodName: 'button-click',
+      data: value,
     };
-
-    window.addEventListener('message', handler);
-
-    // Don't forget to remove addEventListener
-    return () => window.removeEventListener('message', handler);
-  }, []);
+    handleSendClick(payload);
+    setValue('');
+  };
 
   return (
     <TreeContainer>
@@ -68,17 +50,15 @@ function Tree() {
         <input
           type="text"
           placeholder="Type something..."
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
           ref={inputRef}
         />
-        <button type="button" onClick={handleSendClick}>
+        <button type="button" onClick={handleOnClick}>
           Send
         </button>
       </InputWrapper>
-      <JSONTree data={message} theme={theme} />
+      <JSONTree data={receivedData} theme={theme} />
     </TreeContainer>
   );
 }
-
-export default Tree;
