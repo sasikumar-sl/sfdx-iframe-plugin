@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 export const Card = styled.div`
   position: relative;
-  min-width: 339px;
-  width: 60%;
+  min-width: 280px;
+  width: 70%;
   height: 124px;
   background-repeat: no-repeat;
   background-size: cover;
@@ -19,12 +19,24 @@ export const Wrapper = styled.div``;
 
 export const SignalLabels = styled.div`
   display: flex;
-  flex-wrap: wrap;
   row-gap: 10px;
+  flex-wrap: wrap;
+
+  @media (max-width: 767px) {
+    overflow-x: auto;
+    width: 250px;
+    flex-wrap: nowrap;
+    overflow-y: hidden;
+  }
 
   span {
     padding: 0px 9px 0px 8px;
     line-height: 22px;
+
+    @media (max-width: 767px) {
+      height: 16px;
+      padding: 0 10px;
+    }
   }
 `;
 

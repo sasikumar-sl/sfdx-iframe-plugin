@@ -4,7 +4,7 @@ import React, { useMemo, useState } from 'react';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { CaseContext } from '../../reactCustomHooks/useCaseContext';
 
-// import Tree from 'components/Tree/Tree.component';
+import Tree from '../../components/Tree/Tree.component';
 import Header from '../../components/Header/Header.component';
 import Footer from '../../components/Footer/Footer.component';
 import Sentiments from '../../components/Sentiments/Sentiments.component';
@@ -79,6 +79,7 @@ export function MainContent() {
           collapsibleId={collapsibleId}
         />
       </CaseContext.Provider>
+      <Tree />
     </MainContainer>
   );
 }

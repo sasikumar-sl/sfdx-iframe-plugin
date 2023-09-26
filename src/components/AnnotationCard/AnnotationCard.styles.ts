@@ -3,8 +3,9 @@ import styled from 'styled-components';
 export const Card = styled.div`
   border-radius: 4px;
   background: #f7f7f7;
-  width: 60%;
+  width: 70%;
   height: 124px;
+  min-width: 280px;
 `;
 
 export const Annatation = styled.div`

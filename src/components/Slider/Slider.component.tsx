@@ -64,25 +64,6 @@ function Sliders({
 
   const MemoizedSlides = useMemo(() => items?.map(renderer), [items, renderer]);
 
-  const Arrows = useMemo(() => {
-    if (!(showArrows && items?.length)) return null;
-
-    return (
-      <ArrowsWrapper>
-        <ArrowLeftIcon
-          id="pre-arrow"
-          onClick={handlePrevBtnClick}
-          className={slide === 0 ? 'disabled' : ''}
-        />
-        <ArrowRightIcon
-          id="next-arrow"
-          onClick={handleNextBtnClick}
-          className={slide === items.length - 1 ? 'disabled' : ''}
-        />
-      </ArrowsWrapper>
-    );
-  }, [showArrows, items, slide, handlePrevBtnClick, handleNextBtnClick]);
-
   return (
     <Wrapper
       id={id}
@@ -91,7 +72,20 @@ function Sliders({
       height={height}
       hasPagination={showPagination}
     >
-      {Arrows}
+      {showArrows && items?.length ? (
+        <ArrowsWrapper>
+          <ArrowLeftIcon
+            id="pre-arrow"
+            onClick={handlePrevBtnClick}
+            className={slide === 0 ? 'disabled' : ''}
+          />
+          <ArrowRightIcon
+            id="next-arrow"
+            onClick={handleNextBtnClick}
+            className={slide === items.length - 1 ? 'disabled' : ''}
+          />
+        </ArrowsWrapper>
+      ) : null}
 
       <Slider
         ref={slider}
@@ -105,7 +99,7 @@ function Sliders({
         {MemoizedSlides}
       </Slider>
 
-      {showPagination && items?.length > 1 && (
+      {showPagination && items?.length > 1 ? (
         <Pagination className="pagination" position={paginationPosition}>
           {slide !== 0 && (
             <PaginationButton onClick={handlePrevBtnClick}>
@@ -122,7 +116,7 @@ function Sliders({
             </PaginationButton>
           )}
         </Pagination>
-      )}
+      ) : null}
     </Wrapper>
   );
 }
