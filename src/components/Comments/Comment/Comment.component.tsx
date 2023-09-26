@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatDistance } from 'date-fns';
+import { AgentAvatar } from '@supportlogic/frontend-library';
 
 import {
   Profile,
@@ -9,26 +10,39 @@ import {
   CommentHeader,
   CommentWrapper,
 } from './Comment.styles';
+import { TComment } from '@/common';
 
 type Props = {
-  comment?: any;
+  comment?: TComment;
 };
 
 function Comment({ comment }: Props) {
-  const timestamp = new Date(comment?.created_at).getTime();
+  const { name, text, isActive, profileUrl } = comment ?? {
+    name: '',
+    text: '',
+    created_at: '',
+    profileUrl: '',
+  };
+  const timestamp = new Date(comment?.created_at ?? '').getTime();
 
   return (
     <Container>
       <CommentWrapper>
         <CommentHeader>
           <Profile>
-            <span>{comment?.name}</span>
+            <AgentAvatar
+              agent={{ name }}
+              isActive={isActive}
+              avatarSize="24px"
+              photo={profileUrl}
+            />
+            <span>{name}</span>
           </Profile>
           <CommentedAt>
             {formatDistance(timestamp, Date.now(), { addSuffix: true })}
           </CommentedAt>
         </CommentHeader>
-        <CommentBody>{comment?.text}</CommentBody>
+        <CommentBody>{text}</CommentBody>
       </CommentWrapper>
     </Container>
   );

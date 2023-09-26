@@ -30,6 +30,8 @@ const commonFontStyles = `
 
 export const Profile = styled.div`
   flex: 1;
+  display: inline-flex;
+  align-items: center;
 
   & > span {
     color: #4a4a4a;

@@ -5,6 +5,9 @@ export type TComment = {
   id: string | number;
   text: string;
   created_at: TDate;
+  userId?: string;
+  profileUrl?: string;
+  isActive?: boolean;
 };
 
 export type TAnnotation = {
