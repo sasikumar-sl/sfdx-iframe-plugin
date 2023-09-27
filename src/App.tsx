@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -6,26 +6,39 @@ import { AppContainer } from './App.styles';
 import { MainContent } from './screens/MainContent/MainContent.component';
 import Login from './screens/Login/Login.component';
 import ThemeProvider from './common/helpers/utils/ThemeProvider';
-import { ErrorBoundary, TMethodName } from './common';
+import {
+  ErrorBoundary,
+  TData,
+  TGetUserCase,
+  TMethodName,
+  getTransformedUserCaseDetails,
+} from './common';
 import { useWindowMessageListener } from './reactCustomHooks/useWindowMessageListener';
 
 function App() {
   // Initiating the window message listener hook for get data from Parent
-  const { receivedData } = useWindowMessageListener<{ data: unknown }>();
+  const { receivedData } = useWindowMessageListener<TData, TGetUserCase>();
 
-  const getCaseDetails = (payload: TMethodName & { data: unknown }): void =>
+  const getCaseDetails = (payload: TMethodName & TData): void =>
     window.parent.postMessage(payload, '*');
 
   useEffect(() => {
-    const payload = {
+    getCaseDetails({
       methodName: 'GET_SESSION_DETAILS',
       data: 'Initiate API call to SF and get date',
-    };
-    getCaseDetails(payload);
-  }, []);
+    });
+  }, [receivedData]);
+
+  const userCaseDetails = useMemo(
+    () => getTransformedUserCaseDetails(receivedData),
+    [receivedData],
+  );
 
   // eslint-disable-next-line no-console
-  console.log('################# Plugin APP: ', JSON.stringify(receivedData));
+  console.log(
+    '################# Plugin APP userCaseDetails: ',
+    userCaseDetails,
+  );
 
   const [isUserLoggedIn] = React.useState<boolean>(true);
 

@@ -3,6 +3,7 @@ import { JSONTree } from 'react-json-tree';
 import { TreeContainer, InputWrapper } from './Tree.styles';
 import { useWindowMessageListener } from '../../reactCustomHooks/useWindowMessageListener';
 import { useWindowMessageSender } from '../../reactCustomHooks/useWindowMessageSender';
+import { TData } from '../../common';
 
 const theme = {
   scheme: 'monokai',
@@ -29,7 +30,7 @@ export default function Tree() {
   const [value, setValue] = useState('');
   const inputRef = useRef(null);
 
-  const { receivedData } = useWindowMessageListener<{ data: unknown }>();
+  const { receivedData } = useWindowMessageListener<TData, unknown>();
 
   const { handleSendClick } = useWindowMessageSender<{
     data: unknown;

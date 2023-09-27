@@ -37,3 +37,19 @@ export type TMethodName = {
   methodName: string;
   [k: string]: unknown;
 };
+
+export type TUserCaseDetails = {
+  userId: string;
+  userName: string;
+  caseId: string;
+  caseNumber: string;
+};
+
+export type TData = {
+  data: unknown;
+};
+
+export type TGetUserCase = {
+  user: [{ Id: string; Name: string; [k: string]: unknown }];
+  record: [{ Id: string; CaseNumber: string; [k: string]: unknown }];
+};
