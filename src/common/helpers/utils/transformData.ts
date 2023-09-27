@@ -8,23 +8,28 @@ const defaultValue: TUserCaseDetails = {
 };
 
 export function getTransformedUserCaseDetails(item: any): TUserCaseDetails {
+  if (!item) return defaultValue;
   // eslint-disable-next-line no-console
   console.log('============== plugin tansform: ', typeof item?.user);
   if (typeof item?.user === 'string') {
     const str = item?.user?.replaceAll(/\\/g, '');
-    console.log('========== plugin String: ', str, JSON.parse(str));
+
+  // eslint-disable-next-line no-console
+    console.log('========== plugin String: ', str, JSON.parse(str).Id);
   }
-  if (!item) return defaultValue;
-  // const { user, record } = details as TGetUserCase;
-  return defaultValue;
+  const { user, record } = item as TGetUserCase;
 
-  // const [userDetails] = typeof user === 'string' ? JSON.parse(user) : user;
-  // const [etails] = typeof user === 'string' ? JSON.parse(user) : user;
+  const [userDetails] =
+    typeof user === 'string' ? JSON.parse(user?.replaceAll(/\\/g, '')) : user;
+  const [caseDetails] =
+    typeof record === 'string'
+      ? JSON.parse(record?.replaceAll(/\\/g, ''))
+      : record;
 
-  // return {
-  //   userId: user?.[0]?.Id ?? initialValue.userId,
-  //   userName: user?[0]?.Name ?? initialValue.userName,
-  //   caseId: record?.[0]?.Id ?? initialValue.caseId,
-  //   caseNumber: record?.[0]?.CaseNumber ?? initialValue.caseNumber,
-  // };
+  return {
+    userId: userDetails?.Id ?? defaultValue.userId,
+    userName: userDetails?.Name ?? defaultValue.userName,
+    caseId: caseDetails?.Id ?? defaultValue.caseId,
+    caseNumber: caseDetails?.CaseNumber ?? defaultValue.caseNumber,
+  };
 }
