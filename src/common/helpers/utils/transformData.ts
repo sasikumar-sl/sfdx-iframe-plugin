@@ -7,9 +7,7 @@ const defaultValue: TUserCaseDetails = {
   caseNumber: '',
 };
 
-export function getTransformedUserCaseDetails(
-  item: unknown,
-): TUserCaseDetails {
+export function getTransformedUserCaseDetails(item: unknown): TUserCaseDetails {
   // eslint-disable-next-line no-console
   console.log('============== plugin tansform: ', item);
   if (!item) return defaultValue;
