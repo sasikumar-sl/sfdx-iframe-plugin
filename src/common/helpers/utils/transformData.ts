@@ -11,7 +11,7 @@ export function getTransformedUserCaseDetails(item: any): TUserCaseDetails {
   // eslint-disable-next-line no-console
   console.log('============== plugin tansform: ', typeof item?.user);
   if (typeof item?.user === 'string') {
-    const str = item?.user?.replaceaAll(/\\/g, '');
+    const str = item?.user?.replaceAll(/\\/g, '');
     console.log('========== plugin String: ', str, JSON.parse(str));
   }
   if (!item) return defaultValue;
