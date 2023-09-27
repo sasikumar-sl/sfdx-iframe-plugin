@@ -8,11 +8,11 @@ const defaultValue: TUserCaseDetails = {
 };
 
 export function getTransformedUserCaseDetails(
-  details: unknown,
+  item: unknown,
 ): TUserCaseDetails {
   // eslint-disable-next-line no-console
-  console.log('============== plugin tansform: ', details);
-  if (!details) return defaultValue;
+  console.log('============== plugin tansform: ', item);
+  if (!item) return defaultValue;
   // const { user, record } = details as TGetUserCase;
   return defaultValue;
 
