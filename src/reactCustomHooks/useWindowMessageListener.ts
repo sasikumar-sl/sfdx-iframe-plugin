@@ -10,12 +10,6 @@ export function useWindowMessageListener<TReceivedData, TSetData>() {
       console.log('############## <-- data from parent triggered');
       if (typeof event.data !== 'object') return;
       if (!event.data?.methodName) return;
-      // eslint-disable-next-line no-console
-      console.log(
-        '############## <-- data from parent',
-        JSON.stringify(event?.data?.data),
-      );
-
       setReceivedData(event?.data?.data as TSetData);
     };
 

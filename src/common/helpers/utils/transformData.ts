@@ -7,9 +7,13 @@ const defaultValue: TUserCaseDetails = {
   caseNumber: '',
 };
 
-export function getTransformedUserCaseDetails(item: unknown): TUserCaseDetails {
+export function getTransformedUserCaseDetails(item: any): TUserCaseDetails {
   // eslint-disable-next-line no-console
-  console.log('============== plugin tansform: ', item);
+  console.log('============== plugin tansform: ', typeof item?.user);
+  if (typeof item?.user === 'string') {
+    const str = item?.user?.replaceaAll(/\\/g, '');
+    console.log('========== plugin String: ', str, JSON.parse(str));
+  }
   if (!item) return defaultValue;
   // const { user, record } = details as TGetUserCase;
   return defaultValue;
