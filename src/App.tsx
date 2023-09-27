@@ -28,7 +28,7 @@ function App() {
       methodName: 'GET_SESSION_DETAILS',
       data: 'Initiate API call to SF and get date',
     });
-  }, [receivedData]);
+  }, []);
 
   const userCaseDetails = useMemo(
     () => getTransformedUserCaseDetails(receivedData),
