@@ -15,6 +15,7 @@ export function useWindowMessageListener<TReceivedData, TSetData>() {
         '############## <-- data from parent',
         JSON.stringify(event?.data?.data),
       );
+
       setReceivedData(event?.data?.data as TSetData);
     };
 

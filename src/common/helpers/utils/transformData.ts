@@ -10,13 +10,18 @@ const initialValue: TUserCaseDetails = {
 export function getTransformedUserCaseDetails(
   details: unknown,
 ): TUserCaseDetails {
+  console.log('============== plugin tansform: ', details);
   if (!details) return initialValue;
-  const { user = null, record = null } = details as TGetUserCase;
+  const { user = '', record = '' } = details as TGetUserCase;
+
+  const [userDetails] = typeof user === 'string' ? JSON.parse(user) : user;
+  const [caseDetails] =
+    typeof record === 'string' ? JSON.parse(record) : record;
 
   return {
-    userId: user?.[0]?.Id ?? initialValue.userId,
-    userName: user?.[0]?.Name ?? initialValue.userName,
-    caseId: record?.[0]?.Id ?? initialValue.caseId,
-    caseNumber: record?.[0]?.CaseNumber ?? initialValue.caseNumber,
+    userId: userDetails?.Id ?? initialValue.userId,
+    userName: userDetails?.Name ?? initialValue.userName,
+    caseId: caseDetails?.Id ?? initialValue.caseId,
+    caseNumber: caseDetails?.CaseNumber ?? initialValue.caseNumber,
   };
 }

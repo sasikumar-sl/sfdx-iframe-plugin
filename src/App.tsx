@@ -14,6 +14,7 @@ import {
   getTransformedUserCaseDetails,
 } from './common';
 import { useWindowMessageListener } from './reactCustomHooks/useWindowMessageListener';
+import {} from './common/helpers/utils/transformData';
 
 function App() {
   // Initiating the window message listener hook for get data from Parent
@@ -27,7 +28,7 @@ function App() {
       methodName: 'GET_SESSION_DETAILS',
       data: 'Initiate API call to SF and get date',
     });
-  }, []);
+  }, [receivedData]);
 
   const userCaseDetails = useMemo(
     () => getTransformedUserCaseDetails(receivedData),

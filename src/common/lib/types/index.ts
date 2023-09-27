@@ -50,6 +50,6 @@ export type TData = {
 };
 
 export type TGetUserCase = {
-  user: [{ Id: string; Name: string; [k: string]: unknown }];
-  record: [{ Id: string; CaseNumber: string; [k: string]: unknown }];
+  user: [{ Id: string; Name: string; [k: string]: unknown }] | string;
+  record: [{ Id: string; CaseNumber: string; [k: string]: unknown }] | string;
 };
