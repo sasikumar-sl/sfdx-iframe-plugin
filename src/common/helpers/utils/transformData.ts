@@ -14,7 +14,7 @@ export function getTransformedUserCaseDetails(item: any): TUserCaseDetails {
   if (typeof item?.user === 'string') {
     const str = item?.user?.replaceAll(/\\/g, '');
 
-  // eslint-disable-next-line no-console
+    // eslint-disable-next-line no-console
     console.log('========== plugin String: ', str, JSON.parse(str).Id);
   }
   const { user, record } = item as TGetUserCase;
