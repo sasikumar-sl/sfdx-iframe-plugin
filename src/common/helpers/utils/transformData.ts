@@ -11,14 +11,7 @@ export function getTransformedUserCaseDetails(
   item: TGetUserCase,
 ): TUserCaseDetails {
   if (!item) return defaultValue;
-  // eslint-disable-next-line no-console
-  console.log('============== plugin tansform: ', typeof item?.user);
-  if (typeof item?.user === 'string') {
-    const str = item?.user?.replaceAll(/\\/g, '');
 
-    // eslint-disable-next-line no-console
-    console.log('========== plugin String: ', str, JSON.parse(str).Id);
-  }
   const userD =
     typeof item?.user === 'string'
       ? JSON.parse(item?.user?.replaceAll(/\\/g, ''))
