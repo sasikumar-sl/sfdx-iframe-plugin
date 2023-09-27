@@ -1,6 +1,6 @@
 import { TGetUserCase, TUserCaseDetails } from '../../lib/types';
 
-const initialValue: TUserCaseDetails = {
+const defaultValue: TUserCaseDetails = {
   userId: '',
   userName: '',
   caseId: '',
@@ -12,17 +12,17 @@ export function getTransformedUserCaseDetails(
 ): TUserCaseDetails {
   // eslint-disable-next-line no-console
   console.log('============== plugin tansform: ', details);
-  if (!details) return initialValue;
-  const { user = '', record = '' } = details as TGetUserCase;
+  if (!details) return defaultValue;
+  // const { user, record } = details as TGetUserCase;
+  return defaultValue;
 
-  const [userDetails] = typeof user === 'string' ? JSON.parse(user) : user;
-  const [caseDetails] =
-    typeof record === 'string' ? JSON.parse(record) : record;
+  // const [userDetails] = typeof user === 'string' ? JSON.parse(user) : user;
+  // const [etails] = typeof user === 'string' ? JSON.parse(user) : user;
 
-  return {
-    userId: userDetails?.Id ?? initialValue.userId,
-    userName: userDetails?.Name ?? initialValue.userName,
-    caseId: caseDetails?.Id ?? initialValue.caseId,
-    caseNumber: caseDetails?.CaseNumber ?? initialValue.caseNumber,
-  };
+  // return {
+  //   userId: user?.[0]?.Id ?? initialValue.userId,
+  //   userName: user?[0]?.Name ?? initialValue.userName,
+  //   caseId: record?.[0]?.Id ?? initialValue.caseId,
+  //   caseNumber: record?.[0]?.CaseNumber ?? initialValue.caseNumber,
+  // };
 }
