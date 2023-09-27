@@ -4,17 +4,17 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { AppContainer } from './App.styles';
 import { MainContent } from './screens/MainContent/MainContent.component';
-import Login from './screens/Login/Login.component';
 import ThemeProvider from './common/helpers/utils/ThemeProvider';
 import {
   ErrorBoundary,
   TData,
   TGetUserCase,
   TMethodName,
+  TUserCaseDetails,
   getTransformedUserCaseDetails,
 } from './common';
 import { useWindowMessageListener } from './reactCustomHooks/useWindowMessageListener';
-import {} from './common/helpers/utils/transformData';
+import { UserCaseDetailsContext } from './reactCustomHooks';
 
 function App() {
   // Initiating the window message listener hook for get data from Parent
@@ -30,20 +30,18 @@ function App() {
     });
   }, []);
 
-  const userCaseDetails = useMemo(
+  const userCaseDetails: TUserCaseDetails = useMemo(
     () => getTransformedUserCaseDetails(receivedData),
     [receivedData],
   );
 
-  // eslint-disable-next-line no-console
-  console.log(
-    '################# Plugin APP userCaseDetails: ',
-    userCaseDetails,
+  const contextValue = useMemo(
+    () => ({
+      ...userCaseDetails,
+    }),
+    [userCaseDetails],
   );
 
-  const [isUserLoggedIn] = React.useState<boolean>(true);
-
-  const component = isUserLoggedIn ? <MainContent /> : <Login />;
   return (
     <ThemeProvider>
       <ErrorBoundary
@@ -52,7 +50,11 @@ function App() {
           console.log('On error: ', error);
         }}
       >
-        <AppContainer>{component}</AppContainer>
+        <UserCaseDetailsContext.Provider value={contextValue}>
+          <AppContainer>
+            <MainContent />
+          </AppContainer>
+        </UserCaseDetailsContext.Provider>
         <ReactQueryDevtools initialIsOpen={false} />
       </ErrorBoundary>
     </ThemeProvider>

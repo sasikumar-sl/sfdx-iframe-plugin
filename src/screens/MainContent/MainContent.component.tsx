@@ -12,6 +12,7 @@ import { MainContainer, Content } from './MainContent.styles';
 import { TAnnotation, TCaseDetails, wait } from '../../common';
 
 import CaseMockData from './MockData';
+import { useUserCaseDetailsContext } from '../../reactCustomHooks';
 
 const placeholderData: TCaseDetails = {
   sentimentScore: 0,
@@ -20,6 +21,8 @@ const placeholderData: TCaseDetails = {
 };
 
 export function MainContent() {
+  const userCaseDetails = useUserCaseDetailsContext();
+
   const { isLoading, data }: UseQueryResult<TCaseDetails, Error> = useQuery<
     TCaseDetails,
     Error
@@ -59,6 +62,12 @@ export function MainContent() {
   const collapsibleId = useMemo(
     () => sentiments[currentSentimentIdx ?? 0]?.id,
     [sentiments, currentSentimentIdx],
+  );
+
+  // eslint-disable-next-line no-console
+  console.log(
+    '################# Plugin APP Main userCaseDetails: ',
+    userCaseDetails,
   );
 
   return (
