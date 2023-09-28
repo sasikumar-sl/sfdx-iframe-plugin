@@ -3,6 +3,7 @@ import { QueryClient, QueryCache } from '@tanstack/react-query';
 
 const queryCache = new QueryCache({
   onError: (error) => {
+    // eslint-disable-next-line no-console
     console.log(error);
   },
 });

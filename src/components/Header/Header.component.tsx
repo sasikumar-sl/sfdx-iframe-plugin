@@ -11,7 +11,7 @@ function Header() {
   return (
     <HeaderContainer>
       <SupportLogicIcon />
-      <Text className="case-number">{caseNumber || 124532}</Text>
+      <Text className="case-number">{caseNumber}</Text>
       <LinkWrapper
         href="https://www.example.com"
         target="_blank"

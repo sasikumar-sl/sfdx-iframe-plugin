@@ -21,6 +21,9 @@ export function getTransformedUserCaseDetails(
       ? JSON.parse(item?.record?.replaceAll(/\\/g, ''))
       : item?.record;
 
+  // eslint-disable-next-line no-console
+  console.log('==================:  from child userD, caseD: ', userD, caseD);
+
   return {
     userId: userD?.[0]?.Id ?? defaultValue.userId,
     userName: userD?.[0]?.Name ?? defaultValue.userName,
