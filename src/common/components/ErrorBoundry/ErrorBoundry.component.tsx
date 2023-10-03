@@ -7,7 +7,6 @@ interface Props {
 
 export class ErrorBoundary extends React.Component<Props, {}> {
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // eslint-disable-next-line react/destructuring-assignment
     this.props.onError(error, errorInfo);
   }
 

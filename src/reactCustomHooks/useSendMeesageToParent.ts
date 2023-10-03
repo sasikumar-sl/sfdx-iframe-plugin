@@ -9,10 +9,11 @@ export function useSendMessageToParent<TPayload>(
   payload: TPayload,
   targetOrigin = '*',
 ) {
-  function handler() {
-    window.parent.postMessage(payload, targetOrigin);
-  }
   useEffect(() => {
+    function handler() {
+      window.parent.postMessage(payload, targetOrigin);
+    }
+
     handler();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

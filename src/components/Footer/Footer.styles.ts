@@ -59,7 +59,8 @@ export const StyledDoubleDownIcon = styled(DoubleDownIcon)``;
 export const StyledDoubleUpIcon = styled(DoubleUpIcon)``;
 
 type TCollapsibleHeader = {
-  noBorder?: boolean;
+  hasBorder?: boolean;
+  disabled?: boolean;
 };
 
 export const CollapsibleHeader = styled.div<TCollapsibleHeader>`
@@ -75,7 +76,22 @@ export const CollapsibleHeader = styled.div<TCollapsibleHeader>`
   border-top: 1px solid #d7d7d7;
   border-left: 1px solid #d7d7d7;
   border-right: 1px solid #d7d7d7;
-  border-bottom: ${(props) => (props?.noBorder ? 'none' : '1px solid #d7d7d7')};
+  border-bottom: ${(props) =>
+    props?.hasBorder ? 'none' : '1px solid #d7d7d7'};
+
+  ${(props) =>
+    props?.disabled &&
+    `
+      cursor: not-allowed;
+      pointer-events: none;
+
+      & div {
+        color: #e1e1e1;
+      }
+      & svg {
+        opacity: 0.4;
+      }
+  `}
 `;
 
 export const CollapsibleBody = styled.div`

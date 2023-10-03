@@ -34,7 +34,7 @@ function Footer({
   collapsibleId = generateUniqKey(),
 }: Props) {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(isOpen);
-  const { isLoading, currentAnnotationIdx, handleAnnotationChanges } =
+  const { isLoading, hasError, currentAnnotationIdx, setCurrentAnnotationIdx } =
     useCaseContext();
 
   const sliderSettings = {
@@ -50,9 +50,9 @@ function Footer({
 
   const onHandleSliderChange = useCallback(
     (current: number): void => {
-      handleAnnotationChanges(current ?? 0);
+      setCurrentAnnotationIdx(current ?? 0);
     },
-    [handleAnnotationChanges],
+    [setCurrentAnnotationIdx],
   );
 
   const comments: TComment[] = useMemo(
@@ -91,10 +91,15 @@ function Footer({
     <Collapsible
       key={collapsibleId}
       openedClassName="collapse-open"
-      open={isCollapsed}
-      handleTriggerClick={() => setIsCollapsed((val) => !val)}
+      open={isCollapsed && !hasError}
+      handleTriggerClick={() =>
+        hasError ? null : setIsCollapsed((val) => !val)
+      }
       trigger={
-        <CollapsibleHeader noBorder={isCollapsed}>
+        <CollapsibleHeader
+          hasBorder={isCollapsed && !hasError}
+          disabled={hasError}
+        >
           <Label>Case Annotations</Label>
           <IconWrapper>{icon}</IconWrapper>
         </CollapsibleHeader>

@@ -1,74 +1,37 @@
-import React, { useMemo } from 'react';
+import React from 'react';
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+// eslint-disable-next-line import/no-extraneous-dependencies
+// import { ErrorBoundary } from 'react-error-boundary';
 
 import { AppContainer } from './App.styles';
 import { MainContent } from './screens/MainContent/MainContent.component';
 import ThemeProvider from './common/helpers/utils/ThemeProvider';
-import { GET_SESSION_DETAILS } from './common/constants';
-import {
-  ErrorBoundary,
-  TData,
-  TGetUserCase,
-  TMethodName,
-  TUserCaseDetails,
-  getTransformedUserCaseDetails,
-} from './common';
-import { useWindowMessageListener } from './reactCustomHooks/useWindowMessageListener';
-import {
-  UserCaseDetailsContext,
-  useSendMessageToParent,
-} from './reactCustomHooks';
+import { ErrorBoundary } from './common';
+// import ErrorPlaceholder from './components/ErrorPlaceholder/ErrorPlaceholder.component';
 
 function App() {
-  // eslint-disable-next-line no-console
-  console.log('############## <-- App rndered');
-
-  // Initiating the window message listener hook for get data from Parent
-  const { receivedData } = useWindowMessageListener<TData, TGetUserCase>();
-
-  // const getCaseDetails = (payload: TMethodName & TData): void =>
-  //   window.parent.postMessage(payload, '*');
-
-  useSendMessageToParent<TMethodName & TData>({
-    methodName: GET_SESSION_DETAILS,
-    data: 'Initiate API call to SF and get date',
-  });
-
-  // useEffect(() => {
-  //   getCaseDetails({
-  //     methodName: GET_SESSION_DETAILS,
-  //     data: 'Initiate API call to SF and get date',
-  //   });
-  // }, []);
-
-  const userCaseDetails: TUserCaseDetails = useMemo(
-    () => getTransformedUserCaseDetails(receivedData),
-    [receivedData],
-  );
-
-  const contextValue = useMemo(
-    () => ({
-      ...userCaseDetails,
-    }),
-    [userCaseDetails],
-  );
-
   return (
     <ThemeProvider>
-      <ErrorBoundary
-        onError={(error) => {
+      {/* <ErrorBoundary
+        fallback={<ErrorPlaceholder />}
+        onError={(error: any) => {
           // eslint-disable-next-line no-console
-          console.log('On error: ', error);
+          console.log('====================== ON ERROR: ', error);
+        }}
+      > */}
+      <ErrorBoundary
+        onError={(error: any) => {
+          // eslint-disable-next-line no-console
+          console.log('====================== EB ON ERROR: ', error);
         }}
       >
-        <UserCaseDetailsContext.Provider value={contextValue}>
-          <AppContainer>
-            <MainContent />
-          </AppContainer>
-        </UserCaseDetailsContext.Provider>
-        <ReactQueryDevtools initialIsOpen={false} />
+        <AppContainer>
+          <MainContent />
+        </AppContainer>
       </ErrorBoundary>
+      <ReactQueryDevtools initialIsOpen={false} />
     </ThemeProvider>
   );
 }
