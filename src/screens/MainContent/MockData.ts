@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 // eslint-disable-next-line import/no-anonymous-default-export
 
-function getRandomNumber(min: number, max: number): number {
+export function getRandomNumber(min: number, max: number): number {
   if (min >= max) {
     throw new Error('Min value must be less than max value.');
   }

@@ -6,7 +6,7 @@ import Sliders from '../Slider/Slider.component';
 import { generateUniqKey, TComment } from '../../common';
 import Comment from './Comment/Comment.component';
 
-import { Wrapper, CommentSlide } from './Comments.styes';
+import { Wrapper, CommentSlide, NoCommentsPlaceholder } from './Comments.styes';
 
 type Props = {
   comments: TComment[];
@@ -23,6 +23,10 @@ function Comments({ comments = [] }: Props) {
     arrows: false,
     className: 'comments-slider',
   };
+
+  if (!comments?.length) {
+    return <NoCommentsPlaceholder>No Commensts found</NoCommentsPlaceholder>;
+  }
 
   const renderer = (comment: TComment) => (
     <CommentSlide

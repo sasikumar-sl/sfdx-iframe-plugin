@@ -1,3 +1,5 @@
+import { objectToQueryParams } from './queryParams';
+
 export function waitResolve(duration = 1000) {
   return new Promise((resolve) => {
     setTimeout(resolve, duration);
@@ -12,4 +14,19 @@ export function waitReject(duration = 1000) {
       reject(error);
     }, duration);
   });
+}
+
+export type TGetCaseDetilsParams = {
+  limit?: number;
+  sortKey?: string;
+  orderBy?: 'asc' | 'desc';
+};
+export function getCaseDetails(options?: TGetCaseDetilsParams) {
+  const params = {
+    limit: options?.limit ?? 5,
+    sort_key: options?.sortKey ?? 'created_at',
+    order_by: options?.orderBy ?? 'desc',
+  };
+  const queryParams: string = objectToQueryParams<TGetCaseDetilsParams>(params);
+  return fetch(`https://server-r.deno.dev/api?${queryParams}`);
 }

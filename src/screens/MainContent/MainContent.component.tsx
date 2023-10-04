@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useMemo, useState } from 'react';
+import React, { useId, useMemo, useState } from 'react';
 
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
@@ -16,6 +16,7 @@ import Footer from '../../components/Footer/Footer.component';
 import Sentiments from '../../components/Sentiments/Sentiments.component';
 
 import {
+  getCaseDetails,
   getTransformedUserCaseDetails,
   TAnnotation,
   TCaseDetails,
@@ -23,10 +24,7 @@ import {
   TGetUserCase,
   TMethodName,
   TUserAndCaseDetails,
-  waitResolve,
 } from '../../common';
-
-import CaseMockData from './MockData';
 
 import { MainContainer, Content } from './MainContent.styles';
 import { GET_SESSION_DETAILS } from '../../common/constants';
@@ -36,20 +34,6 @@ const placeholderData: TCaseDetails = {
   attentionScore: 0,
   sentiments: [],
 };
-
-async function fetchData(showBoundary?: any) {
-  // eslint-disable-next-line no-useless-catch
-  try {
-    const response = await fetch('https://api11.example.com/data');
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const data = await response.json();
-    // Process the data here
-  } catch (error: any) {
-    // Throw the error again to let the ErrorBoundary handle it
-    if (showBoundary) showBoundary(error);
-    else throw error;
-  }
-}
 
 export function MainContent() {
   const [currentSentimentIdx, setCurrentSentimentIdx] = useState(0);
@@ -75,10 +59,19 @@ export function MainContent() {
   const { isLoading, data }: UseQueryResult<TCaseDetails, Error> = useQuery<
     TCaseDetails,
     Error
-  >(['case'], () => waitResolve(1000).then(() => CaseMockData));
+  >(['case'], () =>
+    getCaseDetails({ limit: 5 })
+      .then((value: any) => value.json())
+      .then((value: { data: TCaseDetails; message: string }) => {
+        const { sentiments, ...rest } = value?.data ?? {};
+        return { ...rest, sentiments: (sentiments ?? []).slice(0, 5) };
+      }),
+  );
 
   const { sentimentScore, attentionScore, sentiments }: TCaseDetails =
     data ?? placeholderData;
+
+  console.log('================= getCaseDetails: ', data, isLoading);
 
   const annotations: TAnnotation[] = useMemo(
     () => sentiments?.[currentSentimentIdx]?.annotations ?? [],
@@ -108,10 +101,6 @@ export function MainContent() {
       currentAnnotationIdx,
     ],
   );
-
-  useEffect(() => {
-    waitResolve(5000).then(() => fetchData());
-  }, []);
 
   return (
     <MainContainer>
