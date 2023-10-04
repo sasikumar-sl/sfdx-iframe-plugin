@@ -80,6 +80,7 @@ export function MainContent() {
   const { sentimentScore, attentionScore, sentiments }: TCaseDetails =
     data ?? placeholderData;
 
+  // eslint-disable-next-line no-console
   console.log('================= getCaseDetails: ', data, isLoading);
 
   const annotations: TAnnotation[] = useMemo(

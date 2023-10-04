@@ -88,6 +88,9 @@
     "react/no-unescaped-entities": "warn",
     "react/jsx-no-bind": "warn",
 
+    "import/no-extraneous-dependencies": ["warn", { "devDependencies": ["**/*.test.js", "**/*.spec.js", "**/*.test.ts", "**/*.spec.ts"] }],
+    
+
     "prettier/prettier": [
       "warn",
       {

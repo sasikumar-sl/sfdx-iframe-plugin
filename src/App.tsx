@@ -18,7 +18,7 @@ function App() {
         fallback={<ErrorPlaceholder />}
         onError={(error: any) => {
           // eslint-disable-next-line no-console
-          console.log('====================== ON ERROR: ', error);
+          console.error('====================== ON ERROR: ', error);
         }}
       >
         <AppContainer>
