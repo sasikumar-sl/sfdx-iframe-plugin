@@ -61,3 +61,19 @@ export const StyledPrevButton = styled(ArrowLeftIcon)`
 export const StyledNextButton = styled(ArrowRightIcon)`
   ${arrowStyles}
 `;
+
+export const NoCommentsPlaceholder = styled.section`
+  width: 100%;
+  height: 100%;
+
+  font-family: Avenir;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  color: #9b9b9b;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

@@ -1,18 +1,33 @@
-import React, { useMemo, useState } from 'react';
+import React, { useId, useMemo, useState } from 'react';
+
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useErrorBoundary } from 'react-error-boundary';
+
 import { CaseContext } from '../../reactCustomHooks/useCaseContext';
+import {
+  useSendMessageToParent,
+  useWindowMessageListener,
+} from '../../reactCustomHooks';
 
 import Header from '../../components/Header/Header.component';
 import Footer from '../../components/Footer/Footer.component';
 import Sentiments from '../../components/Sentiments/Sentiments.component';
 
-import { MainContainer, Content } from './MainContent.styles';
-import { TAnnotation, TCaseDetails, wait } from '../../common';
+import {
+  getCaseDetails,
+  getTransformedUserCaseDetails,
+  TAnnotation,
+  TCaseDetails,
+  TData,
+  TGetUserCase,
+  TMethodName,
+  TUserAndCaseDetails,
+} from '../../common';
 
-import CaseMockData from './MockData';
-import { useUserCaseDetailsContext } from '../../reactCustomHooks';
+import { MainContainer, Content } from './MainContent.styles';
+import { GET_SESSION_DETAILS } from '../../common/constants';
 
 const placeholderData: TCaseDetails = {
   sentimentScore: 0,
@@ -21,38 +36,52 @@ const placeholderData: TCaseDetails = {
 };
 
 export function MainContent() {
-  const userCaseDetails = useUserCaseDetailsContext();
+  const [currentSentimentIdx, setCurrentSentimentIdx] = useState(0);
+  const [currentAnnotationIdx, setCurrentAnnotationIdx] = useState(0);
+  const [hasError] = useState(false);
+  const collpseId = useId();
+  const { showBoundary } = useErrorBoundary();
+
+  // initiating Custom hooks
+  // Initiating the window message listener hook for get data from Parent
+  const { receivedData } = useWindowMessageListener<TData, TGetUserCase>();
+
+  useSendMessageToParent<TMethodName & TData>({
+    methodName: GET_SESSION_DETAILS,
+    data: 'Initiate API call to SF and get date',
+  });
+
+  const userAndCaseDetails: TUserAndCaseDetails = useMemo(
+    () => getTransformedUserCaseDetails(receivedData),
+    [receivedData],
+  );
 
   const { isLoading, data }: UseQueryResult<TCaseDetails, Error> = useQuery<
     TCaseDetails,
     Error
-  >(['case'], () => wait(1000).then(() => CaseMockData));
-
-  const [currentSentimentIdx, setCurrentSentimentIdx] = useState(0);
-  const [currentAnnotationIdx, setCurrentAnnotationIdx] = useState(0);
-
-  const handleSentimentChanges = (idx: number) => {
-    setCurrentSentimentIdx(idx);
-  };
-  const handleAnnotationChanges = (idx: number) => {
-    setCurrentAnnotationIdx(idx);
-  };
-
-  const contextValue = useMemo(
-    () => ({
-      isLoading,
-
-      currentSentimentIdx,
-      handleSentimentChanges,
-
-      currentAnnotationIdx,
-      handleAnnotationChanges,
-    }),
-    [isLoading, currentSentimentIdx, currentAnnotationIdx],
+  >(['case'], () =>
+    getCaseDetails({ limit: 5 })
+      .then((response: any) => {
+        if (!response.ok) {
+          showBoundary(`HTTP error! Status: ${response.status}`);
+          return {};
+        }
+        return response.json();
+      })
+      .then((response: { data: TCaseDetails; message: string }) => {
+        const { sentiments, ...rest } = response?.data ?? {};
+        return {
+          ...rest,
+          sentiments: (sentiments ?? []).slice(0, 5),
+        } as TCaseDetails;
+      }),
   );
 
   const { sentimentScore, attentionScore, sentiments }: TCaseDetails =
     data ?? placeholderData;
+
+  // eslint-disable-next-line no-console
+  console.log('================= getCaseDetails: ', data, isLoading);
 
   const annotations: TAnnotation[] = useMemo(
     () => sentiments?.[currentSentimentIdx]?.annotations ?? [],
@@ -64,10 +93,23 @@ export function MainContent() {
     [sentiments, currentSentimentIdx],
   );
 
-  // eslint-disable-next-line no-console
-  console.log(
-    '################# Plugin APP Main userCaseDetails: ',
-    userCaseDetails,
+  const contextValue = useMemo(
+    () => ({
+      hasError,
+      isLoading,
+      userAndCaseDetails,
+      currentSentimentIdx,
+      setCurrentSentimentIdx,
+      currentAnnotationIdx,
+      setCurrentAnnotationIdx,
+    }),
+    [
+      hasError,
+      isLoading,
+      userAndCaseDetails,
+      currentSentimentIdx,
+      currentAnnotationIdx,
+    ],
   );
 
   return (
@@ -84,7 +126,7 @@ export function MainContent() {
         <Footer
           isOpen
           annotations={annotations}
-          collapsibleId={collapsibleId}
+          collapsibleId={collapsibleId ?? collpseId}
         />
       </CaseContext.Provider>
     </MainContainer>

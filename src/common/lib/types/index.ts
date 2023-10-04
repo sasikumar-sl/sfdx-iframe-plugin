@@ -38,7 +38,7 @@ export type TMethodName = {
   [k: string]: unknown;
 };
 
-export type TUserCaseDetails = {
+export type TUserAndCaseDetails = {
   userId: string;
   userName: string;
   caseId: string;
@@ -53,3 +53,5 @@ export type TGetUserCase = {
   user: [{ Id: string; Name: string; [k: string]: unknown }] | unknown;
   record: [{ Id: string; CaseNumber: string; [k: string]: unknown }] | unknown;
 };
+
+export type ArrayType<T> = T extends (infer U)[] ? U : any;

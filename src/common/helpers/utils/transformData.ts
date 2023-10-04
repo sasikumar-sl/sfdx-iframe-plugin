@@ -1,33 +1,40 @@
-import { TGetUserCase, TUserCaseDetails } from '../../lib/types';
+/* eslint-disable no-console */
+import { ArrayType, TGetUserCase, TUserAndCaseDetails } from '../../lib/types';
 
-const defaultValue: TUserCaseDetails = {
+export const userAndCaseDefaultValue: TUserAndCaseDetails = {
   userId: '',
   userName: '',
   caseId: '',
   caseNumber: '',
 };
 
+function validate<TReturnData>(data: unknown): TReturnData {
+  return typeof data === 'string'
+    ? JSON.parse(data?.replaceAll(/\\/g, ''))
+    : data;
+}
+
+// Extract the type of 'user' property
+type UserType = ArrayType<TGetUserCase['user']>;
+
+// Extract the type of 'record' property
+type RecordType = ArrayType<TGetUserCase['record']>;
+
 export function getTransformedUserCaseDetails(
   item: TGetUserCase,
-): TUserCaseDetails {
-  if (!item) return defaultValue;
+): TUserAndCaseDetails {
+  if (!item) return userAndCaseDefaultValue;
 
-  const userD =
-    typeof item?.user === 'string'
-      ? JSON.parse(item?.user?.replaceAll(/\\/g, ''))
-      : item?.user;
-  const caseD =
-    typeof item?.record === 'string'
-      ? JSON.parse(item?.record?.replaceAll(/\\/g, ''))
-      : item?.record;
+  const user: UserType = validate<UserType>(item?.user);
+  const record: RecordType = validate<RecordType>(item?.record);
 
-  // eslint-disable-next-line no-console
-  console.log('==================:  from child userD, caseD: ', userD, caseD);
+  console.log('==========:  from child user: ', user);
+  console.log('==========:  from child record: ', record);
 
   return {
-    userId: userD?.[0]?.Id ?? defaultValue.userId,
-    userName: userD?.[0]?.Name ?? defaultValue.userName,
-    caseId: caseD?.[0]?.Id ?? defaultValue.caseId,
-    caseNumber: caseD?.[0]?.CaseNumber ?? defaultValue.caseNumber,
+    userId: user?.[0]?.Id ?? userAndCaseDefaultValue.userId,
+    userName: user?.[0]?.Name ?? userAndCaseDefaultValue.userName,
+    caseId: record?.[0]?.Id ?? userAndCaseDefaultValue.caseId,
+    caseNumber: record?.[0]?.CaseNumber ?? userAndCaseDefaultValue.caseNumber,
   };
 }
