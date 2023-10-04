@@ -1,4 +1,4 @@
-import { objectToQueryParams } from './queryParams';
+// import { objectToQueryParams } from './queryParams';
 
 export function waitResolve(duration = 1000) {
   return new Promise((resolve) => {
@@ -28,12 +28,13 @@ export function getCaseDetails(options?: TGetCaseDetilsParams) {
     sort_key: options?.sortKey ?? 'created_at',
     order_by: options?.orderBy ?? 'desc',
   };
-  const queryParams: string = objectToQueryParams<TGetCaseDetilsParams>(params);
-  return fetch(`https://server-r.deno.dev/api?${queryParams}`, {
+  // const queryParams: string = objectToQueryParams<TGetCaseDetilsParams>(params);
+  return fetch('https://server-r.deno.dev/api/v1/case', {
     method: 'POST',
     headers: {
       Accept: 'application.json',
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify(params),
   });
 }
