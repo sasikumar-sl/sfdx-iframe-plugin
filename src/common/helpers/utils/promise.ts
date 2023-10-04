@@ -21,6 +21,7 @@ export type TGetCaseDetilsParams = {
   sortKey?: string;
   orderBy?: 'asc' | 'desc';
 };
+
 export function getCaseDetails(options?: TGetCaseDetilsParams) {
   const params = {
     limit: options?.limit ?? 5,

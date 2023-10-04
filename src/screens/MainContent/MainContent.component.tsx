@@ -3,7 +3,7 @@ import React, { useId, useMemo, useState } from 'react';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-// import { useErrorBoundary } from 'react-error-boundary';
+import { useErrorBoundary } from 'react-error-boundary';
 
 import { CaseContext } from '../../reactCustomHooks/useCaseContext';
 import {
@@ -40,7 +40,7 @@ export function MainContent() {
   const [currentAnnotationIdx, setCurrentAnnotationIdx] = useState(0);
   const [hasError] = useState(false);
   const collpseId = useId();
-  // const { showBoundary } = useErrorBoundary();
+  const { showBoundary } = useErrorBoundary();
 
   // initiating Custom hooks
   // Initiating the window message listener hook for get data from Parent
@@ -61,10 +61,19 @@ export function MainContent() {
     Error
   >(['case'], () =>
     getCaseDetails({ limit: 5 })
-      .then((value: any) => value.json())
-      .then((value: { data: TCaseDetails; message: string }) => {
-        const { sentiments, ...rest } = value?.data ?? {};
-        return { ...rest, sentiments: (sentiments ?? []).slice(0, 5) };
+      .then((response: any) => {
+        if (!response.ok) {
+          showBoundary(`HTTP error! Status: ${response.status}`);
+          return {};
+        }
+        return response.json();
+      })
+      .then((response: { data: TCaseDetails; message: string }) => {
+        const { sentiments, ...rest } = response?.data ?? {};
+        return {
+          ...rest,
+          sentiments: (sentiments ?? []).slice(0, 5),
+        } as TCaseDetails;
       }),
   );
 
