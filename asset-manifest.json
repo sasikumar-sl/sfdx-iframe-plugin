@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/sfdx-iframe-plugin/static/css/main.23efc290.css",
-    "main.js": "/sfdx-iframe-plugin/static/js/main.b3d2c202.js",
+    "main.js": "/sfdx-iframe-plugin/static/js/main.ffb3c2cb.js",
     "static/js/787.fc9bc880.chunk.js": "/sfdx-iframe-plugin/static/js/787.fc9bc880.chunk.js",
     "static/media/talking-bubbles.svg": "/sfdx-iframe-plugin/static/media/talking-bubbles.6982689b4a80bd4fcaf7fe4306906f98.svg",
     "static/media/supportlogic.svg": "/sfdx-iframe-plugin/static/media/supportlogic.d11e2ff4218d80b8c3419afea398a5dc.svg",
@@ -18,11 +18,11 @@
     "static/media/chevron-double-up.svg": "/sfdx-iframe-plugin/static/media/chevron-double-up.52d489658ccc47ff284552c27b4964a9.svg",
     "static/media/chevron-double-down.svg": "/sfdx-iframe-plugin/static/media/chevron-double-down.488e10e7a6310ac246aee309ea015f2c.svg",
     "main.23efc290.css.map": "/sfdx-iframe-plugin/static/css/main.23efc290.css.map",
-    "main.b3d2c202.js.map": "/sfdx-iframe-plugin/static/js/main.b3d2c202.js.map",
+    "main.ffb3c2cb.js.map": "/sfdx-iframe-plugin/static/js/main.ffb3c2cb.js.map",
     "787.fc9bc880.chunk.js.map": "/sfdx-iframe-plugin/static/js/787.fc9bc880.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.23efc290.css",
-    "static/js/main.b3d2c202.js"
+    "static/js/main.ffb3c2cb.js"
   ]
 }
