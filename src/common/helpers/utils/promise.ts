@@ -32,7 +32,7 @@ export function getCaseDetails(options?: TGetCaseDetilsParams) {
   return fetch('https://server-r.deno.dev/api/v1/case', {
     method: 'POST',
     headers: {
-      Accept: 'application.json',
+      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(params),
