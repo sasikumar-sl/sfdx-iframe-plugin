@@ -29,5 +29,11 @@ export function getCaseDetails(options?: TGetCaseDetilsParams) {
     order_by: options?.orderBy ?? 'desc',
   };
   const queryParams: string = objectToQueryParams<TGetCaseDetilsParams>(params);
-  return fetch(`https://server-r.deno.dev/api?${queryParams}`);
+  return fetch(`https://server-r.deno.dev/api?${queryParams}`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application.json',
+      'Content-Type': 'application/json',
+    },
+  });
 }
