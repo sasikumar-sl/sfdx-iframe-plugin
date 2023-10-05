@@ -16,14 +16,14 @@ import Footer from '../../components/Footer/Footer.component';
 import Sentiments from '../../components/Sentiments/Sentiments.component';
 
 import {
-  getCaseDetails,
-  getTransformedUserCaseDetails,
-  TAnnotation,
-  TCaseDetails,
   TData,
-  TGetUserCase,
+  TAnnotation,
   TMethodName,
+  TCaseDetails,
+  TGetUserCase,
+  getCaseDetails,
   TUserAndCaseDetails,
+  getTransformedUserCaseDetails,
 } from '../../common';
 
 import { MainContainer, Content } from './MainContent.styles';
@@ -61,19 +61,16 @@ export function MainContent() {
     Error
   >(['case'], () =>
     getCaseDetails({ limit: 5 })
-      .then((response: any) => {
-        if (!response.ok) {
-          showBoundary(`HTTP error! Status: ${response.status}`);
-          return {};
-        }
-        return response.json();
-      })
-      .then((response: { data: TCaseDetails; message: string }) => {
-        const { sentiments, ...rest } = response?.data ?? {};
+      .then((response: TCaseDetails) => {
+        const { sentiments, ...rest } = response ?? {};
         return {
           ...rest,
           sentiments: (sentiments ?? []).slice(0, 5),
         } as TCaseDetails;
+      })
+      .catch((error: any) => {
+        showBoundary(error);
+        return Promise.reject(error);
       }),
   );
 
