@@ -17,6 +17,7 @@ export function getCaseDetails({
     order_by: orderBy ?? 'desc',
   };
   // const queryParams: string = objectToQueryParams<TGetCaseDetilsParams>(params);
+
   return fetch(`${baseUrl}/api/v1/case`, {
     method: 'POST',
     headers: {
