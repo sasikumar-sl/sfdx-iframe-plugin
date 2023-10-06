@@ -21,19 +21,16 @@ import {
   TMethodName,
   TCaseDetails,
   TGetUserCase,
+  getCaseScores,
   getCaseDetails,
+  getCaseSentiments,
   TUserAndCaseDetails,
   getTransformedUserCaseDetails,
+  TCaseScores,
 } from '../../common';
 
 import { MainContainer, Content } from './MainContent.styles';
 import { GET_SESSION_DETAILS } from '../../common/constants';
-
-const placeholderData: TCaseDetails = {
-  sentimentScore: 0,
-  attentionScore: 0,
-  sentiments: [],
-};
 
 export function MainContent() {
   const [currentSentimentIdx, setCurrentSentimentIdx] = useState(0);
@@ -59,32 +56,73 @@ export function MainContent() {
   const { isLoading, data }: UseQueryResult<TCaseDetails, Error> = useQuery<
     TCaseDetails,
     Error
-  >(['case'], () =>
-    getCaseDetails({ limit: 5 })
-      .then((response: TCaseDetails) => {
-        const { sentiments, ...rest } = response ?? {};
-        return {
-          ...rest,
-          sentiments: (sentiments ?? []).slice(0, 5),
-        } as TCaseDetails;
-      })
-      .catch((error: any) => {
-        showBoundary(error);
-        return Promise.reject(error);
-      }),
+  >(
+    ['case'],
+    () =>
+      getCaseDetails({ limit: 5 })
+        .then((response: TCaseDetails) => {
+          const { sentiments } = response ?? {};
+          return {
+            sentiments: (sentiments ?? []).slice(0, 5),
+          } as TCaseDetails;
+        })
+        .catch((error: any) => {
+          showBoundary(error);
+          return Promise.reject(error);
+        }),
+    {
+      enabled: !!userAndCaseDetails?.caseId,
+    },
   );
 
-  const { sentimentScore, attentionScore, sentiments }: TCaseDetails =
-    data ?? placeholderData;
+  const {
+    isLoading: isCaseScoresLoading,
+    data: caseScoreData,
+  }: UseQueryResult<TCaseScores, Error> = useQuery<TCaseScores, Error>(
+    ['caseScores', userAndCaseDetails?.caseId],
+    () =>
+      getCaseScores({ sl_ticket_id: userAndCaseDetails?.caseId }).catch(
+        (error: any) => {
+          showBoundary(error);
+          return Promise.reject(error);
+        },
+      ),
+    {
+      enabled: !!userAndCaseDetails?.caseId,
+    },
+  );
+
+  const {
+    isLoading: isCaseSentimentLoading,
+    data: caseSentimentData,
+  }: UseQueryResult<any, Error> = useQuery<any, Error>(
+    ['caseSentiments', userAndCaseDetails?.caseId],
+    () =>
+      getCaseSentiments({ sl_ticket_id: userAndCaseDetails?.caseId }).catch(
+        (error: any) => {
+          showBoundary(error);
+          return Promise.reject(error);
+        },
+      ),
+    {
+      enabled: !!userAndCaseDetails?.caseId,
+    },
+  );
+
+  console.log(
+    '==================================== isCaseSentimentLoading: ',
+    isCaseSentimentLoading,
+    caseSentimentData,
+  );
 
   const annotations: TAnnotation[] = useMemo(
-    () => sentiments?.[currentSentimentIdx]?.annotations ?? [],
-    [sentiments, currentSentimentIdx],
+    () => data?.sentiments?.[currentSentimentIdx]?.annotations ?? [],
+    [data?.sentiments, currentSentimentIdx],
   );
 
   const collapsibleId = useMemo(
-    () => sentiments[currentSentimentIdx ?? 0]?.id,
-    [sentiments, currentSentimentIdx],
+    () => data?.sentiments[currentSentimentIdx ?? 0]?.id,
+    [data?.sentiments, currentSentimentIdx],
   );
 
   const contextValue = useMemo(
@@ -96,6 +134,8 @@ export function MainContent() {
       setCurrentSentimentIdx,
       currentAnnotationIdx,
       setCurrentAnnotationIdx,
+      isCaseScoresLoading,
+      isCaseSentimentLoading,
     }),
     [
       hasError,
@@ -103,8 +143,12 @@ export function MainContent() {
       userAndCaseDetails,
       currentSentimentIdx,
       currentAnnotationIdx,
+      isCaseScoresLoading,
+      isCaseSentimentLoading,
     ],
   );
+
+  console.log('============= caseSentimentData: ', caseSentimentData);
 
   return (
     <MainContainer>
@@ -112,9 +156,9 @@ export function MainContent() {
         <Header />
         <Content>
           <Sentiments
-            sentimentScore={sentimentScore}
-            attentionScore={attentionScore}
-            sentiments={sentiments ?? []}
+            sentimentScore={caseScoreData?.sl_sentiment_score ?? 0}
+            attentionScore={caseScoreData?.sl_need_attention_score ?? 0}
+            sentiments={caseSentimentData ?? []}
           />
         </Content>
         <Footer

@@ -2,10 +2,10 @@
 import { ArrayType, TGetUserCase, TUserAndCaseDetails } from '../../lib/types';
 
 export const userAndCaseDefaultValue: TUserAndCaseDetails = {
-  userId: '',
-  userName: '',
-  caseId: '',
-  caseNumber: '',
+  userId: 'user12345',
+  userName: 'Test user',
+  caseId: '123456789',
+  caseNumber: '232547698',
 };
 
 function validate<TReturnData>(data: unknown): TReturnData {
