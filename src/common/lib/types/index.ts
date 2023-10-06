@@ -28,8 +28,6 @@ export type TSentiment = {
 };
 
 export type TCaseDetails = {
-  sentimentScore: number;
-  attentionScore: number;
   sentiments: TSentiment[];
 };
 
@@ -55,3 +53,24 @@ export type TGetUserCase = {
 };
 
 export type ArrayType<T> = T extends (infer U)[] ? U : any;
+
+export type TCaseScores = {
+  sl_ticket_id: string;
+  sl_sentiment_score: number;
+  sl_need_attention_score: number;
+};
+
+
+export type TSentimentNew = {
+  sl_created_at: string;
+  sl_author_name: string;
+  sl_body: string;
+  sl_comment_id: string;
+  sl_span_counts: {
+    [key: string]: number;
+  };
+  spans: {
+    [key: string]: boolean;
+  }[];
+  is_deleted: boolean;
+};

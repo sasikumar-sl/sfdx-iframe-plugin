@@ -6,7 +6,7 @@ import PlaceHolder from '../PlaceHolder/PlaceHolder.components';
 import useCaseContext from '../../reactCustomHooks/useCaseContext';
 
 import Sliders from '../Slider/Slider.component';
-import { TSentiment, generateUniqKey } from '../../common';
+import { TSentimentNew, generateUniqKey } from '../../common';
 import SentimentCard from './components/SentimentCard/SentimentCard.component';
 
 import {
@@ -24,7 +24,7 @@ const tooltipStyles = { width: 'auto', maxWidth: 'calc(75% - 40px)' };
 type Props = {
   sentimentScore: number;
   attentionScore: number;
-  sentiments?: TSentiment[];
+  sentiments?: TSentimentNew[];
 };
 
 function Sentiments({
@@ -32,7 +32,12 @@ function Sentiments({
   attentionScore,
   sentiments = [],
 }: Props) {
-  const { isLoading, setCurrentSentimentIdx } = useCaseContext();
+  const {
+    isLoading,
+    isCaseScoresLoading,
+    isCaseSentimentLoading,
+    setCurrentSentimentIdx,
+  } = useCaseContext();
 
   const sliderSettings = {
     dots: true,
@@ -52,10 +57,10 @@ function Sentiments({
     [setCurrentSentimentIdx],
   );
 
-  const renderer = (sentiment: TSentiment, index: number) => (
+  const renderer = (sentiment: TSentimentNew, index: number) => (
     <SentimentSlide
       className="sentiment-slide-wrapper"
-      key={sentiment?.id ?? generateUniqKey()}
+      key={sentiment?.sl_comment_id ?? generateUniqKey()}
     >
       <SentimentCard
         sentiment={sentiment}
@@ -65,7 +70,7 @@ function Sentiments({
     </SentimentSlide>
   );
 
-  if (isLoading) {
+  if (isLoading || isCaseScoresLoading || isCaseSentimentLoading) {
     return (
       <LoaderWrapper>
         <FancyLoader size={30} />

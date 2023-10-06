@@ -4,4 +4,4 @@ export * from './Query';
 export * from './promise';
 export * from './path';
 export * from './transformData';
-export * from './queryParams';
+export * from './fetch';

@@ -11,6 +11,8 @@ export type TCaseContext = {
 
   currentAnnotationIdx: number;
   setCurrentAnnotationIdx: React.Dispatch<React.SetStateAction<number>>;
+  isCaseScoresLoading: boolean;
+  isCaseSentimentLoading: boolean;
 };
 
 export const CaseContext = createContext<TCaseContext>({
@@ -23,6 +25,9 @@ export const CaseContext = createContext<TCaseContext>({
 
   currentAnnotationIdx: 0,
   setCurrentAnnotationIdx: noop,
+
+  isCaseScoresLoading: false,
+  isCaseSentimentLoading: false,
 });
 
 function useCaseContext() {

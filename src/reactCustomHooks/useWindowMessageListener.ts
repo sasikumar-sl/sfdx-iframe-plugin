@@ -7,8 +7,6 @@ export function useWindowMessageListener<TReceivedData, TSetData>() {
 
   useEffect(() => {
     const handler = (event: MessageEvent<TReceivedData & TMethodName>) => {
-      // eslint-disable-next-line no-console
-      // console.log('############## <-- data from parent triggered');
       if (typeof event.data !== 'object') return;
       if (!event.data?.methodName) return;
       if (event.data.methodName === GET_SESSION_DETAILS) {
