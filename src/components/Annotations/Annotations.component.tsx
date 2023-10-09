@@ -1,6 +1,5 @@
 import React from 'react';
 
-// import useCaseContext from '../../reactCustomHooks/useCaseContext';
 import Sliders from '../Slider/Slider.component';
 
 import { generateUniqKey, TAnnotation } from '../../common';

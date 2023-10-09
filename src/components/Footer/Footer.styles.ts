@@ -102,10 +102,6 @@ export const CollapsibleBody = styled.div`
   border-top: none;
   background: #ffffff;
   position: relative;
-
-  .case-comments-slider {
-    /* margin-top: 10px; */
-  }
 `;
 
 export const CaseCommmentSlide = styled.div`
