@@ -7,7 +7,7 @@ export const Container = styled.div`
   /* padding: 10px; */
 `;
 
-export const CommentWrapper = styled.div`
+export const AnnotationWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,7 +15,7 @@ export const CommentWrapper = styled.div`
   padding: 18px 0;
 `;
 
-export const CommentHeader = styled.div`
+export const AnnotationHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -41,14 +41,14 @@ export const Profile = styled.div`
   }
 `;
 
-export const CommentedAt = styled.span`
+export const AnnotationAt = styled.span`
   color: #9b9b9b;
   font-size: 10px;
   font-weight: 300;
   ${commonFontStyles}
 `;
 
-export const CommentBody = styled.div`
+export const AnnotationBody = styled.div`
   width: 100%;
   overflow: auto;
   color: #4a4a4a;

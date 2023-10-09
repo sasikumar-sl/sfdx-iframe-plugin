@@ -103,12 +103,12 @@ export const CollapsibleBody = styled.div`
   background: #ffffff;
   position: relative;
 
-  .annotations-slider {
+  .case-comments-slider {
     /* margin-top: 10px; */
   }
 `;
 
-export const AnnotationSlide = styled.div`
+export const CaseCommmentSlide = styled.div`
   position: relative;
 
   & + & {
@@ -124,7 +124,7 @@ export const AnnotationSlide = styled.div`
     }
   }
 
-  &.annotations-slide-wrapper {
+  &.case-comments-slide-wrapper {
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
@@ -132,7 +132,7 @@ export const AnnotationSlide = styled.div`
   }
 `;
 
-export const CommentsWrapper = styled.div`
+export const AnnotationWrapper = styled.div`
   height: 140px;
   width: 100%;
   border: 1px solid #d7d7d7;

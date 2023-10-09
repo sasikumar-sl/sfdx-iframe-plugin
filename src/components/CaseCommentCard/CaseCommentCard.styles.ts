@@ -8,7 +8,7 @@ export const Card = styled.div`
   min-width: 280px;
 `;
 
-export const Annatation = styled.div`
+export const CaseComment = styled.div`
   height: 65%;
   overflow: auto;
   color: #4a4a4a;

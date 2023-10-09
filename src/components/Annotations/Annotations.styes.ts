@@ -16,7 +16,7 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const CommentSlide = styled.div`
+export const AnnoationSlide = styled.div`
   position: relative;
 
   & + & {
@@ -32,7 +32,7 @@ export const CommentSlide = styled.div`
     }
   }
 
-  &.comment-slide-wrapper {
+  &.annotation-slide-wrapper {
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
@@ -62,7 +62,7 @@ export const StyledNextButton = styled(ArrowRightIcon)`
   ${arrowStyles}
 `;
 
-export const NoCommentsPlaceholder = styled.section`
+export const NoAnnoationPlaceholder = styled.section`
   width: 100%;
   height: 100%;
 

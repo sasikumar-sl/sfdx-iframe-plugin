@@ -17,7 +17,6 @@ import Sentiments from '../../components/Sentiments/Sentiments.component';
 
 import {
   TData,
-  TAnnotation,
   TMethodName,
   TCaseDetails,
   TGetUserCase,
@@ -27,6 +26,7 @@ import {
   TUserAndCaseDetails,
   getTransformedUserCaseDetails,
   TCaseScores,
+  TCaseComment,
 } from '../../common';
 
 import { MainContainer, Content } from './MainContent.styles';
@@ -34,7 +34,7 @@ import { GET_SESSION_DETAILS } from '../../common/constants';
 
 export function MainContent() {
   const [currentSentimentIdx, setCurrentSentimentIdx] = useState(0);
-  const [currentAnnotationIdx, setCurrentAnnotationIdx] = useState(0);
+  const [currentCommentIdx, setCurrentCommentIdx] = useState(0);
   const [hasError] = useState(false);
   const collpseId = useId();
   const { showBoundary } = useErrorBoundary();
@@ -115,8 +115,8 @@ export function MainContent() {
     caseSentimentData,
   );
 
-  const annotations: TAnnotation[] = useMemo(
-    () => data?.sentiments?.[currentSentimentIdx]?.annotations ?? [],
+  const caseComments: TCaseComment[] = useMemo(
+    () => data?.sentiments?.[currentSentimentIdx]?.comments ?? [],
     [data?.sentiments, currentSentimentIdx],
   );
 
@@ -132,8 +132,8 @@ export function MainContent() {
       userAndCaseDetails,
       currentSentimentIdx,
       setCurrentSentimentIdx,
-      currentAnnotationIdx,
-      setCurrentAnnotationIdx,
+      currentCommentIdx,
+      setCurrentCommentIdx,
       isCaseScoresLoading,
       isCaseSentimentLoading,
     }),
@@ -142,7 +142,7 @@ export function MainContent() {
       isLoading,
       userAndCaseDetails,
       currentSentimentIdx,
-      currentAnnotationIdx,
+      currentCommentIdx,
       isCaseScoresLoading,
       isCaseSentimentLoading,
     ],
@@ -163,7 +163,7 @@ export function MainContent() {
         </Content>
         <Footer
           isOpen
-          annotations={annotations}
+          caseComments={caseComments}
           collapsibleId={collapsibleId ?? collpseId}
         />
       </CaseContext.Provider>

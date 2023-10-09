@@ -9,8 +9,8 @@ export type TCaseContext = {
   currentSentimentIdx: number;
   setCurrentSentimentIdx: React.Dispatch<React.SetStateAction<number>>;
 
-  currentAnnotationIdx: number;
-  setCurrentAnnotationIdx: React.Dispatch<React.SetStateAction<number>>;
+  currentCommentIdx: number;
+  setCurrentCommentIdx: React.Dispatch<React.SetStateAction<number>>;
   isCaseScoresLoading: boolean;
   isCaseSentimentLoading: boolean;
 };
@@ -23,8 +23,8 @@ export const CaseContext = createContext<TCaseContext>({
   currentSentimentIdx: 0,
   setCurrentSentimentIdx: noop,
 
-  currentAnnotationIdx: 0,
-  setCurrentAnnotationIdx: noop,
+  currentCommentIdx: 0,
+  setCurrentCommentIdx: noop,
 
   isCaseScoresLoading: false,
   isCaseSentimentLoading: false,
