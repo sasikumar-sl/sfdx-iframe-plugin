@@ -1,4 +1,4 @@
-import { getPostHeadersWithBody } from '../../helpers';
+import { getPostHeadersWithBody, objectToQueryParams } from '../../helpers';
 import { baseUrl } from '../../constants';
 
 export type TGetCaseDetilsParams = {
@@ -49,7 +49,11 @@ export function getCaseScores({
       },
     ],
   };
-  return fetch(`${baseUrl}/api/v2/case/summary/search`, {
+  const queryParams = objectToQueryParams<any>({
+    page_number: 0,
+    page_size: 5,
+  });
+  return fetch(`${baseUrl}/api/v2/case/summary/search?${queryParams}`, {
     ...getPostHeadersWithBody(payload),
   })
     .then((response) => response.json())
@@ -92,7 +96,11 @@ export function getCaseSentiments({
     ],
   };
 
-  return fetch(`${baseUrl}/api/v2/case/comment/search`, {
+  const queryParams = objectToQueryParams<any>({
+    page_number: 0,
+    page_size: 5,
+  });
+  return fetch(`${baseUrl}/api/v2/case/comment/search?${queryParams}`, {
     ...getPostHeadersWithBody(payload),
   })
     .then((response) => response.json())
