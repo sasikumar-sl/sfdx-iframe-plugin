@@ -5,30 +5,30 @@ import { AgentAvatar } from '@supportlogic/frontend-library';
 import {
   Profile,
   Container,
-  CommentedAt,
-  CommentBody,
-  CommentHeader,
-  CommentWrapper,
-} from './Comment.styles';
-import { TComment } from '@/common';
+  AnnotationAt,
+  AnnotationBody,
+  AnnotationHeader,
+  AnnotationWrapper,
+} from './Annotation.styles';
+import { TAnnotation } from '../../../common';
 
 type Props = {
-  comment?: TComment;
+  annotation?: TAnnotation;
 };
 
-function Comment({ comment }: Props) {
-  const { name, text, isActive, profileUrl } = comment ?? {
+function Annotation({ annotation }: Props) {
+  const { name, text, isActive, profileUrl } = annotation ?? {
     name: '',
     text: '',
     created_at: '',
     profileUrl: '',
   };
-  const timestamp = new Date(comment?.created_at ?? '').getTime();
+  const timestamp = new Date(annotation?.created_at ?? '').getTime();
 
   return (
     <Container>
-      <CommentWrapper>
-        <CommentHeader>
+      <AnnotationWrapper>
+        <AnnotationHeader>
           <Profile>
             <AgentAvatar
               agent={{ name }}
@@ -38,14 +38,14 @@ function Comment({ comment }: Props) {
             />
             <span>{name}</span>
           </Profile>
-          <CommentedAt>
+          <AnnotationAt>
             {formatDistance(timestamp, Date.now(), { addSuffix: true })}
-          </CommentedAt>
-        </CommentHeader>
-        <CommentBody>{text}</CommentBody>
-      </CommentWrapper>
+          </AnnotationAt>
+        </AnnotationHeader>
+        <AnnotationBody>{text}</AnnotationBody>
+      </AnnotationWrapper>
     </Container>
   );
 }
 
-export default Comment;
+export default Annotation;

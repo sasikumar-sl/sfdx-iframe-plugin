@@ -1,6 +1,6 @@
 export type TDate = Date | string | number;
 
-export type TComment = {
+export type TAnnotation = {
   name: string;
   id: string | number;
   text: string;
@@ -10,11 +10,11 @@ export type TComment = {
   isActive?: boolean;
 };
 
-export type TAnnotation = {
+export type TCaseComment = {
   id: string;
   text: string;
   created_at: TDate;
-  comments?: TComment[];
+  comments?: TAnnotation[];
   [k: string]: any;
 };
 
@@ -23,7 +23,7 @@ export type TSentiment = {
   text: string;
   labels: string[];
   created_at: TDate;
-  annotations?: TAnnotation[];
+  annotations?: TCaseComment[];
   [k: string]: any;
 };
 
@@ -59,7 +59,6 @@ export type TCaseScores = {
   sl_sentiment_score: number;
   sl_need_attention_score: number;
 };
-
 
 export type TSentimentNew = {
   sl_created_at: string;
