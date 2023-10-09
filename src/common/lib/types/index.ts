@@ -60,7 +60,6 @@ export type TCaseScores = {
   sl_need_attention_score: number;
 };
 
-
 export type TSentimentNew = {
   sl_created_at: string;
   sl_author_name: string;
