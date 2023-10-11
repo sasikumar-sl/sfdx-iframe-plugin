@@ -99,7 +99,7 @@ export type TAnnotationNote = {
   child_notes?: TAnnotationNote[];
 };
 
-export type TCaseCommentSegment = {
+export type TCommentSegment = {
   s_id: string;
   s_object_creator: {
     object_id: string | null;
@@ -117,4 +117,3 @@ export type TCaseCommentSegment = {
   content_end: number;
   original_content: string;
 };
-
