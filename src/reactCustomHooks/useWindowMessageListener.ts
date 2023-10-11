@@ -10,11 +10,6 @@ export function useWindowMessageListener<TReceivedData, TSetData>() {
       if (typeof event.data !== 'object') return;
       if (!event.data?.methodName) return;
       if (event.data.methodName === GET_SESSION_DETAILS) {
-        // eslint-disable-next-line no-console
-        console.log(
-          '############## <-- data from parent GET_SESSION_DETAILS: ',
-          event?.data?.data,
-        );
         setReceivedData(event?.data?.data as TSetData);
       }
     };

@@ -73,3 +73,47 @@ export type TSentimentNew = {
   }[];
   is_deleted: boolean;
 };
+
+export type TObjectOwner = {
+  object_id: string;
+  object_type: string;
+};
+
+export type TAnnotationNote = {
+  s_id: string;
+  s_object_creator: TObjectOwner;
+  s_created_at: string;
+  s_modified_at: string | null;
+  s_deleted_at: string | null;
+  s_seq_id: number;
+  note_type: string;
+  group_key: string;
+  subject: string | null;
+  body: string;
+  summary: string | null;
+  object_owner: TObjectOwner;
+  parent: { s_id: string } | null;
+  is_draft: boolean;
+  recipient_list: any[]; // Replace with the actual type if known
+  attachment_metadata_list: any[]; // Replace with the actual type if known
+  child_notes?: TAnnotationNote[];
+};
+
+export type TCommentSegment = {
+  s_id: string;
+  s_object_creator: {
+    object_id: string | null;
+    object_type: string | null;
+  };
+  s_created_at: string;
+  s_modified_at: string;
+  s_deleted_at: string | null;
+  s_seq_id: number;
+  object_target: {
+    object_id: string;
+    object_type: string;
+  };
+  content_start: number;
+  content_end: number;
+  original_content: string;
+};

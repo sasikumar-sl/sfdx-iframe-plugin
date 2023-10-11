@@ -17,6 +17,7 @@ import Sentiments from '../../components/Sentiments/Sentiments.component';
 
 import {
   TData,
+  TCaseScores,
   TMethodName,
   TCaseDetails,
   TGetUserCase,
@@ -24,16 +25,16 @@ import {
   getCaseDetails,
   getCaseSentiments,
   TUserAndCaseDetails,
+  getCaseCommentSegments,
   getTransformedUserCaseDetails,
-  TCaseScores,
-  TCaseComment,
+  getCaseAnnotationNotes,
+  TAnnotationNote,
 } from '../../common';
 
 import { MainContainer, Content } from './MainContent.styles';
 import { GET_SESSION_DETAILS } from '../../common/constants';
 
 export function MainContent() {
-  const [currentSentimentIdx, setCurrentSentimentIdx] = useState(0);
   const [currentCommentIdx, setCurrentCommentIdx] = useState(0);
   const [hasError] = useState(false);
   const collpseId = useId();
@@ -93,8 +94,8 @@ export function MainContent() {
   );
 
   const {
-    isLoading: isCaseSentimentLoading,
-    data: caseSentimentData,
+    isLoading: isCaseSentimentsLoading,
+    data: caseSentiments,
   }: UseQueryResult<any, Error> = useQuery<any, Error>(
     ['caseSentiments', userAndCaseDetails?.caseId],
     () =>
@@ -109,20 +110,49 @@ export function MainContent() {
     },
   );
 
-  console.log(
-    '==================================== isCaseSentimentLoading: ',
-    isCaseSentimentLoading,
-    caseSentimentData,
+  const {
+    isLoading: isCaseAnnotationNotesLoading,
+    data: caseAnnotationNotes,
+  }: UseQueryResult<TAnnotationNote[], Error> = useQuery<any, Error>(
+    ['caseAnnotationNotes', userAndCaseDetails?.caseId],
+    () =>
+      getCaseAnnotationNotes({
+        sl_ticket_id: userAndCaseDetails?.caseId,
+      }).catch((error: any) => {
+        showBoundary(error);
+        return Promise.reject(error);
+      }),
+    {
+      enabled: !!userAndCaseDetails?.caseId,
+    },
   );
 
-  const caseComments: TCaseComment[] = useMemo(
-    () => data?.sentiments?.[currentSentimentIdx]?.comments ?? [],
-    [data?.sentiments, currentSentimentIdx],
+  const {
+    isLoading: isCaseCommentsLoading,
+    data: caseComments,
+  }: UseQueryResult<any, Error> = useQuery<any, Error>(
+    ['caseComments', userAndCaseDetails?.caseId],
+    () =>
+      getCaseCommentSegments({
+        sl_ticket_id: userAndCaseDetails?.caseId,
+        annotations: caseAnnotationNotes,
+      }).catch((error: any) => {
+        showBoundary(error);
+        return Promise.reject(error);
+      }),
+    {
+      enabled: !!(userAndCaseDetails?.caseId && caseAnnotationNotes?.length),
+    },
+  );
+
+  const comments = useMemo(
+    () => data?.sentiments?.[3]?.comments ?? [],
+    [data?.sentiments],
   );
 
   const collapsibleId = useMemo(
-    () => data?.sentiments[currentSentimentIdx ?? 0]?.id,
-    [data?.sentiments, currentSentimentIdx],
+    () => data?.sentiments[3]?.id,
+    [data?.sentiments],
   );
 
   const contextValue = useMemo(
@@ -130,25 +160,24 @@ export function MainContent() {
       hasError,
       isLoading,
       userAndCaseDetails,
-      currentSentimentIdx,
-      setCurrentSentimentIdx,
       currentCommentIdx,
       setCurrentCommentIdx,
       isCaseScoresLoading,
-      isCaseSentimentLoading,
+      isCaseSentimentsLoading,
+      isCaseCommentsLoading,
+      isCaseAnnotationNotesLoading,
     }),
     [
       hasError,
       isLoading,
       userAndCaseDetails,
-      currentSentimentIdx,
       currentCommentIdx,
       isCaseScoresLoading,
-      isCaseSentimentLoading,
+      isCaseSentimentsLoading,
+      isCaseCommentsLoading,
+      isCaseAnnotationNotesLoading,
     ],
   );
-
-  console.log('============= caseSentimentData: ', caseSentimentData);
 
   return (
     <MainContainer>
@@ -158,12 +187,12 @@ export function MainContent() {
           <Sentiments
             sentimentScore={caseScoreData?.sl_sentiment_score ?? 0}
             attentionScore={caseScoreData?.sl_need_attention_score ?? 0}
-            sentiments={caseSentimentData ?? []}
+            sentiments={caseSentiments ?? []}
           />
         </Content>
         <Footer
           isOpen
-          caseComments={caseComments}
+          caseComments={comments}
           collapsibleId={collapsibleId ?? collpseId}
         />
       </CaseContext.Provider>
