@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import { FancyLoader } from '@supportlogic/frontend-library';
 import PlaceHolder from '../PlaceHolder/PlaceHolder.components';
@@ -32,12 +32,8 @@ function Sentiments({
   attentionScore,
   sentiments = [],
 }: Props) {
-  const {
-    isLoading,
-    isCaseScoresLoading,
-    isCaseSentimentLoading,
-    setCurrentSentimentIdx,
-  } = useCaseContext();
+  const { isLoading, isCaseScoresLoading, isCaseSentimentsLoading } =
+    useCaseContext();
 
   const sliderSettings = {
     dots: true,
@@ -49,13 +45,6 @@ function Sentiments({
     arrows: false,
     className: 'sentiment-slider',
   };
-
-  const onHandleSliderChange = useCallback(
-    (current = 0): void => {
-      setCurrentSentimentIdx(current);
-    },
-    [setCurrentSentimentIdx],
-  );
 
   const renderer = (sentiment: TSentimentNew, index: number) => (
     <SentimentSlide
@@ -70,7 +59,7 @@ function Sentiments({
     </SentimentSlide>
   );
 
-  if (isLoading || isCaseScoresLoading || isCaseSentimentLoading) {
+  if (isLoading || isCaseScoresLoading || isCaseSentimentsLoading) {
     return (
       <LoaderWrapper>
         <FancyLoader size={30} />
@@ -103,7 +92,6 @@ function Sentiments({
               items={sentiments}
               renderer={renderer}
               sliderSettings={sliderSettings}
-              onAfterChange={onHandleSliderChange}
             />
           </>
         ) : (

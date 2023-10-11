@@ -112,3 +112,65 @@ export function getCaseSentiments({
     })
     .then((response) => response.data);
 }
+
+export function getCaseCommentSegments({
+  sl_ticket_id,
+  annotations,
+}: {
+  sl_ticket_id: string;
+  annotations?: any[];
+}): Promise<any> {
+  const payload = {
+    page_size: 5,
+    page_number: 0,
+    sort_key: 's_created_at',
+    sort_direction: 'desc',
+    filter_list: [
+      {
+        column: 's_id',
+        op: 'in',
+        value: (annotations ?? []).map((x) => x.object_owner.object_id),
+      },
+    ],
+  };
+  return fetch(`${baseUrl}/api/v2/content/segment/query`, {
+    ...getPostHeadersWithBody(payload),
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      if (response.error) {
+        return Promise.reject(response.message);
+      }
+      return response;
+    })
+    .then((response) => response.data);
+}
+
+export function getCaseAnnotationNotes({
+  sl_ticket_id,
+}: {
+  sl_ticket_id: string;
+}): Promise<any> {
+  const payload = {
+    page_size: 100,
+    page_number: 0,
+    sort_key: 's_created_at',
+    sort_direction: 'desc',
+    filter_list: [
+      { column: 'note_type', op: '=', value: 'SH_DISCUSSION' },
+      { column: 'group_key', op: '=', value: sl_ticket_id },
+      { column: 'parent:s_id', op: 'is_null' },
+    ],
+  };
+  return fetch(`${baseUrl}/api/v2/note/query`, {
+    ...getPostHeadersWithBody(payload),
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      if (response.error) {
+        return Promise.reject(response.message);
+      }
+      return response;
+    })
+    .then((response) => response.data);
+}

@@ -6,13 +6,13 @@ export type TCaseContext = {
   hasError: boolean;
   isLoading: boolean;
   userAndCaseDetails: TUserAndCaseDetails;
-  currentSentimentIdx: number;
-  setCurrentSentimentIdx: React.Dispatch<React.SetStateAction<number>>;
 
   currentCommentIdx: number;
   setCurrentCommentIdx: React.Dispatch<React.SetStateAction<number>>;
   isCaseScoresLoading: boolean;
-  isCaseSentimentLoading: boolean;
+  isCaseCommentsLoading: boolean;
+  isCaseSentimentsLoading: boolean;
+  isCaseAnnotationNotesLoading: boolean;
 };
 
 export const CaseContext = createContext<TCaseContext>({
@@ -20,14 +20,13 @@ export const CaseContext = createContext<TCaseContext>({
   isLoading: false,
   userAndCaseDetails: userAndCaseDefaultValue,
 
-  currentSentimentIdx: 0,
-  setCurrentSentimentIdx: noop,
-
   currentCommentIdx: 0,
   setCurrentCommentIdx: noop,
 
   isCaseScoresLoading: false,
-  isCaseSentimentLoading: false,
+  isCaseCommentsLoading: false,
+  isCaseSentimentsLoading: false,
+  isCaseAnnotationNotesLoading: false,
 });
 
 function useCaseContext() {
