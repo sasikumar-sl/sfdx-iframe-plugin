@@ -144,12 +144,6 @@ export function MainContent() {
       enabled: !!(userAndCaseDetails?.caseId && caseAnnotationNotes?.length),
     },
   );
-  // eslint-disable-next-line no-console
-  if (caseAnnotationNotes)
-    console.log('================ caseAnnotationNotes: ', caseAnnotationNotes);
-  // eslint-disable-next-line no-console
-  if (caseComments)
-    console.log('================ caseComments: ', caseComments);
 
   const comments = useMemo(
     () => data?.sentiments?.[3]?.comments ?? [],
