@@ -18,11 +18,11 @@ import {
   SignalFooterText,
   SignalTextContainer,
 } from './SentimentCard.styles';
-import { TSentimentNew } from '../../../../common';
+import { TSentiment } from '../../../../common';
 
 type Props = {
   isBlured: boolean;
-  sentiment: TSentimentNew;
+  sentiment: TSentiment;
   tooltipStyles?: CSSProperties;
 };
 

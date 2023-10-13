@@ -1,36 +1,5 @@
 export type TDate = Date | string | number;
 
-export type TAnnotation = {
-  name: string;
-  id: string | number;
-  text: string;
-  created_at: TDate;
-  userId?: string;
-  profileUrl?: string;
-  isActive?: boolean;
-};
-
-export type TCaseComment = {
-  id: string;
-  text: string;
-  created_at: TDate;
-  comments?: TAnnotation[];
-  [k: string]: any;
-};
-
-export type TSentiment = {
-  id: string;
-  text: string;
-  labels: string[];
-  created_at: TDate;
-  annotations?: TCaseComment[];
-  [k: string]: any;
-};
-
-export type TCaseDetails = {
-  sentiments: TSentiment[];
-};
-
 export type TMethodName = {
   methodName: string;
   [k: string]: unknown;
@@ -54,13 +23,13 @@ export type TGetUserCase = {
 
 export type ArrayType<T> = T extends (infer U)[] ? U : any;
 
-export type TCaseScores = {
+export type TScores = {
   sl_ticket_id: string;
   sl_sentiment_score: number;
   sl_need_attention_score: number;
 };
 
-export type TSentimentNew = {
+export type TSentiment = {
   sl_created_at: string;
   sl_author_name: string;
   sl_body: string;
@@ -79,7 +48,7 @@ export type TObjectOwner = {
   object_type: string;
 };
 
-export type TAnnotationNote = {
+export type TAnnotation = {
   s_id: string;
   s_object_creator: TObjectOwner;
   s_created_at: string;
@@ -96,10 +65,10 @@ export type TAnnotationNote = {
   is_draft: boolean;
   recipient_list: any[]; // Replace with the actual type if known
   attachment_metadata_list: any[]; // Replace with the actual type if known
-  child_notes?: TAnnotationNote[];
+  child_notes?: TAnnotation[];
 };
 
-export type TCommentSegment = {
+export type TComment = {
   s_id: string;
   s_object_creator: {
     object_id: string | null;
