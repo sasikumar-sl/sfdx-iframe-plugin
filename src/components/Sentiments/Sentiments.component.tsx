@@ -1,38 +1,41 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
-import { FancyLoader } from '@supportlogic/frontend-library';
 import PlaceHolder from '../PlaceHolder/PlaceHolder.components';
 
 import useCaseContext from '../../reactCustomHooks/useCaseContext';
 
 import Sliders from '../Slider/Slider.component';
 import { TSentiment, generateUniqKey } from '../../common';
-import SentimentCard from './components/SentimentCard/SentimentCard.component';
+
+import SentimentLoader from './components/Sentiment/SentimentLoader.component';
+import Sentiment from './components/Sentiment/Sentiment.component';
+import Score, { ScoreSkeleton } from './components/Score/Score.component';
+
+import { TScore } from './components/Score/Score.types';
 
 import {
   Title,
   Scorers,
-  LoaderWrapper,
   SentimentSlide,
   ScoreCardsWrapper,
   SentimentsContainer,
 } from './Sentiments.styles';
-import Score from './components/Score/Score.component';
 
 const tooltipStyles = { width: 'auto', maxWidth: 'calc(75% - 40px)' };
 
 type Props = {
-  sentimentScore: number;
-  attentionScore: number;
+  scores: { [key in TScore]: number };
   sentiments?: TSentiment[];
 };
 
 function Sentiments({
-  sentimentScore,
-  attentionScore,
+  scores = {
+    Sentiment: 0,
+    Attention: 0,
+  },
   sentiments = [],
 }: Props) {
-  const { isLoading, handleSentimentChanges } = useCaseContext();
+  const { isCaseScoresLoading, isCaseSentimentsLoading } = useCaseContext();
 
   const sliderSettings = {
     dots: true,
@@ -45,19 +48,12 @@ function Sentiments({
     className: 'sentiment-slider',
   };
 
-  const onHandleSliderChange = useCallback(
-    (current = 0): void => {
-      handleSentimentChanges(current);
-    },
-    [handleSentimentChanges],
-  );
-
   const renderer = (sentiment: TSentiment, index: number) => (
     <SentimentSlide
       className="sentiment-slide-wrapper"
-      key={sentiment?.id ?? generateUniqKey()}
+      key={sentiment?.sl_comment_id ?? generateUniqKey()}
     >
-      <SentimentCard
+      <Sentiment
         sentiment={sentiment}
         tooltipStyles={tooltipStyles}
         isBlured={index > 2}
@@ -65,45 +61,41 @@ function Sentiments({
     </SentimentSlide>
   );
 
-  if (isLoading) {
-    return (
-      <LoaderWrapper>
-        <FancyLoader size={30} />
-      </LoaderWrapper>
-    );
-  }
+  const condSentiments = sentiments.length ? (
+    <>
+      <Title>Sentiments Detected</Title>
+      <Sliders
+        id="sliders-wrapper-sentiments"
+        height={125}
+        showPagination
+        items={sentiments}
+        renderer={renderer}
+        sliderSettings={sliderSettings}
+      />
+    </>
+  ) : (
+    <PlaceHolder />
+  );
 
   return (
     <SentimentsContainer>
       <Scorers>
-        <Score
-          type="Sentiment"
-          label="Sentiment Score"
-          value={sentimentScore}
-        />
-        <Score
-          type="Attention"
-          label="Attention Score"
-          value={attentionScore}
-        />
-      </Scorers>
-      <ScoreCardsWrapper>
-        {sentiments.length ? (
-          <>
-            <Title>Sentiments Detected</Title>
-            <Sliders
-              id="sliders-wrapper-sentiments"
-              height={125}
-              showPagination
-              items={sentiments}
-              renderer={renderer}
-              sliderSettings={sliderSettings}
-              onAfterChange={onHandleSliderChange}
+        {Object.keys(scores).map((type) =>
+          isCaseScoresLoading ? (
+            <ScoreSkeleton key={type} />
+          ) : (
+            <Score
+              key={type}
+              type={type as TScore}
+              label={`${type} Score`}
+              value={scores?.[type as TScore]}
             />
-          </>
-        ) : (
-          <PlaceHolder />
+          ),
         )}
+      </Scorers>
+
+      <ScoreCardsWrapper>
+        {isCaseSentimentsLoading ? <SentimentLoader /> : condSentiments}
       </ScoreCardsWrapper>
     </SentimentsContainer>
   );

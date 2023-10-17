@@ -59,24 +59,24 @@ export const Pagination = styled.div<TPagintion>`
     if (position === 'top-left') {
       return `
         top: 0;
-        left: 21%;
+        left: 17%;
       `;
     }
     if (position === 'bottom-right') {
       return `
         bottom: 0;
-        right: 21%;
+        right: 17%;
       `;
     }
     if (position === 'bottom-left') {
       return `
         bottom: 0;
-        left: 21%;
+        left: 17%;
       `;
     }
     return `
         top: 0;
-        right: 21%;
+        right: 17%;
     `;
   }}
 `;
@@ -150,11 +150,18 @@ export const ArrowsWrapper = styled.div`
     &#pre-arrow {
       ${arrowStyles}
       left: 10%;
+
+      @media (max-width: 767px) {
+        left: 3%;
+      }
     }
 
     &#next-arrow {
       ${arrowStyles}
       right: 10%;
+      @media (max-width: 767px) {
+        right: 3%;
+      }
     }
   }
 `;

@@ -1,75 +1,46 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useState, useId } from 'react';
 import Collapsible from 'react-collapsible';
 
-import { FancyLoader } from '@supportlogic/frontend-library';
-import { TAnnotation, TComment, generateUniqKey } from '../../common';
-import Sliders from '../Slider/Slider.component';
+import { TAnnotation, TComment, SkeletonLoader } from '../../common';
 import useCaseContext from '../../reactCustomHooks/useCaseContext';
-import AnnotationCard from '../AnnotationCard/AnnotationCard.component';
 
 import {
   Label,
-  Title,
   IconWrapper,
-  LoaderWrapper,
-  AnnotationSlide,
-  CommentsWrapper,
+  AnnotationWrapper,
   FooterContainer,
   CollapsibleBody,
   CollapsibleHeader,
   StyledDoubleUpIcon,
   StyledDoubleDownIcon,
 } from './Footer.styles';
+import Annotations from '../Annotations/Annotations.component';
 import Comments from '../Comments/Comments.component';
+import AnnotationLoader from '../Annotations/Annotation/AnnotationLoader.component';
+import CommentLoader from '../Comments/Comment/CommentLoader.component';
 
 type Props = {
-  annotations: TAnnotation[];
   isOpen?: boolean;
-  collapsibleId?: string;
+  caseComments: TComment[];
+  caseAnnotations?: TAnnotation[];
 };
 
 function Footer({
-  annotations = [],
   isOpen = false,
-  collapsibleId = generateUniqKey(),
+  caseComments = [],
+  caseAnnotations = [],
 }: Props) {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(isOpen);
-  const { isLoading, currentAnnotationIdx, handleAnnotationChanges } =
+  const { hasError, isCaseAnnotationsLoading, isCaseCommentsLoading } =
     useCaseContext();
+  const collapsibleId = useId();
 
-  const sliderSettings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    swipe: false,
-    arrows: false,
-    className: 'annotations-slider',
-  };
+  // const annotations: any[] = useMemo(
+  //   () => caseComments?.[currentCommentIdx]?.annotations ?? [],
+  //   [caseComments, currentCommentIdx],
+  // );
 
-  const onHandleSliderChange = useCallback(
-    (current: number): void => {
-      handleAnnotationChanges(current ?? 0);
-    },
-    [handleAnnotationChanges],
-  );
-
-  const comments: TComment[] = useMemo(
-    () => annotations?.[currentAnnotationIdx]?.comments ?? [],
-    [annotations, currentAnnotationIdx],
-  );
-
-  if (isLoading) {
-    return (
-      <LoaderWrapper>
-        <Title>Case Annotations</Title>
-        <FancyLoader size={10} />
-      </LoaderWrapper>
-    );
-  }
-
-  if (!annotations.length) {
+  if (!isCaseAnnotationsLoading && !caseAnnotations.length) {
     return (
       <FooterContainer>
         <Label>No Case Annotations</Label>
@@ -77,42 +48,45 @@ function Footer({
     );
   }
 
-  const renderer = (annotation: any) => (
-    <AnnotationSlide
-      className="annotations-slide-wrapper"
-      key={annotation?.id ?? generateUniqKey()}
-    >
-      <AnnotationCard annotation={annotation} />
-    </AnnotationSlide>
-  );
   const icon = isCollapsed ? <StyledDoubleUpIcon /> : <StyledDoubleDownIcon />;
 
   return (
     <Collapsible
       key={collapsibleId}
       openedClassName="collapse-open"
-      open={isCollapsed}
-      handleTriggerClick={() => setIsCollapsed((val) => !val)}
+      open={isCollapsed && !hasError}
+      handleTriggerClick={() =>
+        hasError ? null : setIsCollapsed((val) => !val)
+      }
       trigger={
-        <CollapsibleHeader noBorder={isCollapsed}>
-          <Label>Case Annotations</Label>
+        <CollapsibleHeader
+          hasBorder={isCollapsed && !hasError}
+          disabled={hasError}
+        >
+          <Label>
+            {isCaseAnnotationsLoading ? (
+              <SkeletonLoader width={150} height={15} />
+            ) : (
+              'Case Annotations'
+            )}
+          </Label>
           <IconWrapper>{icon}</IconWrapper>
         </CollapsibleHeader>
       }
     >
       <CollapsibleBody>
-        <Sliders
-          id="sliders-wrapper-annotations"
-          height={124}
-          showPagination
-          renderer={renderer}
-          items={annotations ?? []}
-          sliderSettings={sliderSettings}
-          onAfterChange={onHandleSliderChange}
-        />
-        <CommentsWrapper>
-          <Comments comments={comments ?? []} />
-        </CommentsWrapper>
+        {isCaseCommentsLoading ? (
+          <CommentLoader />
+        ) : (
+          <Comments comments={caseComments} />
+        )}
+        <AnnotationWrapper>
+          {isCaseAnnotationsLoading ? (
+            <AnnotationLoader />
+          ) : (
+            <Annotations annotations={caseAnnotations ?? []} />
+          )}
+        </AnnotationWrapper>
       </CollapsibleBody>
     </Collapsible>
   );

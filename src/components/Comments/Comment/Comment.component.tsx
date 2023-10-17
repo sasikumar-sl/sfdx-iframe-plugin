@@ -1,36 +1,17 @@
 import React from 'react';
-import { formatDistance } from 'date-fns';
+import { TComment } from '../../../common';
 
-import {
-  Profile,
-  Container,
-  CommentedAt,
-  CommentBody,
-  CommentHeader,
-  CommentWrapper,
-} from './Comment.styles';
+import { Card, CaseComment } from './Comment.styles';
 
 type Props = {
-  comment?: any;
+  comment: TComment;
 };
 
 function Comment({ comment }: Props) {
-  const timestamp = new Date(comment?.created_at).getTime();
-
   return (
-    <Container>
-      <CommentWrapper>
-        <CommentHeader>
-          <Profile>
-            <span>{comment?.name}</span>
-          </Profile>
-          <CommentedAt>
-            {formatDistance(timestamp, Date.now(), { addSuffix: true })}
-          </CommentedAt>
-        </CommentHeader>
-        <CommentBody>{comment?.text}</CommentBody>
-      </CommentWrapper>
-    </Container>
+    <Card>
+      <CaseComment>{comment?.original_content ?? ''}</CaseComment>
+    </Card>
   );
 }
 

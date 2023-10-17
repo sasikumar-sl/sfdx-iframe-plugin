@@ -1,82 +1,163 @@
 import React, { useMemo, useState } from 'react';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { CaseContext } from '../../reactCustomHooks/useCaseContext';
 
-// import Tree from 'components/Tree/Tree.component';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { useErrorBoundary } from 'react-error-boundary';
+
+import { CaseContext } from '../../reactCustomHooks/useCaseContext';
+import {
+  useSendMessageToParent,
+  useWindowMessageListener,
+} from '../../reactCustomHooks';
+
 import Header from '../../components/Header/Header.component';
 import Footer from '../../components/Footer/Footer.component';
 import Sentiments from '../../components/Sentiments/Sentiments.component';
 
+import {
+  TData,
+  TScores,
+  TMethodName,
+  TGetUserCase,
+  getCaseScores,
+  getCaseSentiments,
+  TUserAndCaseDetails,
+  getCaseCommentSegments,
+  getTransformedUserCaseDetails,
+  getcaseAnnotations,
+  TAnnotation,
+} from '../../common';
+
 import { MainContainer, Content } from './MainContent.styles';
-import { TAnnotation, TCaseDetails, wait } from '../../common';
-
-import CaseMockData from './MockData';
-
-const placeholderData: TCaseDetails = {
-  sentimentScore: 0,
-  attentionScore: 0,
-  sentiments: [],
-};
+import { GET_SESSION_DETAILS } from '../../common/constants';
 
 export function MainContent() {
-  const { isLoading, data }: UseQueryResult<TCaseDetails, Error> = useQuery<
-    TCaseDetails,
-    Error
-  >(['case'], () => wait(1000).then(() => CaseMockData));
+  const [currentCommentIdx, setCurrentCommentIdx] = useState(0);
+  const [hasError] = useState(false);
+  const { showBoundary } = useErrorBoundary();
 
-  const [currentSentimentIdx, setCurrentSentimentIdx] = useState(0);
-  const [currentAnnotationIdx, setCurrentAnnotationIdx] = useState(0);
+  // initiating Custom hooks
+  // Initiating the window message listener hook for get data from Parent
+  const { receivedData } = useWindowMessageListener<TData, TGetUserCase>();
 
-  const handleSentimentChanges = (idx: number) => {
-    setCurrentSentimentIdx(idx);
-  };
-  const handleAnnotationChanges = (idx: number) => {
-    setCurrentAnnotationIdx(idx);
-  };
+  useSendMessageToParent<TMethodName & TData>({
+    methodName: GET_SESSION_DETAILS,
+    data: 'Initiate API call to SF and get date',
+  });
+
+  const userAndCaseDetails: TUserAndCaseDetails = useMemo(
+    () => getTransformedUserCaseDetails(receivedData),
+    [receivedData],
+  );
+
+  const {
+    isLoading: isCaseScoresLoading,
+    data: caseScores,
+  }: UseQueryResult<TScores, Error> = useQuery<TScores, Error>(
+    ['caseScores', userAndCaseDetails?.caseId],
+    () =>
+      getCaseScores({ sl_ticket_id: userAndCaseDetails?.caseId }).catch(
+        (error: any) => {
+          showBoundary(error);
+          return Promise.reject(error);
+        },
+      ),
+    {
+      enabled: !!userAndCaseDetails?.caseId,
+    },
+  );
+
+  const {
+    isLoading: isCaseSentimentsLoading,
+    data: caseSentiments,
+  }: UseQueryResult<any, Error> = useQuery<any, Error>(
+    ['caseSentiments', userAndCaseDetails?.caseId],
+    () =>
+      getCaseSentiments({ sl_ticket_id: userAndCaseDetails?.caseId }).catch(
+        (error: any) => {
+          showBoundary(error);
+          return Promise.reject(error);
+        },
+      ),
+    {
+      enabled: !!userAndCaseDetails?.caseId,
+    },
+  );
+
+  const {
+    isLoading: isCaseAnnotationsLoading,
+    data: caseAnnotations,
+  }: UseQueryResult<TAnnotation[], Error> = useQuery<any, Error>(
+    ['caseAnnotations', userAndCaseDetails?.caseId],
+    () =>
+      getcaseAnnotations({
+        sl_ticket_id: userAndCaseDetails?.caseId,
+      }).catch((error: any) => {
+        showBoundary(error);
+        return Promise.reject(error);
+      }),
+    {
+      enabled: !!userAndCaseDetails?.caseId,
+    },
+  );
+
+  const {
+    isLoading: isCaseCommentsLoading,
+    data: caseComments,
+  }: UseQueryResult<any, Error> = useQuery<any, Error>(
+    ['caseComments', userAndCaseDetails?.caseId],
+    () =>
+      getCaseCommentSegments({
+        sl_ticket_id: userAndCaseDetails?.caseId,
+        annotations: caseAnnotations,
+      }).catch((error: any) => {
+        showBoundary(error);
+        return Promise.reject(error);
+      }),
+    {
+      enabled: !!(userAndCaseDetails?.caseId && caseAnnotations?.length),
+    },
+  );
 
   const contextValue = useMemo(
     () => ({
-      isLoading,
-
-      currentSentimentIdx,
-      handleSentimentChanges,
-
-      currentAnnotationIdx,
-      handleAnnotationChanges,
+      hasError,
+      userAndCaseDetails,
+      currentCommentIdx,
+      setCurrentCommentIdx,
+      isCaseScoresLoading,
+      isCaseSentimentsLoading,
+      isCaseCommentsLoading,
+      isCaseAnnotationsLoading,
     }),
-    [isLoading, currentSentimentIdx, currentAnnotationIdx],
+    [
+      hasError,
+      userAndCaseDetails,
+      currentCommentIdx,
+      isCaseScoresLoading,
+      isCaseSentimentsLoading,
+      isCaseCommentsLoading,
+      isCaseAnnotationsLoading,
+    ],
   );
 
-  const { sentimentScore, attentionScore, sentiments }: TCaseDetails =
-    data ?? placeholderData;
-
-  const annotations: TAnnotation[] = useMemo(
-    () => sentiments?.[currentSentimentIdx]?.annotations ?? [],
-    [sentiments, currentSentimentIdx],
-  );
-
-  const collapsibleId = useMemo(
-    () => sentiments[currentSentimentIdx ?? 0]?.id,
-    [sentiments, currentSentimentIdx],
-  );
+  const scores = {
+    Sentiment: caseScores?.sl_sentiment_score ?? 0,
+    Attention: caseScores?.sl_need_attention_score ?? 0,
+  };
 
   return (
     <MainContainer>
       <CaseContext.Provider value={contextValue}>
         <Header />
         <Content>
-          <Sentiments
-            sentimentScore={sentimentScore}
-            attentionScore={attentionScore}
-            sentiments={sentiments ?? []}
-          />
+          <Sentiments scores={scores} sentiments={caseSentiments} />
         </Content>
         <Footer
           isOpen
-          annotations={annotations}
-          collapsibleId={collapsibleId}
+          caseComments={caseComments}
+          caseAnnotations={caseAnnotations}
         />
       </CaseContext.Provider>
     </MainContainer>

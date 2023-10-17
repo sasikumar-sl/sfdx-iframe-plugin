@@ -36,4 +36,10 @@ export const Text = styled.span`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+
+  &.case-number {
+    color: #4a4a4a;
+    font-weight: 400;
+    font-size: 14px;
+  }
 `;

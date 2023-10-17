@@ -1,13 +1,5 @@
 import styled from 'styled-components';
 
-export const LoaderWrapper = styled.section`
-  width: 100%;
-  min-height: 262px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 export const SentimentsContainer = styled.div`
   width: 100%;
   height: 100%;

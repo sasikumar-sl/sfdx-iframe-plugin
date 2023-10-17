@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
-// import useCaseContext from '../../reactCustomHooks/useCaseContext';
+import useCaseContext from '../../reactCustomHooks/useCaseContext';
+
 import Sliders from '../Slider/Slider.component';
-
-import { generateUniqKey, TComment } from '../../common';
 import Comment from './Comment/Comment.component';
 
-import { Wrapper, CommentSlide } from './Comments.styes';
+import { TComment, generateUniqKey } from '../../common';
+import { CaseCommmentSlide } from './comments.styels';
 
 type Props = {
   comments: TComment[];
 };
-
-function Comments({ comments = [] }: Props) {
+function Comments({ comments }: Props) {
+  const { setCurrentCommentIdx } = useCaseContext();
   const sliderSettings = {
     dots: false,
     infinite: false,
@@ -21,29 +21,34 @@ function Comments({ comments = [] }: Props) {
     slidesToScroll: 1,
     swipe: false,
     arrows: false,
-    className: 'comments-slider',
+    className: 'case-comments-slider',
   };
 
-  const renderer = (comment: TComment) => (
-    <CommentSlide
-      className="comment-slide-wrapper"
-      key={comment?.id ?? generateUniqKey()}
-    >
-      <Comment comment={comment} />
-    </CommentSlide>
+  const onHandleSliderChange = useCallback(
+    (current: number): void => {
+      setCurrentCommentIdx(current ?? 0);
+    },
+    [setCurrentCommentIdx],
   );
 
+  const renderer = (caseCommment: TComment) => (
+    <CaseCommmentSlide
+      className="case-comments-slide-wrapper"
+      key={caseCommment?.s_id ?? generateUniqKey()}
+    >
+      <Comment comment={caseCommment} />
+    </CaseCommmentSlide>
+  );
   return (
-    <Wrapper>
-      <Sliders
-        id="sliders-wrapper-comments"
-        height={140}
-        showArrows
-        items={comments}
-        renderer={renderer}
-        sliderSettings={sliderSettings}
-      />
-    </Wrapper>
+    <Sliders
+      id="sliders-wrapper-case-comments"
+      height={124}
+      showPagination
+      renderer={renderer}
+      items={comments ?? []}
+      sliderSettings={sliderSettings}
+      onAfterChange={onHandleSliderChange}
+    />
   );
 }
 

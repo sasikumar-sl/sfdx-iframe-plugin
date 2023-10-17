@@ -9,15 +9,15 @@ import {
 } from '../../../../common/helpers/sentiments/sentimentsHelper';
 
 import {
-  Card,
   Wrapper,
+  Container,
   SignalText,
   BluredTitle,
   SignalLabels,
   BluredWrapper,
   SignalFooterText,
   SignalTextContainer,
-} from './SentimentCard.styles';
+} from './Sentiment.styles';
 import { TSentiment } from '../../../../common';
 
 type Props = {
@@ -26,9 +26,9 @@ type Props = {
   tooltipStyles?: CSSProperties;
 };
 
-function SentimentCard({ sentiment, tooltipStyles, isBlured }: Props) {
-  const labels = formatLabels(sentiment.labels);
-  const timestamp = new Date(sentiment.created_at).getTime();
+function Sentiment({ sentiment, tooltipStyles, isBlured }: Props) {
+  const labels = formatLabels(Object.keys(sentiment.sl_span_counts));
+  const timestamp = new Date(sentiment.sl_created_at).getTime();
 
   const Blured = useMemo(() => {
     if (!isBlured) return null;
@@ -50,7 +50,7 @@ function SentimentCard({ sentiment, tooltipStyles, isBlured }: Props) {
   }, [isBlured]);
 
   return (
-    <Card>
+    <Container>
       {Blured}
       <Wrapper>
         <SignalLabels>
@@ -67,10 +67,10 @@ function SentimentCard({ sentiment, tooltipStyles, isBlured }: Props) {
             styles={tooltipStyles}
             zIndex={9999}
             placement="bottom"
-            content={sentiment?.text}
+            content={sentiment?.sl_body}
             containerStyle={{ width: '100%' }}
           >
-            <SignalText>{sentiment?.text}</SignalText>
+            <SignalText>{sentiment?.sl_body}</SignalText>
           </WithTooltip>
         </SignalTextContainer>
         <SignalFooterText>
@@ -79,8 +79,8 @@ function SentimentCard({ sentiment, tooltipStyles, isBlured }: Props) {
           })} | Most Recent`}
         </SignalFooterText>
       </Wrapper>
-    </Card>
+    </Container>
   );
 }
 
-export default SentimentCard;
+export default Sentiment;

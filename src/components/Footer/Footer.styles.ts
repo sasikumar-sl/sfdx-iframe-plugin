@@ -59,7 +59,8 @@ export const StyledDoubleDownIcon = styled(DoubleDownIcon)``;
 export const StyledDoubleUpIcon = styled(DoubleUpIcon)``;
 
 type TCollapsibleHeader = {
-  noBorder?: boolean;
+  hasBorder?: boolean;
+  disabled?: boolean;
 };
 
 export const CollapsibleHeader = styled.div<TCollapsibleHeader>`
@@ -75,7 +76,22 @@ export const CollapsibleHeader = styled.div<TCollapsibleHeader>`
   border-top: 1px solid #d7d7d7;
   border-left: 1px solid #d7d7d7;
   border-right: 1px solid #d7d7d7;
-  border-bottom: ${(props) => (props?.noBorder ? 'none' : '1px solid #d7d7d7')};
+  border-bottom: ${(props) =>
+    props?.hasBorder ? 'none' : '1px solid #d7d7d7'};
+
+  ${(props) =>
+    props?.disabled &&
+    `
+      cursor: not-allowed;
+      pointer-events: none;
+
+      & div {
+        color: #e1e1e1;
+      }
+      & svg {
+        opacity: 0.4;
+      }
+  `}
 `;
 
 export const CollapsibleBody = styled.div`
@@ -84,39 +100,11 @@ export const CollapsibleBody = styled.div`
   width: 100%;
   border: 1px solid #d7d7d7;
   border-top: none;
-  background: #f8f8f8;
+  background: #ffffff;
   position: relative;
-
-  .annotations-slider {
-    /* margin-top: 10px; */
-  }
 `;
 
-export const AnnotationSlide = styled.div`
-  position: relative;
-
-  & + & {
-    :before {
-      content: ' ';
-      height: 100px;
-      width: 1px;
-      background: #e1e1e1;
-      position: absolute;
-      top: 50%;
-      left: 0;
-      transform: translateY(-50%);
-    }
-  }
-
-  &.annotations-slide-wrapper {
-    display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-    /* margin-top: 6px; */
-  }
-`;
-
-export const CommentsWrapper = styled.div`
+export const AnnotationWrapper = styled.div`
   height: 140px;
   width: 100%;
   border: 1px solid #d7d7d7;

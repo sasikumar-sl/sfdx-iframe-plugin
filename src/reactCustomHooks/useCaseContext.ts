@@ -1,23 +1,30 @@
-import { useContext, createContext } from 'react';
+import React, { useContext, createContext } from 'react';
 import noop from 'lodash/noop';
+import { TUserAndCaseDetails, userAndCaseDefaultValue } from '../common';
 
 export type TCaseContext = {
-  isLoading: boolean;
-  currentSentimentIdx: number;
-  handleSentimentChanges: (idx: number) => void;
+  hasError: boolean;
+  userAndCaseDetails: TUserAndCaseDetails;
 
-  currentAnnotationIdx: number;
-  handleAnnotationChanges: (idx: number) => void;
+  currentCommentIdx: number;
+  setCurrentCommentIdx: React.Dispatch<React.SetStateAction<number>>;
+  isCaseScoresLoading: boolean;
+  isCaseCommentsLoading: boolean;
+  isCaseSentimentsLoading: boolean;
+  isCaseAnnotationsLoading: boolean;
 };
 
 export const CaseContext = createContext<TCaseContext>({
-  isLoading: false,
+  hasError: false,
+  userAndCaseDetails: userAndCaseDefaultValue,
 
-  currentSentimentIdx: 0,
-  handleSentimentChanges: noop,
+  currentCommentIdx: 0,
+  setCurrentCommentIdx: noop,
 
-  currentAnnotationIdx: 0,
-  handleAnnotationChanges: noop,
+  isCaseScoresLoading: false,
+  isCaseCommentsLoading: false,
+  isCaseSentimentsLoading: false,
+  isCaseAnnotationsLoading: false,
 });
 
 function useCaseContext() {
