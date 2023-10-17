@@ -3,12 +3,30 @@ import { WithTooltip } from '@supportlogic/frontend-library';
 import SentimentsScorePopover from '../../../SentimentScorePopover/SentimentScorePopover.component';
 import AttentionScorePopover from '../../../AttentionScorePopover/AttentionScorePopover.component';
 import { TScoreObject, TScore } from './Score.types';
-import { ScoreWrapper, StyledScore, StyledInfoIcon } from './Score.styles';
+
+import {
+  ScoreWrapper,
+  StyledScore,
+  StyledInfoIcon,
+  SkeletonScore,
+  SkeletonName,
+  SkeletonIcon,
+} from './Score.styles';
 
 const popoverObject: TScoreObject = {
   Sentiment: <SentimentsScorePopover />,
   Attention: <AttentionScorePopover />,
 };
+
+export function ScoreSkeleton() {
+  return (
+    <ScoreWrapper>
+      <SkeletonScore />
+      <SkeletonName />
+      <SkeletonIcon />
+    </ScoreWrapper>
+  );
+}
 
 type Props = {
   type: TScore;

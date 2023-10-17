@@ -36,7 +36,7 @@ function Annotations({ annotations = [] }: Props) {
   const renderer = (annotation: TAnnotation) => (
     <AnnoationSlide
       className="annotation-slide-wrapper"
-      key={annotation?.id ?? generateUniqKey()}
+      key={annotation?.s_id ?? generateUniqKey()}
     >
       <Annotation annotation={annotation} />
     </AnnoationSlide>
