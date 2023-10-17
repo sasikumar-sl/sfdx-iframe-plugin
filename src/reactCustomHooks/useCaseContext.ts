@@ -4,7 +4,6 @@ import { TUserAndCaseDetails, userAndCaseDefaultValue } from '../common';
 
 export type TCaseContext = {
   hasError: boolean;
-  isLoading: boolean;
   userAndCaseDetails: TUserAndCaseDetails;
 
   currentCommentIdx: number;
@@ -12,12 +11,11 @@ export type TCaseContext = {
   isCaseScoresLoading: boolean;
   isCaseCommentsLoading: boolean;
   isCaseSentimentsLoading: boolean;
-  isCaseAnnotationNotesLoading: boolean;
+  isCaseAnnotationsLoading: boolean;
 };
 
 export const CaseContext = createContext<TCaseContext>({
   hasError: false,
-  isLoading: false,
   userAndCaseDetails: userAndCaseDefaultValue,
 
   currentCommentIdx: 0,
@@ -26,7 +24,7 @@ export const CaseContext = createContext<TCaseContext>({
   isCaseScoresLoading: false,
   isCaseCommentsLoading: false,
   isCaseSentimentsLoading: false,
-  isCaseAnnotationNotesLoading: false,
+  isCaseAnnotationsLoading: false,
 });
 
 function useCaseContext() {

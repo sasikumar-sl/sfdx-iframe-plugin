@@ -28,11 +28,11 @@ export function getCaseDetails({
     .then((response) => response.data);
 }
 
-export function getCaseScores({
-  sl_ticket_id,
-}: {
+type TCommonParams = {
   sl_ticket_id: string;
-}): Promise<any> {
+};
+
+export function getCaseScores({ sl_ticket_id }: TCommonParams): Promise<any> {
   const payload = {
     selected: ['sl_sentiment_score', 'sl_need_attention_score', 'sl_ticket_id'],
     predicates: [
@@ -68,9 +68,7 @@ export function getCaseScores({
 
 export function getCaseSentiments({
   sl_ticket_id,
-}: {
-  sl_ticket_id: string;
-}): Promise<any> {
+}: TCommonParams): Promise<any> {
   const payload = {
     selected: [
       'sl_comment_id',
@@ -113,13 +111,42 @@ export function getCaseSentiments({
     .then((response) => response.data);
 }
 
+type TCaseCommentParams = TCommonParams & {
+  annotations?: any[];
+};
+
+export function getcaseAnnotations({
+  sl_ticket_id,
+}: TCommonParams): Promise<any> {
+  const payload = {
+    page_size: 100,
+    page_number: 0,
+    sort_key: 's_created_at',
+    sort_direction: 'desc',
+    filter_list: [
+      { column: 'note_type', op: '=', value: 'SH_DISCUSSION' },
+      { column: 'group_key', op: '=', value: sl_ticket_id },
+      { column: 'parent:s_id', op: 'is_null' },
+    ],
+  };
+  return fetch(`${baseUrl}/api/v2/note/query`, {
+    ...getPostHeadersWithBody(payload),
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      if (response.error) {
+        return Promise.reject(response.message);
+      }
+      return response;
+    })
+    .then((response) => response.data);
+}
+
 export function getCaseCommentSegments({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   sl_ticket_id,
   annotations,
-}: {
-  sl_ticket_id: string;
-  annotations?: any[];
-}): Promise<any> {
+}: TCaseCommentParams): Promise<any> {
   const payload = {
     page_size: 5,
     page_number: 0,
@@ -134,35 +161,6 @@ export function getCaseCommentSegments({
     ],
   };
   return fetch(`${baseUrl}/api/v2/content/segment/query`, {
-    ...getPostHeadersWithBody(payload),
-  })
-    .then((response) => response.json())
-    .then((response) => {
-      if (response.error) {
-        return Promise.reject(response.message);
-      }
-      return response;
-    })
-    .then((response) => response.data);
-}
-
-export function getCaseAnnotationNotes({
-  sl_ticket_id,
-}: {
-  sl_ticket_id: string;
-}): Promise<any> {
-  const payload = {
-    page_size: 100,
-    page_number: 0,
-    sort_key: 's_created_at',
-    sort_direction: 'desc',
-    filter_list: [
-      { column: 'note_type', op: '=', value: 'SH_DISCUSSION' },
-      { column: 'group_key', op: '=', value: sl_ticket_id },
-      { column: 'parent:s_id', op: 'is_null' },
-    ],
-  };
-  return fetch(`${baseUrl}/api/v2/note/query`, {
     ...getPostHeadersWithBody(payload),
   })
     .then((response) => response.json())

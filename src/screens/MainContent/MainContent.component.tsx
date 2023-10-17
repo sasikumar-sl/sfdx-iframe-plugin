@@ -1,4 +1,4 @@
-import React, { useId, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
@@ -17,18 +17,16 @@ import Sentiments from '../../components/Sentiments/Sentiments.component';
 
 import {
   TData,
-  TCaseScores,
+  TScores,
   TMethodName,
-  TCaseDetails,
   TGetUserCase,
   getCaseScores,
-  getCaseDetails,
   getCaseSentiments,
   TUserAndCaseDetails,
   getCaseCommentSegments,
   getTransformedUserCaseDetails,
-  getCaseAnnotationNotes,
-  TAnnotationNote,
+  getcaseAnnotations,
+  TAnnotation,
 } from '../../common';
 
 import { MainContainer, Content } from './MainContent.styles';
@@ -37,7 +35,6 @@ import { GET_SESSION_DETAILS } from '../../common/constants';
 export function MainContent() {
   const [currentCommentIdx, setCurrentCommentIdx] = useState(0);
   const [hasError] = useState(false);
-  const collpseId = useId();
   const { showBoundary } = useErrorBoundary();
 
   // initiating Custom hooks
@@ -54,32 +51,10 @@ export function MainContent() {
     [receivedData],
   );
 
-  const { isLoading, data }: UseQueryResult<TCaseDetails, Error> = useQuery<
-    TCaseDetails,
-    Error
-  >(
-    ['case'],
-    () =>
-      getCaseDetails({ limit: 5 })
-        .then((response: TCaseDetails) => {
-          const { sentiments } = response ?? {};
-          return {
-            sentiments: (sentiments ?? []).slice(0, 5),
-          } as TCaseDetails;
-        })
-        .catch((error: any) => {
-          showBoundary(error);
-          return Promise.reject(error);
-        }),
-    {
-      enabled: !!userAndCaseDetails?.caseId,
-    },
-  );
-
   const {
     isLoading: isCaseScoresLoading,
-    data: caseScoreData,
-  }: UseQueryResult<TCaseScores, Error> = useQuery<TCaseScores, Error>(
+    data: caseScores,
+  }: UseQueryResult<TScores, Error> = useQuery<TScores, Error>(
     ['caseScores', userAndCaseDetails?.caseId],
     () =>
       getCaseScores({ sl_ticket_id: userAndCaseDetails?.caseId }).catch(
@@ -111,12 +86,12 @@ export function MainContent() {
   );
 
   const {
-    isLoading: isCaseAnnotationNotesLoading,
-    data: caseAnnotationNotes,
-  }: UseQueryResult<TAnnotationNote[], Error> = useQuery<any, Error>(
-    ['caseAnnotationNotes', userAndCaseDetails?.caseId],
+    isLoading: isCaseAnnotationsLoading,
+    data: caseAnnotations,
+  }: UseQueryResult<TAnnotation[], Error> = useQuery<any, Error>(
+    ['caseAnnotations', userAndCaseDetails?.caseId],
     () =>
-      getCaseAnnotationNotes({
+      getcaseAnnotations({
         sl_ticket_id: userAndCaseDetails?.caseId,
       }).catch((error: any) => {
         showBoundary(error);
@@ -135,65 +110,54 @@ export function MainContent() {
     () =>
       getCaseCommentSegments({
         sl_ticket_id: userAndCaseDetails?.caseId,
-        annotations: caseAnnotationNotes,
+        annotations: caseAnnotations,
       }).catch((error: any) => {
         showBoundary(error);
         return Promise.reject(error);
       }),
     {
-      enabled: !!(userAndCaseDetails?.caseId && caseAnnotationNotes?.length),
+      enabled: !!(userAndCaseDetails?.caseId && caseAnnotations?.length),
     },
-  );
-
-  const comments = useMemo(
-    () => data?.sentiments?.[3]?.comments ?? [],
-    [data?.sentiments],
-  );
-
-  const collapsibleId = useMemo(
-    () => data?.sentiments[3]?.id,
-    [data?.sentiments],
   );
 
   const contextValue = useMemo(
     () => ({
       hasError,
-      isLoading,
       userAndCaseDetails,
       currentCommentIdx,
       setCurrentCommentIdx,
       isCaseScoresLoading,
       isCaseSentimentsLoading,
       isCaseCommentsLoading,
-      isCaseAnnotationNotesLoading,
+      isCaseAnnotationsLoading,
     }),
     [
       hasError,
-      isLoading,
       userAndCaseDetails,
       currentCommentIdx,
       isCaseScoresLoading,
       isCaseSentimentsLoading,
       isCaseCommentsLoading,
-      isCaseAnnotationNotesLoading,
+      isCaseAnnotationsLoading,
     ],
   );
+
+  const scores = {
+    Sentiment: caseScores?.sl_sentiment_score ?? 0,
+    Attention: caseScores?.sl_need_attention_score ?? 0,
+  };
 
   return (
     <MainContainer>
       <CaseContext.Provider value={contextValue}>
         <Header />
         <Content>
-          <Sentiments
-            sentimentScore={caseScoreData?.sl_sentiment_score ?? 0}
-            attentionScore={caseScoreData?.sl_need_attention_score ?? 0}
-            sentiments={caseSentiments ?? []}
-          />
+          <Sentiments scores={scores} sentiments={caseSentiments} />
         </Content>
         <Footer
           isOpen
-          caseComments={comments}
-          collapsibleId={collapsibleId ?? collpseId}
+          caseComments={caseComments}
+          caseAnnotations={caseAnnotations}
         />
       </CaseContext.Provider>
     </MainContainer>
