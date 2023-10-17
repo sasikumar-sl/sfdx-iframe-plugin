@@ -51,31 +51,9 @@ export function MainContent() {
     [receivedData],
   );
 
-  // const { isLoading, data }: UseQueryResult<TCaseDetails, Error> = useQuery<
-  //   TCaseDetails,
-  //   Error
-  // >(
-  //   ['case'],
-  //   () =>
-  //     getCaseDetails({ limit: 5 })
-  //       .then((response: TCaseDetails) => {
-  //         const { sentiments } = response ?? {};
-  //         return {
-  //           sentiments: (sentiments ?? []).slice(0, 5),
-  //         } as TCaseDetails;
-  //       })
-  //       .catch((error: any) => {
-  //         showBoundary(error);
-  //         return Promise.reject(error);
-  //       }),
-  //   {
-  //     enabled: !!userAndCaseDetails?.caseId,
-  //   },
-  // );
-
   const {
     isLoading: isCaseScoresLoading,
-    data: caseScoreData,
+    data: caseScores,
   }: UseQueryResult<TScores, Error> = useQuery<TScores, Error>(
     ['caseScores', userAndCaseDetails?.caseId],
     () =>
@@ -142,25 +120,6 @@ export function MainContent() {
     },
   );
 
-  // if (caseAnnotations && caseComments)
-  //   // eslint-disable-next-line no-console
-  //   console.log(
-  //     '=========== notes: ',
-  //     caseAnnotations,
-  //     '   ============= comments: ',
-  //     caseComments,
-  //   );
-
-  // const comments = useMemo(
-  //   () => data?.sentiments?.[3]?.comments ?? [],
-  //   [data?.sentiments],
-  // );
-
-  // const collapsibleId = useMemo(
-  //   () => data?.sentiments[3]?.id,
-  //   [data?.sentiments],
-  // );
-
   const contextValue = useMemo(
     () => ({
       hasError,
@@ -184,8 +143,8 @@ export function MainContent() {
   );
 
   const scores = {
-    Sentiment: caseScoreData?.sl_sentiment_score ?? 0,
-    Attention: caseScoreData?.sl_need_attention_score ?? 0,
+    Sentiment: caseScores?.sl_sentiment_score ?? 0,
+    Attention: caseScores?.sl_need_attention_score ?? 0,
   };
 
   return (

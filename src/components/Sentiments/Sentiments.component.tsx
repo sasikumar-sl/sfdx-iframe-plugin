@@ -76,11 +76,12 @@ function Sentiments({
   ) : (
     <PlaceHolder />
   );
+
   return (
     <SentimentsContainer>
       <Scorers>
         {Object.keys(scores).map((type) =>
-          !isCaseScoresLoading ? (
+          isCaseScoresLoading ? (
             <ScoreSkeleton key={type} />
           ) : (
             <Score
@@ -94,7 +95,7 @@ function Sentiments({
       </Scorers>
 
       <ScoreCardsWrapper>
-        {!isCaseSentimentsLoading ? <SentimentLoader /> : condSentiments}
+        {isCaseSentimentsLoading ? <SentimentLoader /> : condSentiments}
       </ScoreCardsWrapper>
     </SentimentsContainer>
   );
