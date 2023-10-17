@@ -9,15 +9,15 @@ import {
 } from '../../../../common/helpers/sentiments/sentimentsHelper';
 
 import {
-  Card,
   Wrapper,
+  Container,
   SignalText,
   BluredTitle,
   SignalLabels,
   BluredWrapper,
   SignalFooterText,
   SignalTextContainer,
-} from './SentimentCard.styles';
+} from './Sentiment.styles';
 import { TSentiment } from '../../../../common';
 
 type Props = {
@@ -26,7 +26,7 @@ type Props = {
   tooltipStyles?: CSSProperties;
 };
 
-function SentimentCard({ sentiment, tooltipStyles, isBlured }: Props) {
+function Sentiment({ sentiment, tooltipStyles, isBlured }: Props) {
   const labels = formatLabels(Object.keys(sentiment.sl_span_counts));
   const timestamp = new Date(sentiment.sl_created_at).getTime();
 
@@ -50,7 +50,7 @@ function SentimentCard({ sentiment, tooltipStyles, isBlured }: Props) {
   }, [isBlured]);
 
   return (
-    <Card>
+    <Container>
       {Blured}
       <Wrapper>
         <SignalLabels>
@@ -79,8 +79,8 @@ function SentimentCard({ sentiment, tooltipStyles, isBlured }: Props) {
           })} | Most Recent`}
         </SignalFooterText>
       </Wrapper>
-    </Card>
+    </Container>
   );
 }
 
-export default SentimentCard;
+export default Sentiment;

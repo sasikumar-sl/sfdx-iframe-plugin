@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Card = styled.div`
+export const Container = styled.div`
   position: relative;
   min-width: 280px;
   width: 70%;
@@ -92,4 +92,59 @@ export const BluredTitle = styled.span`
     text-decoration: none;
     color: #0ea9e0;
   }
+`;
+
+export const LoaderWrapper = styled.section`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+`;
+
+export const SkeletonTitle = styled.div`
+  width: 150px;
+  min-height: 15px;
+`;
+
+export const SkeletonLabels = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  width: 100%;
+  height: 40px;
+  gap: 10px;
+`;
+export const SkeletonText = styled.div`
+  width: 90%;
+  height: 15px;
+`;
+
+export const SkeletonBottom = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 5px;
+`;
+
+export const SkeletonDate = styled.div`
+  width: 20%;
+  height: 20px;
+`;
+export const SkeletonDivider = styled.div`
+  width: 2%;
+  height: 1px;
+`;
+
+export const SkeletonRecent = styled.div`
+  width: 25%;
+  height: 20px;
+`;
+
+export const SkeletonSentimentCard = styled(Container)`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;

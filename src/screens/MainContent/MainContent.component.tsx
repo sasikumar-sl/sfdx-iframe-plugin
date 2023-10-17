@@ -183,16 +183,17 @@ export function MainContent() {
     ],
   );
 
+  const scores = {
+    Sentiment: caseScoreData?.sl_sentiment_score ?? 0,
+    Attention: caseScoreData?.sl_need_attention_score ?? 0,
+  };
+
   return (
     <MainContainer>
       <CaseContext.Provider value={contextValue}>
         <Header />
         <Content>
-          <Sentiments
-            sentimentScore={caseScoreData?.sl_sentiment_score ?? 0}
-            attentionScore={caseScoreData?.sl_need_attention_score ?? 0}
-            sentiments={caseSentiments ?? []}
-          />
+          <Sentiments scores={scores} sentiments={caseSentiments ?? []} />
         </Content>
         <Footer
           isOpen
