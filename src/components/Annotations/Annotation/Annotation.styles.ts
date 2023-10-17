@@ -57,3 +57,51 @@ export const AnnotationBody = styled.div`
   height: 54px;
   ${commonFontStyles}
 `;
+
+export const LoaderWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  height: inherit;
+`;
+export const LoaderContainer = styled.div`
+  width: 70%;
+  min-width: 280px;
+  height: 100%;
+  margin: 10px auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: relative;
+`;
+export const SkeletonWrapper = styled.div`
+  padding: 15px;
+`;
+
+const commonStyles = `
+  display: flex;
+  align-items: center;
+`;
+
+export const SkeletonHeader = styled.div`
+  ${commonStyles}
+  justify-content: space-between;
+`;
+export const SkeletonProfile = styled.div`
+  ${commonStyles}
+  gap: 16px;
+`;
+
+export const SkeletonName = styled.div`
+  width: 150px;
+  height: 15px;
+`;
+export const SkeletonDate = styled.div`
+  width: 120px;
+  height: 15px;
+`;
+
+export const SkeletonText = styled.div`
+  width: 100%;
+  height: 15px;
+`;

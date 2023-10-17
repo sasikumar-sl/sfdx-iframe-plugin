@@ -19,3 +19,33 @@ export const CaseComment = styled.div`
   line-height: 20px;
   margin: 15px;
 `;
+
+export const LoaderWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  height: inherit;
+`;
+export const LoaderContainer = styled.div`
+  width: 70%;
+  min-width: 280px;
+  height: 100%;
+  margin: 10px auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: relative;
+  background: #f7f7f7;
+`;
+export const SkeletonWrapper = styled.div`
+  padding: 15px;
+`;
+
+export const SkeletonText = styled.div`
+  width: 100%;
+  height: 15px;
+
+  & > * {
+    padding: 20px 0;
+  }
+`;

@@ -152,7 +152,7 @@ export function MainContent() {
       <CaseContext.Provider value={contextValue}>
         <Header />
         <Content>
-          <Sentiments scores={scores} sentiments={caseSentiments ?? []} />
+          <Sentiments scores={scores} sentiments={caseSentiments} />
         </Content>
         <Footer
           isOpen
