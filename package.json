@@ -24,7 +24,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env PORT=3002 react-scripts start",
     "start-watch": "WDS_SOCKET_HOST=127.0.0.1  CHOKIDAR_USEPOLLING=true WATCHPACK_POLLING=true react-scripts start",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
@@ -68,6 +68,7 @@
     "@types/uuid": "^9.0.4",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.49.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.1.0",
