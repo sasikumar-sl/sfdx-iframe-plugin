@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+BUILD_TOOL=${BUILD_TOOL:-docker}
+
 # Run '$ PUSH=true ./docker-build.sh' to push image after building
 PUSH=${PUSH:-false}
 TAG=${TAG:-iframe}
@@ -13,7 +15,7 @@ IMAGE_NAME=$BASE_NAME:$TAG
 # Note: doing this because under GitHub Actions environment, there
 # doesn't seem to exist a .git folder we can copy into the container
 # in order for the webpack git hash module to grab the hash from.
-docker build . -t $IMAGE_NAME --build-arg GITHUB_SHA="$GITHUB_SHA" --build-arg NPM_TOKEN="$NPM_TOKEN"
+$BUILD_TOOL build . -t $IMAGE_NAME --build-arg GITHUB_SHA="$GITHUB_SHA" --build-arg NPM_TOKEN="$NPM_TOKEN"
 BUILD_RESULT=$?
 if [ $BUILD_RESULT -ne 0 ]; then
     echo
@@ -26,7 +28,7 @@ IMAGES_TO_PUSH=($IMAGE_NAME)
 
 if [ ! -z "$GITHUB_SHA" ]; then
     SHA_NAME=$BASE_NAME:"$GITHUB_SHA"
-    docker image tag $IMAGE_NAME $SHA_NAME
+    $BUILD_TOOL image tag $IMAGE_NAME $SHA_NAME
     TAG_RESULT=$?
     if [ $TAG_RESULT -ne 0 ]; then
         echo
@@ -40,7 +42,7 @@ fi
 
 if [ $PUSH == true ]; then
     for image in ${IMAGES_TO_PUSH[@]}; do
-        docker push $image
+        $BUILD_TOOL push $image
         PUSH_RESULT=$?
         if [ $PUSH_RESULT -ne 0 ]; then
             echo

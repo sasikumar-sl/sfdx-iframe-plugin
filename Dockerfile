@@ -1,4 +1,4 @@
-FROM node:16-buster as build-env
+FROM gcr.io/kansas-150323/node:16-buster as build-env
 
 # node-gyp needs make, gcc, and python
 RUN apt-get update && apt-get install -y make g++ python git
@@ -18,6 +18,7 @@ npm ci --unsafe-perm --ignore-scripts && \
 rm .npmrc
 
 COPY ./ ./
+ARG GITHUB_SHA
 RUN npm run build
 
 # Using bash in order to have access to cp/rm/tail. Check
