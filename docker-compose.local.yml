@@ -11,6 +11,8 @@ services:
         build:
             context: ./
             dockerfile: ./Dockerfile.local
+            args:
+                - NPM_TOKEN
         ports:
             - 80:80
             - 443:443
@@ -39,7 +41,7 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock:ro
         privileged: true
         depends_on:
-            - sfdc-iframe-proxy
+            - sfdc-iframe
         networks:
             - sfdc-iframe-network
 
