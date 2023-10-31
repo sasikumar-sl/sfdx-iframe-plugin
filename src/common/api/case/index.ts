@@ -1,5 +1,10 @@
-import { getPostHeadersWithBody, objectToQueryParams } from '../../helpers';
+import {
+  getPostHeadersWithBody,
+  getSFHeaders,
+  objectToQueryParams,
+} from '../../helpers';
 import { baseUrl } from '../../constants';
+import { TSFCustomHeaders, TSalesforceData } from '../../lib';
 
 export type TGetCaseDetilsParams = {
   limit?: number;
@@ -29,17 +34,17 @@ export function getCaseDetails({
 }
 
 type TCommonParams = {
-  sl_ticket_id: string;
+  salesforceData: TSalesforceData;
 };
 
-export function getCaseScores({ sl_ticket_id }: TCommonParams): Promise<any> {
+export function getCaseScores({ salesforceData }: TCommonParams): Promise<any> {
   const payload = {
     selected: ['sl_sentiment_score', 'sl_need_attention_score', 'sl_ticket_id'],
     predicates: [
       {
         column: 'sl_ticket_id',
         op: '=',
-        value: sl_ticket_id ?? '5002E00001xkvaDQAQ',
+        value: salesforceData.parent_id ?? '5002E00001xkvaDQAQ',
       },
     ],
     ordering: [
@@ -53,8 +58,10 @@ export function getCaseScores({ sl_ticket_id }: TCommonParams): Promise<any> {
     page_number: 0,
     page_size: 5,
   });
+  const sfHeaders: TSFCustomHeaders = getSFHeaders(salesforceData);
+
   return fetch(`${baseUrl}/api/v2/case/summary/search?${queryParams}`, {
-    ...getPostHeadersWithBody(payload),
+    ...getPostHeadersWithBody(payload, sfHeaders),
   })
     .then((response) => response.json())
     .then((response) => {
@@ -67,7 +74,7 @@ export function getCaseScores({ sl_ticket_id }: TCommonParams): Promise<any> {
 }
 
 export function getCaseSentiments({
-  sl_ticket_id,
+  salesforceData,
 }: TCommonParams): Promise<any> {
   const payload = {
     selected: [
@@ -89,7 +96,7 @@ export function getCaseSentiments({
       {
         column: 'sl_ticket_id',
         op: '=',
-        value: sl_ticket_id ?? '5002E00001xkvaDQAQ',
+        value: salesforceData.parent_id ?? '5002E00001xkvaDQAQ',
       },
     ],
   };
@@ -98,8 +105,11 @@ export function getCaseSentiments({
     page_number: 0,
     page_size: 5,
   });
+
+  const sfHeaders: TSFCustomHeaders = getSFHeaders(salesforceData);
+
   return fetch(`${baseUrl}/api/v2/case/comment/search?${queryParams}`, {
-    ...getPostHeadersWithBody(payload),
+    ...getPostHeadersWithBody(payload, sfHeaders),
   })
     .then((response) => response.json())
     .then((response) => {
@@ -116,7 +126,7 @@ type TCaseCommentParams = TCommonParams & {
 };
 
 export function getcaseAnnotations({
-  sl_ticket_id,
+  salesforceData,
 }: TCommonParams): Promise<any> {
   const payload = {
     page_size: 100,
@@ -125,12 +135,14 @@ export function getcaseAnnotations({
     sort_direction: 'desc',
     filter_list: [
       { column: 'note_type', op: '=', value: 'SH_DISCUSSION' },
-      { column: 'group_key', op: '=', value: sl_ticket_id },
+      { column: 'group_key', op: '=', value: salesforceData.parent_id },
       { column: 'parent:s_id', op: 'is_null' },
     ],
   };
+  const sfHeaders: TSFCustomHeaders = getSFHeaders(salesforceData);
+
   return fetch(`${baseUrl}/api/v2/note/query`, {
-    ...getPostHeadersWithBody(payload),
+    ...getPostHeadersWithBody(payload, sfHeaders),
   })
     .then((response) => response.json())
     .then((response) => {
@@ -143,8 +155,7 @@ export function getcaseAnnotations({
 }
 
 export function getCaseCommentSegments({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  sl_ticket_id,
+  salesforceData,
   annotations,
 }: TCaseCommentParams): Promise<any> {
   const payload = {
@@ -160,8 +171,11 @@ export function getCaseCommentSegments({
       },
     ],
   };
+
+  const sfHeaders: TSFCustomHeaders = getSFHeaders(salesforceData);
+
   return fetch(`${baseUrl}/api/v2/content/segment/query`, {
-    ...getPostHeadersWithBody(payload),
+    ...getPostHeadersWithBody(payload, sfHeaders),
   })
     .then((response) => response.json())
     .then((response) => {
