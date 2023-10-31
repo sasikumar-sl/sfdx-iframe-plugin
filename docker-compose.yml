@@ -1,0 +1,15 @@
+version: "3.7"
+
+volumes:
+    sfdc_iframe_code:
+
+services:
+    sfdc-iframe:
+        build:
+            context: ./
+        container_name: sfdc-iframe
+        volumes:
+            - sfdc_iframe_code:/data/sfdc-iframe
+        restart: always
+        command: bash -c "
+            rm -rf /data/sfdc-iframe/* && cp -a /data/static/. /data/sfdc-iframe/ && echo 'Done copying new SFDC iFrame code' && tail -f /dev/null"

@@ -5,23 +5,21 @@ export type TMethodName = {
   [k: string]: unknown;
 };
 
-export type TUserAndCaseDetails = {
-  userId: string;
-  userName: string;
-  caseId: string;
-  caseNumber: string;
-};
-
 export type TData = {
   data: unknown;
 };
 
-export type TGetUserCase = {
-  user: [{ Id: string; Name: string; [k: string]: unknown }] | unknown;
-  record: [{ Id: string; CaseNumber: string; [k: string]: unknown }] | unknown;
+export type TSalesforceData = {
+  subtype: string;
+  type: string;
+  instance_url: string;
+  parent_type: string;
+  parent_id: string;
+  parent_number: string;
+  user_id: string;
+  session_value: string;
+  sl_api_url: string;
 };
-
-export type ArrayType<T> = T extends (infer U)[] ? U : any;
 
 export type TScores = {
   sl_ticket_id: string;
@@ -85,4 +83,10 @@ export type TComment = {
   content_start: number;
   content_end: number;
   original_content: string;
+};
+
+export type TSFCustomHeaders = {
+  instance_url: string;
+  user_id: string;
+  session: string;
 };

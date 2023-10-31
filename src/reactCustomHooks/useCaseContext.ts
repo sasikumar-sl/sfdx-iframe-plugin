@@ -1,10 +1,10 @@
 import React, { useContext, createContext } from 'react';
 import noop from 'lodash/noop';
-import { TUserAndCaseDetails, userAndCaseDefaultValue } from '../common';
+import { TSalesforceData, sfDefaultValue } from '../common';
 
 export type TCaseContext = {
   hasError: boolean;
-  userAndCaseDetails: TUserAndCaseDetails;
+  salesforceData: TSalesforceData;
 
   currentCommentIdx: number;
   setCurrentCommentIdx: React.Dispatch<React.SetStateAction<number>>;
@@ -16,7 +16,7 @@ export type TCaseContext = {
 
 export const CaseContext = createContext<TCaseContext>({
   hasError: false,
-  userAndCaseDetails: userAndCaseDefaultValue,
+  salesforceData: sfDefaultValue,
 
   currentCommentIdx: 0,
   setCurrentCommentIdx: noop,

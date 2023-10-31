@@ -7,11 +7,11 @@ import { HeaderContainer, LinkWrapper, Text } from './Header.styles';
 import useCaseContext from '../../reactCustomHooks/useCaseContext';
 
 function Header() {
-  const { userAndCaseDetails } = useCaseContext();
+  const { salesforceData } = useCaseContext();
   return (
     <HeaderContainer>
       <SupportLogicIcon />
-      <Text className="case-number">{userAndCaseDetails?.caseNumber}</Text>
+      <Text className="case-number">{salesforceData?.parent_number}</Text>
       <LinkWrapper
         href="https://www.example.com"
         target="_blank"

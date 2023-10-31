@@ -19,12 +19,11 @@ import {
   TData,
   TScores,
   TMethodName,
-  TGetUserCase,
+  TSalesforceData,
   getCaseScores,
   getCaseSentiments,
-  TUserAndCaseDetails,
   getCaseCommentSegments,
-  getTransformedUserCaseDetails,
+  getTransformSFPayload,
   getcaseAnnotations,
   TAnnotation,
 } from '../../common';
@@ -39,15 +38,15 @@ export function MainContent() {
 
   // initiating Custom hooks
   // Initiating the window message listener hook for get data from Parent
-  const { receivedData } = useWindowMessageListener<TData, TGetUserCase>();
+  const { receivedData } = useWindowMessageListener<TData, TSalesforceData>();
 
   useSendMessageToParent<TMethodName & TData>({
     methodName: GET_SESSION_DETAILS,
     data: 'Initiate API call to SF and get date',
   });
 
-  const userAndCaseDetails: TUserAndCaseDetails = useMemo(
-    () => getTransformedUserCaseDetails(receivedData),
+  const salesforceData: TSalesforceData = useMemo(
+    () => getTransformSFPayload(receivedData),
     [receivedData],
   );
 
@@ -55,16 +54,14 @@ export function MainContent() {
     isLoading: isCaseScoresLoading,
     data: caseScores,
   }: UseQueryResult<TScores, Error> = useQuery<TScores, Error>(
-    ['caseScores', userAndCaseDetails?.caseId],
+    ['caseScores', salesforceData?.parent_id],
     () =>
-      getCaseScores({ sl_ticket_id: userAndCaseDetails?.caseId }).catch(
-        (error: any) => {
-          showBoundary(error);
-          return Promise.reject(error);
-        },
-      ),
+      getCaseScores({ salesforceData }).catch((error: any) => {
+        showBoundary(error);
+        return Promise.reject(error);
+      }),
     {
-      enabled: !!userAndCaseDetails?.caseId,
+      enabled: !!salesforceData?.parent_id,
     },
   );
 
@@ -72,16 +69,14 @@ export function MainContent() {
     isLoading: isCaseSentimentsLoading,
     data: caseSentiments,
   }: UseQueryResult<any, Error> = useQuery<any, Error>(
-    ['caseSentiments', userAndCaseDetails?.caseId],
+    ['caseSentiments', salesforceData?.parent_id],
     () =>
-      getCaseSentiments({ sl_ticket_id: userAndCaseDetails?.caseId }).catch(
-        (error: any) => {
-          showBoundary(error);
-          return Promise.reject(error);
-        },
-      ),
+      getCaseSentiments({ salesforceData }).catch((error: any) => {
+        showBoundary(error);
+        return Promise.reject(error);
+      }),
     {
-      enabled: !!userAndCaseDetails?.caseId,
+      enabled: !!salesforceData?.parent_id,
     },
   );
 
@@ -89,16 +84,16 @@ export function MainContent() {
     isLoading: isCaseAnnotationsLoading,
     data: caseAnnotations,
   }: UseQueryResult<TAnnotation[], Error> = useQuery<any, Error>(
-    ['caseAnnotations', userAndCaseDetails?.caseId],
+    ['caseAnnotations', salesforceData?.parent_id],
     () =>
       getcaseAnnotations({
-        sl_ticket_id: userAndCaseDetails?.caseId,
+        salesforceData,
       }).catch((error: any) => {
         showBoundary(error);
         return Promise.reject(error);
       }),
     {
-      enabled: !!userAndCaseDetails?.caseId,
+      enabled: !!salesforceData?.parent_id,
     },
   );
 
@@ -106,24 +101,24 @@ export function MainContent() {
     isLoading: isCaseCommentsLoading,
     data: caseComments,
   }: UseQueryResult<any, Error> = useQuery<any, Error>(
-    ['caseComments', userAndCaseDetails?.caseId],
+    ['caseComments', salesforceData?.parent_id],
     () =>
       getCaseCommentSegments({
-        sl_ticket_id: userAndCaseDetails?.caseId,
+        salesforceData,
         annotations: caseAnnotations,
       }).catch((error: any) => {
         showBoundary(error);
         return Promise.reject(error);
       }),
     {
-      enabled: !!(userAndCaseDetails?.caseId && caseAnnotations?.length),
+      enabled: !!(salesforceData?.parent_id && caseAnnotations?.length),
     },
   );
 
   const contextValue = useMemo(
     () => ({
       hasError,
-      userAndCaseDetails,
+      salesforceData,
       currentCommentIdx,
       setCurrentCommentIdx,
       isCaseScoresLoading,
@@ -133,7 +128,7 @@ export function MainContent() {
     }),
     [
       hasError,
-      userAndCaseDetails,
+      salesforceData,
       currentCommentIdx,
       isCaseScoresLoading,
       isCaseSentimentsLoading,

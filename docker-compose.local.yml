@@ -1,0 +1,55 @@
+services:
+    sfdc-iframe:
+        container_name: sfdc-iframe
+        restart: always
+        environment:
+            HSTS: max-age=31536000; includeSubDomains
+            VIRTUAL_HOST: localhost
+            VIRTUAL_PATH: /
+            VIRTUAL_PORT: 3002
+            SELF_SIGNED_HOST: localhost
+        build:
+            context: ./
+            dockerfile: ./Dockerfile.local
+            args:
+                - NPM_TOKEN
+        ports:
+            - 80:80
+            - 443:443
+            - 3002:3002
+        labels:
+            com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+        volumes:
+            - certs:/etc/nginx/certs:ro
+            - html:/usr/share/nginx/html
+            - ./config/vhost.d:/etc/nginx/vhost.d
+            - /var/run/docker.sock:/tmp/docker.sock:ro
+        privileged: true
+        networks:
+            - sfdc-iframe-network
+
+    sfdc-iframe-proxy-companion:
+        image: sebastienheyd/self-signed-proxy-companion
+        container_name: sfdc-iframe-proxy-companion
+        environment:
+            NGINX_PROXY_CONTAINER: sfdc-iframe
+        volumes:
+            - acme:/etc/acme.sh
+            - certs:/etc/nginx/certs
+            - html:/usr/share/nginx/html
+            - ./config/vhost.d:/etc/nginx/vhost.d
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+        privileged: true
+        depends_on:
+            - sfdc-iframe
+        networks:
+            - sfdc-iframe-network
+
+networks:
+    sfdc-iframe-network:
+        name: sfdc-iframe
+
+volumes:
+    acme:
+    certs:
+    html:
