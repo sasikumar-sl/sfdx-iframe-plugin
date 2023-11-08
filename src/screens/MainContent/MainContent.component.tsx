@@ -24,6 +24,7 @@ import {
   getCaseSentiments,
   getCaseCommentSegments,
   getTransformSFPayload,
+  getCaseBasedDetails,
   getcaseAnnotations,
   TAnnotation,
 } from '../../common';
@@ -49,6 +50,25 @@ export function MainContent() {
     () => getTransformSFPayload(receivedData),
     [receivedData],
   );
+
+  const {
+    isLoading: isCaseDetailsLoading,
+    data: caseDetails,
+  }: UseQueryResult<TScores, Error> = useQuery<TScores, Error>(
+    ['caseBasedDetails', salesforceData?.parent_id],
+    () =>
+      // eslint-disable-next-line arrow-body-style
+      getCaseBasedDetails({ salesforceData }).catch((error: any) => {
+        // showBoundary(error);
+        return Promise.reject(error);
+      }),
+    {
+      enabled: !!salesforceData?.parent_id,
+    },
+  );
+
+  // eslint-disable-next-line no-console
+  console.log('============== caseDetails', caseDetails, isCaseDetailsLoading);
 
   const {
     isLoading: isCaseScoresLoading,

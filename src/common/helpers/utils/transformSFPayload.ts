@@ -22,6 +22,5 @@ export const sfDefaultValue: TSalesforceData = {
 export function getTransformSFPayload(
   payload: TSalesforceData,
 ): TSalesforceData {
-  console.log('==========:  SF payload: ', payload);
   return { ...sfDefaultValue, ...payload };
 }
