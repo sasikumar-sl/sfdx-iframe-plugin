@@ -47,7 +47,7 @@ export function getCaseBasedDetails({
   });
 
   return fetch(
-    `https://develop1.supportlogic.io/api/iframe/case/${salesforceData.parent_id}?${queryParams}`,
+    `${salesforceData.sl_api_url}/api/iframe/case/${salesforceData.parent_id}?${queryParams}`,
     {
       ...getHeadersWithBody(null, sfHeaders),
     },
