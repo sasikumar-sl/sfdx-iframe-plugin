@@ -22,4 +22,4 @@ RUN npm run build
 
 FROM nginxproxy/nginx-proxy:1.2.3-alpine
 
-COPY --from=build-env /data/build_dir/build /data/static/sfdx-iframe-plugin
+COPY --from=build-env /data/build_dir/build /data/static
