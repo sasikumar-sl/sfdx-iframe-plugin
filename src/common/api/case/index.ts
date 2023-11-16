@@ -1,7 +1,8 @@
 import {
-  getPostHeadersWithBody,
   getSFHeaders,
+  getHeadersWithBody,
   objectToQueryParams,
+  getPostHeadersWithBody,
 } from '../../helpers';
 import { baseUrl } from '../../constants';
 import { TSFCustomHeaders, TSalesforceData } from '../../lib';
@@ -37,6 +38,29 @@ type TCommonParams = {
   salesforceData: TSalesforceData;
 };
 
+export function getCaseBasedDetails({
+  salesforceData,
+}: TCommonParams): Promise<any> {
+  const sfHeaders: TSFCustomHeaders = getSFHeaders(salesforceData);
+  const queryParams = objectToQueryParams<any>({
+    id: salesforceData.parent_id,
+  });
+
+  return fetch(
+    `${salesforceData.sl_api_url}/api/iframe/case/${salesforceData.parent_id}?${queryParams}`,
+    {
+      ...getHeadersWithBody(null, sfHeaders),
+    },
+  )
+    .then((response) => response.json())
+    .then((response) => {
+      if (response.error) {
+        return Promise.reject(response.message);
+      }
+      return response;
+    })
+    .then((response) => response.data);
+}
 export function getCaseScores({ salesforceData }: TCommonParams): Promise<any> {
   const payload = {
     selected: ['sl_sentiment_score', 'sl_need_attention_score', 'sl_ticket_id'],

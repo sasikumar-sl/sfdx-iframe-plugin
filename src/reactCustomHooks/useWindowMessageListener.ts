@@ -11,6 +11,8 @@ export function useWindowMessageListener<TReceivedData, TSetData>() {
       if (!event.data?.methodName) return;
       if (event.data.methodName === GET_SESSION_DETAILS) {
         setReceivedData(event?.data?.data as TSetData);
+        // eslint-disable-next-line no-console
+        console.log('==========:  SF payload: ', event?.data?.data);
       }
     };
 

@@ -24,10 +24,25 @@ export function getPostHeadersWithBody(
   };
 }
 
+export function getHeadersWithBody(
+  payload?: any,
+  headers?: TSFCustomHeaders,
+): any {
+  return {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      ...(headers || {}),
+    },
+    ...(payload ? { body: JSON.stringify(payload) } : {}),
+  };
+}
+
 export function getSFHeaders(data: TSalesforceData): TSFCustomHeaders {
   return {
-    instance_url: data.instance_url,
-    user_id: data.user_id,
-    session: data.session_value,
+    'Instance-Url': data.instance_url,
+    'User-Id': data.user_id,
+    'Session-Id': data.session_value,
   };
 }

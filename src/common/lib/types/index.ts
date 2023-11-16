@@ -86,7 +86,7 @@ export type TComment = {
 };
 
 export type TSFCustomHeaders = {
-  instance_url: string;
-  user_id: string;
-  session: string;
+  'Instance-Url': string;
+  'User-Id': string;
+  'Session-Id': string;
 };
