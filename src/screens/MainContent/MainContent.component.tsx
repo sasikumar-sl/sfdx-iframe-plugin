@@ -88,10 +88,10 @@ export function MainContent() {
           sl_need_attention_score: getRandomNumber(20, 80),
           sl_sentiment_score: getRandomNumber(30, 90),
         }))
-        .catch((error: any) => {
+        .catch((error: any) =>
           // showBoundary(error);
-          return Promise.reject(error);
-        }),
+          Promise.reject(error),
+        ),
     {
       enabled: !!salesforceData?.parent_id,
     },
@@ -106,10 +106,10 @@ export function MainContent() {
     () =>
       waitResolve(1100)
         .then(() => mockSentiments)
-        .catch((error: any) => {
+        .catch((error: any) =>
           // showBoundary(error);
-          return Promise.reject(error);
-        }),
+          Promise.reject(error),
+        ),
     {
       enabled: !!salesforceData?.parent_id,
     },
@@ -124,10 +124,10 @@ export function MainContent() {
     () =>
       waitResolve(1200)
         .then(() => mockAnnotations)
-        .catch((error: any) => {
+        .catch((error: any) =>
           // showBoundary(error);
-          return Promise.reject(error);
-        }),
+          Promise.reject(error),
+        ),
     {
       enabled: !!salesforceData?.parent_id,
     },
@@ -145,10 +145,10 @@ export function MainContent() {
     () =>
       waitResolve(1300)
         .then(() => mockSegments)
-        .catch((error: any) => {
+        .catch((error: any) =>
           // showBoundary(error);
-          return Promise.reject(error);
-        }),
+          Promise.reject(error),
+        ),
     {
       enabled: !!(salesforceData?.parent_id && caseAnnotations?.length),
     },
