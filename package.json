@@ -1,5 +1,4 @@
 {
-  "homepage": "https://sasikumar-sl.github.io/sfdx-iframe-plugin",
   "name": "sf-iframe-child",
   "version": "0.1.0",
   "private": true,
@@ -27,7 +26,6 @@
     "start": "cross-env PORT=3002 react-scripts start",
     "start-watch": "WDS_SOCKET_HOST=127.0.0.1  CHOKIDAR_USEPOLLING=true WATCHPACK_POLLING=true react-scripts start",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -78,7 +76,6 @@
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "gh-pages": "^6.0.0",
     "husky": "^8.0.3",
     "prettier": "^3.0.3"
   }
