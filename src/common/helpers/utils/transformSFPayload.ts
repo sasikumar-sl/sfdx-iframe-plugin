@@ -16,7 +16,7 @@ export const sfDefaultValue: TSalesforceData = {
   parent_number: '', // caseNumber -00001029
   user_id: '', // userId
   session_value: '', // 00DHr000001s05n!AQsAQFN55Sv0gXlVHGjKMfmhXXHAte3N.PyfyedFOuRjpc.45UaXZCaAFu1tZ
-  sl_api_url: '', // test-max.supportlogic.io
+  sl_api_url: '', // https://develop1.supportlogic.io
 };
 
 export function getTransformSFPayload(

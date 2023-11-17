@@ -7,6 +7,7 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { CaseContext } from '../../reactCustomHooks/useCaseContext';
 import {
+  useSearchParamsObject,
   useSendMessageToParent,
   useWindowMessageListener,
 } from '../../reactCustomHooks';
@@ -24,6 +25,7 @@ import {
   getCaseBasedDetails,
   TAnnotation,
   waitResolve,
+  sfDefaultValue,
 } from '../../common';
 
 import { MainContainer, Content } from './MainContent.styles';
@@ -42,6 +44,13 @@ export function MainContent() {
   const [hasError] = useState(false);
   // const { showBoundary } = useErrorBoundary();
 
+  const searchParams = useSearchParamsObject<TSalesforceData>(
+    Object.keys(sfDefaultValue),
+  );
+
+  // eslint-disable-next-line no-console
+  console.log('================ id: ', searchParams);
+
   // initiating Custom hooks
   // Initiating the window message listener hook for get data from Parent
   const { receivedData } = useWindowMessageListener<TData, TSalesforceData>();
@@ -52,11 +61,11 @@ export function MainContent() {
   });
 
   const salesforceData: TSalesforceData = useMemo(
-    () => getTransformSFPayload(receivedData),
-    [receivedData],
+    () => getTransformSFPayload({ ...receivedData, ...searchParams }),
+    [receivedData, searchParams],
   );
 
-  // getCaseBasedDetails({ salesforceData })
+  getCaseBasedDetails({ salesforceData })
   const {
     isLoading: isCaseDetailsLoading,
     data: caseDetails,
