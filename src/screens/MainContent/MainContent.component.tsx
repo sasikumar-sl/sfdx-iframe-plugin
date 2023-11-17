@@ -65,7 +65,6 @@ export function MainContent() {
     [receivedData, searchParams],
   );
 
-  getCaseBasedDetails({ salesforceData })
   const {
     isLoading: isCaseDetailsLoading,
     data: caseDetails,
