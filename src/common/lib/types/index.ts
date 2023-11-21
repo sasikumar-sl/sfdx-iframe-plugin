@@ -89,7 +89,7 @@ export type TSFCustomHeaders = {
   'Instance-Url': string;
   'User-Id': string;
   'Session-Id': string;
-  'Parent-Id':  string;
+  'Parent-Id': string;
 };
 
 export type TCommentSpanData = {
