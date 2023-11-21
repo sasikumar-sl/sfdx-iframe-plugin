@@ -44,5 +44,6 @@ export function getSFHeaders(data: TSalesforceData): TSFCustomHeaders {
     'Instance-Url': data.instance_url,
     'User-Id': data.user_id,
     'Session-Id': data.session_value,
+    'Parent-Id': data.parent_id,
   };
 }

@@ -8,9 +8,8 @@ export type TCaseContext = {
 
   currentCommentIdx: number;
   setCurrentCommentIdx: React.Dispatch<React.SetStateAction<number>>;
-  isCaseScoresLoading: boolean;
+  isCaseDetailsLoading: boolean;
   isCaseCommentsLoading: boolean;
-  isCaseSentimentsLoading: boolean;
   isCaseAnnotationsLoading: boolean;
 };
 
@@ -21,9 +20,8 @@ export const CaseContext = createContext<TCaseContext>({
   currentCommentIdx: 0,
   setCurrentCommentIdx: noop,
 
-  isCaseScoresLoading: false,
+  isCaseDetailsLoading: false,
   isCaseCommentsLoading: false,
-  isCaseSentimentsLoading: false,
   isCaseAnnotationsLoading: false,
 });
 

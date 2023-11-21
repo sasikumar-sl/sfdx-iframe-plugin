@@ -89,4 +89,34 @@ export type TSFCustomHeaders = {
   'Instance-Url': string;
   'User-Id': string;
   'Session-Id': string;
+  'Parent-Id':  string;
+};
+
+export type TCommentSpanData = {
+  c_begin: number;
+  c_end: number;
+  Negative?: boolean;
+  Frustration?: boolean;
+  Urgency?: boolean;
+  Footer?: boolean;
+  Apology?: boolean;
+  Profanity?: boolean;
+};
+
+export type TCommentData = {
+  id?: string;
+  body: string;
+  author_name: string;
+  sl_created_at: string;
+  spans: TCommentSpanData[];
+};
+
+export type TypeCaseScoresData = {
+  sl_sentiment_score: number;
+  sl_need_attention_score: number;
+};
+
+export type TCaseBasedSLData = {
+  case_data: TypeCaseScoresData;
+  comments: TCommentData[];
 };

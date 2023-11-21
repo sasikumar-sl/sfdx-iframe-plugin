@@ -18,16 +18,19 @@ import {
   SignalFooterText,
   SignalTextContainer,
 } from './Sentiment.styles';
-import { TSentiment } from '../../../../common';
+import { TCommentData } from '../../../../common';
 
 type Props = {
   isBlured: boolean;
-  sentiment: TSentiment;
+  sentiment: TCommentData;
   tooltipStyles?: CSSProperties;
 };
 
 function Sentiment({ sentiment, tooltipStyles, isBlured }: Props) {
-  const labels = formatLabels(Object.keys(sentiment.sl_span_counts));
+  const spans = sentiment?.spans
+    ?.map((span: any) => Object.keys(span).filter((key) => span[key] === true))
+    .flat();
+  const labels = formatLabels(spans);
   const timestamp = new Date(sentiment.sl_created_at).getTime();
 
   const Blured = useMemo(() => {
@@ -67,10 +70,10 @@ function Sentiment({ sentiment, tooltipStyles, isBlured }: Props) {
             styles={tooltipStyles}
             zIndex={9999}
             placement="bottom"
-            content={sentiment?.sl_body}
+            content={sentiment?.body}
             containerStyle={{ width: '100%' }}
           >
-            <SignalText>{sentiment?.sl_body}</SignalText>
+            <SignalText>{sentiment?.body}</SignalText>
           </WithTooltip>
         </SignalTextContainer>
         <SignalFooterText>

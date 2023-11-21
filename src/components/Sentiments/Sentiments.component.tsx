@@ -5,7 +5,7 @@ import PlaceHolder from '../PlaceHolder/PlaceHolder.components';
 import useCaseContext from '../../reactCustomHooks/useCaseContext';
 
 import Sliders from '../Slider/Slider.component';
-import { TSentiment, generateUniqKey } from '../../common';
+import { TCommentData, generateUniqKey } from '../../common';
 
 import SentimentLoader from './components/Sentiment/SentimentLoader.component';
 import Sentiment from './components/Sentiment/Sentiment.component';
@@ -25,7 +25,7 @@ const tooltipStyles = { width: 'auto', maxWidth: 'calc(75% - 40px)' };
 
 type Props = {
   scores: { [key in TScore]: number };
-  sentiments?: TSentiment[];
+  sentiments?: TCommentData[];
 };
 
 function Sentiments({
@@ -35,7 +35,7 @@ function Sentiments({
   },
   sentiments = [],
 }: Props) {
-  const { isCaseScoresLoading, isCaseSentimentsLoading } = useCaseContext();
+  const { isCaseDetailsLoading } = useCaseContext();
 
   const sliderSettings = {
     dots: true,
@@ -48,10 +48,10 @@ function Sentiments({
     className: 'sentiment-slider',
   };
 
-  const renderer = (sentiment: TSentiment, index: number) => (
+  const renderer = (sentiment: TCommentData, index: number) => (
     <SentimentSlide
       className="sentiment-slide-wrapper"
-      key={sentiment?.sl_comment_id ?? generateUniqKey()}
+      key={sentiment?.id ?? generateUniqKey()}
     >
       <Sentiment
         sentiment={sentiment}
@@ -81,7 +81,7 @@ function Sentiments({
     <SentimentsContainer>
       <Scorers>
         {Object.keys(scores).map((type) =>
-          isCaseScoresLoading ? (
+          isCaseDetailsLoading ? (
             <ScoreSkeleton key={type} />
           ) : (
             <Score
@@ -95,7 +95,7 @@ function Sentiments({
       </Scorers>
 
       <ScoreCardsWrapper>
-        {isCaseSentimentsLoading ? <SentimentLoader /> : condSentiments}
+        {isCaseDetailsLoading ? <SentimentLoader /> : condSentiments}
       </ScoreCardsWrapper>
     </SentimentsContainer>
   );

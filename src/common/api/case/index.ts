@@ -1,3 +1,4 @@
+import isEmpty from 'lodash/isEmpty';
 import {
   getSFHeaders,
   getHeadersWithBody,
@@ -6,6 +7,8 @@ import {
 } from '../../helpers';
 import { baseUrl } from '../../constants';
 import { TSFCustomHeaders, TSalesforceData } from '../../lib';
+// eslint-disable-next-line import/no-named-as-default
+import mockCaseData from '../../../screens/MainContent/mock/case';
 
 export type TGetCaseDetilsParams = {
   limit?: number;
@@ -42,18 +45,8 @@ export function getCaseBasedDetails({
   salesforceData,
 }: TCommonParams): Promise<any> {
   const sfHeaders: TSFCustomHeaders = getSFHeaders(salesforceData);
-  const queryParams = objectToQueryParams<any>({
-    id: salesforceData.parent_id,
-  });
-
-  const url = `https://iframe.develop1.supportlogic.io/api_tmp/case/${salesforceData.parent_id}?${queryParams}`;
-  // const url = `${salesforceData?.sl_api_url}/api/iframe/case/${salesforceData.parent_id}?${queryParams}`;
-  // eslint-disable-next-line no-console
-  console.log(
-    '============================ Iframe Case Link & SF Data: ',
-    url,
-    salesforceData,
-  );
+  const url = `https://iframe.develop1.supportlogic.io/api_tmp/case/${salesforceData.parent_id}}`;
+  // const url = `${salesforceData?.sl_api_url}/api/iframe/case/${salesforceData.parent_id}`;
   return fetch(url, {
     ...getHeadersWithBody(null, sfHeaders),
   })
@@ -72,7 +65,20 @@ export function getCaseBasedDetails({
       }
       return response;
     })
-    .then((response) => response.data);
+    .then((response) => response.data)
+    .then((response) => {
+      // eslint-disable-next-line no-console
+      console.log('============== caseDetails', response);
+      return {
+        ...response,
+        case_data: isEmpty(response?.case_data)
+          ? mockCaseData.case_data
+          : response?.case_data,
+        cmments: isEmpty(response?.comments)
+          ? mockCaseData.comments
+          : response?.comments,
+      };
+    });
 }
 export function getCaseScores({ salesforceData }: TCommonParams): Promise<any> {
   const payload = {
