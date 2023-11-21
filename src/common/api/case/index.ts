@@ -49,7 +49,8 @@ export function getCaseBasedDetails({
   const url = `https://iframe.develop1.supportlogic.io/api_tmp/case/${salesforceData.parent_id}?${queryParams}`;
   // const url = `${salesforceData?.sl_api_url}/api/iframe/case/${salesforceData.parent_id}?${queryParams}`;
   // eslint-disable-next-line no-console
-  console.log('============================ Iframe Case Link & SF Data: ',
+  console.log(
+    '============================ Iframe Case Link & SF Data: ',
     url,
     salesforceData,
   );
