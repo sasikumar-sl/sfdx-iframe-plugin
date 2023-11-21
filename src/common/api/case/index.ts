@@ -46,15 +46,27 @@ export function getCaseBasedDetails({
     id: salesforceData.parent_id,
   });
 
-  return fetch(
-    `${salesforceData.sl_api_url}/api/iframe/case/${salesforceData.parent_id}?${queryParams}`,
-    {
-      ...getHeadersWithBody(null, sfHeaders),
-    },
-  )
+  const url = `https://iframe.develop1.supportlogic.io/api_tmp/case/${salesforceData.parent_id}?${queryParams}`;
+  // const url = `${salesforceData?.sl_api_url}/api/iframe/case/${salesforceData.parent_id}?${queryParams}`;
+  // eslint-disable-next-line no-console
+  console.log('============================ Iframe Case Link & SF Data: ',
+    url,
+    salesforceData,
+  );
+  return fetch(url, {
+    ...getHeadersWithBody(null, sfHeaders),
+  })
     .then((response) => response.json())
     .then((response) => {
+      // eslint-disable-next-line no-console
+      console.log(
+        '================= ERROR: ',
+        response?.error,
+        response?.message,
+        url,
+      );
       if (response.error) {
+        // eslint-disable-next-line no-console
         return Promise.reject(response.message);
       }
       return response;
