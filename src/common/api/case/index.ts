@@ -74,7 +74,7 @@ export function getCaseBasedDetails({
         case_data: isEmpty(response?.case_data)
           ? mockCaseData.case_data
           : response?.case_data,
-        cmments: isEmpty(response?.comments)
+        comments: isEmpty(response?.comments)
           ? mockCaseData.comments
           : response?.comments,
       };
