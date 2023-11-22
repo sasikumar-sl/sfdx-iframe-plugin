@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-// import { useErrorBoundary } from 'react-error-boundary';
+import { useErrorBoundary } from 'react-error-boundary';
 
 import { CaseContext } from '../../reactCustomHooks/useCaseContext';
 import {
@@ -31,19 +31,10 @@ import {
 import { MainContainer, Content } from './MainContent.styles';
 import { GET_SESSION_DETAILS } from '../../common/constants';
 
-// import mockSentiments from './mock/sentiments';
-// import mockAnnotations from './mock/annotations';
-// import mockSegments from './mock/segmentComments';
-// import mockCaseData from './mock/case';
-
-export function getRandomNumber(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 export function MainContent() {
   const [currentCommentIdx, setCurrentCommentIdx] = useState(0);
   const [hasError] = useState(false);
-  // const { showBoundary } = useErrorBoundary();
+  const { showBoundary } = useErrorBoundary();
 
   const searchParams = useSearchParamsObject<TSalesforceData>(
     Object.keys(sfDefaultValue),
@@ -72,10 +63,10 @@ export function MainContent() {
   }: UseQueryResult<TCaseBasedSLData, Error> = useQuery<any, Error>(
     ['caseBasedDetails', salesforceData?.parent_id],
     () =>
-      getCaseBasedDetails({ salesforceData }).catch((error: any) =>
-        // showBoundary(error);
-        Promise.reject(error),
-      ),
+      getCaseBasedDetails({ salesforceData }).catch((error: any) => {
+        showBoundary(error);
+        Promise.reject(error);
+      }),
     {
       enabled: !!salesforceData?.parent_id,
     },
@@ -85,6 +76,7 @@ export function MainContent() {
   console.log('============== caseDetails', caseDetails);
 
   // getcaseAnnotations({salesforceData,})
+  // .then(() => mockAnnotations)
   const {
     isLoading: isCaseAnnotationsLoading,
     data: caseAnnotations,
@@ -92,12 +84,11 @@ export function MainContent() {
     ['caseAnnotations', salesforceData?.parent_id],
     () =>
       waitResolve(1200)
-        // .then(() => mockAnnotations)
         .then(() => [])
-        .catch((error: any) =>
-          // showBoundary(error);
-          Promise.reject(error),
-        ),
+        .catch((error: any) => {
+          showBoundary(error);
+          Promise.reject(error);
+        }),
     {
       enabled: !!salesforceData?.parent_id,
     },
@@ -107,6 +98,7 @@ export function MainContent() {
   //   salesforceData,
   //   annotations: caseAnnotations,
   // })
+  // .then(() => mockSegments)
   const {
     isLoading: isCaseCommentsLoading,
     data: caseComments,
@@ -114,12 +106,11 @@ export function MainContent() {
     ['caseComments', salesforceData?.parent_id],
     () =>
       waitResolve(1300)
-        // .then(() => mockSegments)
         .then(() => [])
-        .catch((error: any) =>
-          // showBoundary(error);
-          Promise.reject(error),
-        ),
+        .catch((error: any) => {
+          showBoundary(error);
+          Promise.reject(error);
+        }),
     {
       enabled: !!(salesforceData?.parent_id && caseAnnotations?.length),
     },

@@ -1,4 +1,3 @@
-import isEmpty from 'lodash/isEmpty';
 import {
   getSFHeaders,
   getHeadersWithBody,
@@ -8,7 +7,6 @@ import {
 import { baseUrl } from '../../constants';
 import { TSFCustomHeaders, TSalesforceData } from '../../lib';
 // eslint-disable-next-line import/no-named-as-default
-import mockCaseData from '../../../screens/MainContent/mock/case';
 
 export type TGetCaseDetilsParams = {
   limit?: number;
@@ -52,34 +50,15 @@ export function getCaseBasedDetails({
   })
     .then((response) => response.json())
     .then((response) => {
-      // eslint-disable-next-line no-console
-      console.log(
-        '================= ERROR: ',
-        response?.error,
-        response?.message,
-        url,
-      );
       if (response.error) {
         // eslint-disable-next-line no-console
         return Promise.reject(response.message);
       }
       return response;
     })
-    .then((response) => response.data)
-    .then((response) => {
-      // eslint-disable-next-line no-console
-      console.log('============== caseDetails reponse', response);
-      return {
-        ...response,
-        case_data: isEmpty(response?.case_data)
-          ? mockCaseData.case_data
-          : response?.case_data,
-        comments: isEmpty(response?.comments)
-          ? mockCaseData.comments
-          : response?.comments,
-      };
-    });
+    .then((response) => response.data);
 }
+
 export function getCaseScores({ salesforceData }: TCommonParams): Promise<any> {
   const payload = {
     selected: ['sl_sentiment_score', 'sl_need_attention_score', 'sl_ticket_id'],
