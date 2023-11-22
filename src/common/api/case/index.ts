@@ -45,7 +45,7 @@ export function getCaseBasedDetails({
   salesforceData,
 }: TCommonParams): Promise<any> {
   const sfHeaders: TSFCustomHeaders = getSFHeaders(salesforceData);
-  const url = `https://iframe.develop1.supportlogic.io/api_tmp/case/${salesforceData.parent_id}}`;
+  const url = `https://iframe.develop1.supportlogic.io/api_tmp/case/${salesforceData.parent_id}`;
   // const url = `${salesforceData?.sl_api_url}/api/iframe/case/${salesforceData.parent_id}`;
   return fetch(url, {
     ...getHeadersWithBody(null, sfHeaders),
@@ -68,7 +68,7 @@ export function getCaseBasedDetails({
     .then((response) => response.data)
     .then((response) => {
       // eslint-disable-next-line no-console
-      console.log('============== caseDetails', response);
+      console.log('============== caseDetails reponse', response);
       return {
         ...response,
         case_data: isEmpty(response?.case_data)
