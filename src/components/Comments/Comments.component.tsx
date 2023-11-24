@@ -1,6 +1,4 @@
-import React, { useCallback } from 'react';
-
-import useCaseContext from '../../reactCustomHooks/useCaseContext';
+import React from 'react';
 
 import Sliders from '../Slider/Slider.component';
 import Comment from './Comment/Comment.component';
@@ -12,7 +10,6 @@ type Props = {
   comments: TComment[];
 };
 function Comments({ comments }: Props) {
-  const { setCurrentCommentIdx } = useCaseContext();
   const sliderSettings = {
     dots: false,
     infinite: false,
@@ -23,13 +20,6 @@ function Comments({ comments }: Props) {
     arrows: false,
     className: 'case-comments-slider',
   };
-
-  const onHandleSliderChange = useCallback(
-    (current: number): void => {
-      setCurrentCommentIdx(current ?? 0);
-    },
-    [setCurrentCommentIdx],
-  );
 
   const renderer = (caseCommment: TComment) => (
     <CaseCommmentSlide
@@ -47,7 +37,6 @@ function Comments({ comments }: Props) {
       renderer={renderer}
       items={comments ?? []}
       sliderSettings={sliderSettings}
-      onAfterChange={onHandleSliderChange}
     />
   );
 }

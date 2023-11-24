@@ -46,6 +46,25 @@ export type TObjectOwner = {
   object_type: string;
 };
 
+export type TComment = {
+  s_id: string;
+  s_object_creator: {
+    object_id: string | null;
+    object_type: string | null;
+  };
+  s_created_at: string;
+  s_modified_at: string;
+  s_deleted_at: string | null;
+  s_seq_id: number;
+  object_target: {
+    object_id: string;
+    object_type: string;
+  };
+  content_start: number;
+  content_end: number;
+  original_content: string;
+};
+
 export type TAnnotation = {
   s_id: string;
   s_object_creator: TObjectOwner;
@@ -64,25 +83,7 @@ export type TAnnotation = {
   recipient_list: any[]; // Replace with the actual type if known
   attachment_metadata_list: any[]; // Replace with the actual type if known
   child_notes?: TAnnotation[];
-};
-
-export type TComment = {
-  s_id: string;
-  s_object_creator: {
-    object_id: string | null;
-    object_type: string | null;
-  };
-  s_created_at: string;
-  s_modified_at: string;
-  s_deleted_at: string | null;
-  s_seq_id: number;
-  object_target: {
-    object_id: string;
-    object_type: string;
-  };
-  content_start: number;
-  content_end: number;
-  original_content: string;
+  segments?: TComment[];
 };
 
 export type TSFCustomHeaders = {
@@ -119,4 +120,5 @@ export type TypeCaseScoresData = {
 export type TCaseBasedSLData = {
   case_data: TypeCaseScoresData;
   comments: TCommentData[];
+  notes: TAnnotation[];
 };
