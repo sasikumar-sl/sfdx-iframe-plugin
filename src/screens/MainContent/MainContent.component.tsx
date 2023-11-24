@@ -23,16 +23,16 @@ import {
   getTransformSFPayload,
   getCaseBasedDetails,
   TAnnotation,
-  waitResolve,
   sfDefaultValue,
   TCaseBasedSLData,
+  TCommentData,
 } from '../../common';
 
 import { MainContainer, Content } from './MainContent.styles';
 import { GET_SESSION_DETAILS } from '../../common/constants';
 
 export function MainContent() {
-  const [currentCommentIdx, setCurrentCommentIdx] = useState(0);
+  const [currentAnnotationIdx, setCurrentAnnotationIdx] = useState(0);
   const [hasError] = useState(false);
   const { showBoundary } = useErrorBoundary();
 
@@ -75,84 +75,51 @@ export function MainContent() {
   // eslint-disable-next-line no-console
   console.log('============== caseDetails', caseDetails);
 
-  // getcaseAnnotations({salesforceData,})
-  // .then(() => mockAnnotations)
-  const {
-    isLoading: isCaseAnnotationsLoading,
-    data: caseAnnotations,
-  }: UseQueryResult<TAnnotation[], Error> = useQuery<any, Error>(
-    ['caseAnnotations', salesforceData?.parent_id],
-    () =>
-      waitResolve(1200)
-        .then(() => [])
-        .catch((error: any) => {
-          showBoundary(error);
-          Promise.reject(error);
-        }),
-    {
-      enabled: !!salesforceData?.parent_id,
-    },
-  );
-
-  // getCaseCommentSegments({
-  //   salesforceData,
-  //   annotations: caseAnnotations,
-  // })
-  // .then(() => mockSegments)
-  const {
-    isLoading: isCaseCommentsLoading,
-    data: caseComments,
-  }: UseQueryResult<any, Error> = useQuery<any, Error>(
-    ['caseComments', salesforceData?.parent_id],
-    () =>
-      waitResolve(1300)
-        .then(() => [])
-        .catch((error: any) => {
-          showBoundary(error);
-          Promise.reject(error);
-        }),
-    {
-      enabled: !!(salesforceData?.parent_id && caseAnnotations?.length),
-    },
-  );
-
   const contextValue = useMemo(
     () => ({
       hasError,
       salesforceData,
-      currentCommentIdx,
-      setCurrentCommentIdx,
+      currentAnnotationIdx,
+      setCurrentAnnotationIdx,
       isCaseDetailsLoading,
-      isCaseCommentsLoading,
-      isCaseAnnotationsLoading,
     }),
-    [
-      hasError,
-      salesforceData,
-      currentCommentIdx,
-      isCaseDetailsLoading,
-      isCaseCommentsLoading,
-      isCaseAnnotationsLoading,
-    ],
+    [hasError, salesforceData, currentAnnotationIdx, isCaseDetailsLoading],
   );
 
-  const scores = {
-    Sentiment: caseDetails?.case_data?.sl_sentiment_score ?? 0,
-    Attention: caseDetails?.case_data?.sl_need_attention_score ?? 0,
-  };
+  const {
+    caseScores,
+    caseSentiments,
+    caseAnnotations,
+  }: {
+    caseScores: any;
+    caseSentiments: TCommentData[] | undefined;
+    caseAnnotations: TAnnotation[] | undefined;
+  } = useMemo(() => {
+    const scores = {
+      Sentiment: caseDetails?.case_data?.sl_sentiment_score ?? 0,
+      Attention: caseDetails?.case_data?.sl_need_attention_score ?? 0,
+    };
+
+    const sentiments =
+      caseDetails?.comments?.slice(0, 5) ?? caseDetails?.comments;
+
+    const annotations = caseDetails?.notes?.slice(0, 5) ?? caseDetails?.notes;
+
+    return {
+      caseScores: scores,
+      caseSentiments: sentiments,
+      caseAnnotations: annotations,
+    };
+  }, [caseDetails]);
 
   return (
     <MainContainer>
       <CaseContext.Provider value={contextValue}>
         <Header />
         <Content>
-          <Sentiments scores={scores} sentiments={caseDetails?.comments} />
+          <Sentiments scores={caseScores} sentiments={caseSentiments} />
         </Content>
-        <Footer
-          isOpen
-          caseComments={caseComments}
-          caseAnnotations={caseAnnotations}
-        />
+        <Footer isOpen caseAnnotations={caseAnnotations} />
       </CaseContext.Provider>
     </MainContainer>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useId } from 'react';
+import React, { useState, useId, useMemo } from 'react';
 import Collapsible from 'react-collapsible';
 
 import { TAnnotation, TComment, SkeletonLoader } from '../../common';
@@ -21,26 +21,21 @@ import CommentLoader from '../Comments/Comment/CommentLoader.component';
 
 type Props = {
   isOpen?: boolean;
-  caseComments: TComment[];
   caseAnnotations?: TAnnotation[];
 };
 
-function Footer({
-  isOpen = false,
-  caseComments = [],
-  caseAnnotations = [],
-}: Props) {
+function Footer({ isOpen = false, caseAnnotations = [] }: Props) {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(isOpen);
-  const { hasError, isCaseAnnotationsLoading, isCaseCommentsLoading } =
+  const { hasError, isCaseDetailsLoading, currentAnnotationIdx } =
     useCaseContext();
   const collapsibleId = useId();
 
-  // const annotations: any[] = useMemo(
-  //   () => caseComments?.[currentCommentIdx]?.annotations ?? [],
-  //   [caseComments, currentCommentIdx],
-  // );
+  const caseAnnotationSegments: TComment[] = useMemo(() => {
+    const segments = caseAnnotations?.[currentAnnotationIdx]?.segments ?? [];
+    return segments?.slice(0, 5) ?? segments;
+  }, [caseAnnotations, currentAnnotationIdx]);
 
-  if (!isCaseAnnotationsLoading && !caseAnnotations.length) {
+  if (!isCaseDetailsLoading && !caseAnnotations.length) {
     return (
       <FooterContainer>
         <Label>No Case Annotations</Label>
@@ -64,7 +59,7 @@ function Footer({
           disabled={hasError}
         >
           <Label>
-            {isCaseAnnotationsLoading ? (
+            {isCaseDetailsLoading ? (
               <SkeletonLoader width={150} height={15} />
             ) : (
               'Case Annotations'
@@ -75,13 +70,13 @@ function Footer({
       }
     >
       <CollapsibleBody>
-        {isCaseCommentsLoading ? (
+        {isCaseDetailsLoading ? (
           <CommentLoader />
         ) : (
-          <Comments comments={caseComments} />
+          <Comments comments={caseAnnotationSegments} />
         )}
         <AnnotationWrapper>
-          {isCaseAnnotationsLoading ? (
+          {isCaseDetailsLoading ? (
             <AnnotationLoader />
           ) : (
             <Annotations annotations={caseAnnotations ?? []} />

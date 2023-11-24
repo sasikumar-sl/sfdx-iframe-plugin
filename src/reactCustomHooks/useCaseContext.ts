@@ -6,23 +6,19 @@ export type TCaseContext = {
   hasError: boolean;
   salesforceData: TSalesforceData;
 
-  currentCommentIdx: number;
-  setCurrentCommentIdx: React.Dispatch<React.SetStateAction<number>>;
+  currentAnnotationIdx: number;
+  setCurrentAnnotationIdx: React.Dispatch<React.SetStateAction<number>>;
   isCaseDetailsLoading: boolean;
-  isCaseCommentsLoading: boolean;
-  isCaseAnnotationsLoading: boolean;
 };
 
 export const CaseContext = createContext<TCaseContext>({
   hasError: false,
   salesforceData: sfDefaultValue,
 
-  currentCommentIdx: 0,
-  setCurrentCommentIdx: noop,
+  currentAnnotationIdx: 0,
+  setCurrentAnnotationIdx: noop,
 
   isCaseDetailsLoading: false,
-  isCaseCommentsLoading: false,
-  isCaseAnnotationsLoading: false,
 });
 
 function useCaseContext() {

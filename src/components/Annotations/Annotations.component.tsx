@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import Sliders from '../Slider/Slider.component';
 
@@ -10,6 +10,7 @@ import {
   AnnoationSlide,
   NoAnnoationPlaceholder,
 } from './Annotations.styes';
+import useCaseContext from '../../reactCustomHooks/useCaseContext';
 
 type Props = {
   annotations: TAnnotation[];
@@ -26,6 +27,14 @@ function Annotations({ annotations = [] }: Props) {
     arrows: false,
     className: 'annotations-slider',
   };
+  const { setCurrentAnnotationIdx } = useCaseContext();
+
+  const onHandleSliderChange = useCallback(
+    (current: number): void => {
+      setCurrentAnnotationIdx(current ?? 0);
+    },
+    [setCurrentAnnotationIdx],
+  );
 
   if (!annotations?.length) {
     return (
@@ -51,6 +60,7 @@ function Annotations({ annotations = [] }: Props) {
         items={annotations}
         renderer={renderer}
         sliderSettings={sliderSettings}
+        onAfterChange={onHandleSliderChange}
       />
     </Wrapper>
   );
