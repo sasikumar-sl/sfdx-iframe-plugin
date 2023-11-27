@@ -1,5 +1,6 @@
 import React, { useState, useId, useMemo } from 'react';
 import Collapsible from 'react-collapsible';
+import isArray from 'lodash/isArray';
 
 import { TAnnotation, TComment, SkeletonLoader } from '../../common';
 import useCaseContext from '../../reactCustomHooks/useCaseContext';
@@ -32,7 +33,7 @@ function Footer({ isOpen = false, caseAnnotations = [] }: Props) {
 
   const caseAnnotationSegments: TComment[] = useMemo(() => {
     const segments = caseAnnotations?.[currentAnnotationIdx]?.segments ?? [];
-    return segments?.slice(0, 5) ?? segments;
+    return isArray(segments) ? segments?.slice(0, 5) : [segments];
   }, [caseAnnotations, currentAnnotationIdx]);
 
   if (!isCaseDetailsLoading && !caseAnnotations.length) {

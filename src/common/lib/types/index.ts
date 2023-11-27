@@ -83,7 +83,7 @@ export type TAnnotation = {
   recipient_list: any[]; // Replace with the actual type if known
   attachment_metadata_list: any[]; // Replace with the actual type if known
   child_notes?: TAnnotation[];
-  segments?: TComment[];
+  segments?: TComment | TComment[];
 };
 
 export type TSFCustomHeaders = {
