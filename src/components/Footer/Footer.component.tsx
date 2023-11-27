@@ -32,8 +32,8 @@ function Footer({ isOpen = false, caseAnnotations = [] }: Props) {
   const collapsibleId = useId();
 
   const caseAnnotationSegments: TComment[] = useMemo(() => {
-    const segments = caseAnnotations?.[currentAnnotationIdx]?.segments ?? [];
-    return isArray(segments) ? segments?.slice(0, 5) : [segments];
+    const segment = caseAnnotations?.[currentAnnotationIdx]?.segment ?? [];
+    return isArray(segment) ? segment?.slice(0, 5) : [segment];
   }, [caseAnnotations, currentAnnotationIdx]);
 
   if (!isCaseDetailsLoading && !caseAnnotations.length) {
