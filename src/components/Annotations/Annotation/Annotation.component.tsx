@@ -16,25 +16,20 @@ type Props = {
   annotation?: TAnnotation;
 };
 
-function getAgentProfile(): any {
-  return { name: 'NA', url: '', isActive: false };
-}
-
 function Annotation({ annotation }: Props) {
   const timestamp = new Date(annotation?.s_created_at ?? '').getTime();
-  const { name, url, isActive } = getAgentProfile();
   return (
     <Container>
       <AnnotationWrapper>
         <AnnotationHeader>
           <Profile>
             <AgentAvatar
-              agent={{ name }}
-              isActive={isActive}
+              agent={{ name: annotation?.creator?.name ?? 'NA' }}
+              isActive={annotation?.creator?.is_active ?? false}
               avatarSize="24px"
-              photo={url}
+              photo={annotation?.creator?.user_photo ?? ''}
             />
-            <span>{name}</span>
+            <span>{annotation?.creator?.name ?? 'NA'}</span>
           </Profile>
           <AnnotationAt>
             {formatDistance(timestamp, Date.now(), { addSuffix: true })}

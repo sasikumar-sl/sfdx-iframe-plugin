@@ -65,6 +65,13 @@ export type TComment = {
   original_content: string;
 };
 
+export type TUser = {
+  s_id: string;
+  name: string;
+  user_photo?: string;
+  is_active?: boolean;
+};
+
 export type TAnnotation = {
   s_id: string;
   s_object_creator: TObjectOwner;
@@ -84,6 +91,7 @@ export type TAnnotation = {
   attachment_metadata_list: any[]; // Replace with the actual type if known
   child_notes?: TAnnotation[];
   segment?: TComment | TComment[];
+  creator: TUser;
 };
 
 export type TSFCustomHeaders = {
