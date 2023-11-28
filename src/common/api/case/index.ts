@@ -49,8 +49,8 @@ export function getCaseBasedDetails({
     ...getHeadersWithBody(null, sfHeaders),
   })
     .then((response) => response.json())
-    .then((response) => {
-      if (response.error) {
+    .then((response: any) => {
+      if (response?.error || response?.status >= 400) {
         // eslint-disable-next-line no-console
         return Promise.reject(response.message);
       }
