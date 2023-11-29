@@ -8,12 +8,15 @@ import useCaseContext from '../../reactCustomHooks/useCaseContext';
 
 function Header() {
   const { salesforceData } = useCaseContext();
+  const caseNumber =
+    Number(salesforceData?.parent_number) ?? salesforceData?.parent_number;
+
   return (
     <HeaderContainer>
       <SupportLogicIcon />
       <Text className="case-number">{salesforceData?.parent_number}</Text>
       <LinkWrapper
-        href="https://www.example.com"
+        href={`${salesforceData?.sl_api_url}/support/cases/${caseNumber}`}
         target="_blank"
         rel="noopener noreferrer"
       >
