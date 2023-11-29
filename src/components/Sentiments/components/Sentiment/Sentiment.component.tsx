@@ -2,6 +2,7 @@ import React, { CSSProperties, useMemo } from 'react';
 import { formatDistance } from 'date-fns';
 
 import { SignalLabel, WithTooltip } from '@supportlogic/frontend-library';
+import useCaseContext from '../../../../reactCustomHooks/useCaseContext';
 
 import {
   getSignalLabelStyles,
@@ -27,6 +28,8 @@ type Props = {
 };
 
 function Sentiment({ sentiment, tooltipStyles, isBlured }: Props) {
+  const { salesforceData } = useCaseContext();
+
   const spans = sentiment?.spans
     ?.map((span: any) => Object.keys(span).filter((key) => span[key] === true))
     .flat();
@@ -40,7 +43,7 @@ function Sentiment({ sentiment, tooltipStyles, isBlured }: Props) {
         <BluredTitle>
           Visit{' '}
           <a
-            href="https://www.supportlogic.com/"
+            href={`${salesforceData?.sl_api_url}/support/cases/${Number(salesforceData?.parent_number) ?? salesforceData?.parent_number}`}
             target="_blank"
             rel="noreferrer"
           >
@@ -50,7 +53,7 @@ function Sentiment({ sentiment, tooltipStyles, isBlured }: Props) {
         </BluredTitle>
       </BluredWrapper>
     );
-  }, [isBlured]);
+  }, [isBlured, salesforceData?.sl_api_url, salesforceData?.parent_number]);
 
   return (
     <Container>
