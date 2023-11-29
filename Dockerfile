@@ -40,4 +40,4 @@ WORKDIR /opt/services/ui
 # nginx will not see the files in the /data/static directory. See
 # previous comment on the reason for 'WORKDIR /opt/services/ui'.
 COPY --from=build-env /data/build_dir/build /data/static/dist
-COPY --from=build-env /data/build_dir/public /data/static/public
+COPY --from=build-env /data/build_dir/public /data/static/public 
