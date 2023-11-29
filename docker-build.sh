@@ -4,7 +4,7 @@ BUILD_TOOL=${BUILD_TOOL:-docker}
 
 # Run '$ PUSH=true ./docker-build.sh' to push image after building
 PUSH=${PUSH:-false}
-TAG=${TAG:-iframe}
+TAG=iframe-develop
 PROJECT=${PROJECT:-kansas-150323}
 
 BASE_NAME=gcr.io/$PROJECT/ui
@@ -15,7 +15,7 @@ IMAGE_NAME=$BASE_NAME:$TAG
 # Note: doing this because under GitHub Actions environment, there
 # doesn't seem to exist a .git folder we can copy into the container
 # in order for the webpack git hash module to grab the hash from.
-$BUILD_TOOL build . -t $IMAGE_NAME --build-arg GITHUB_SHA="$GITHUB_SHA" --build-arg NPM_TOKEN="$NPM_TOKEN"
+$BUILD_TOOL build . -t $IMAGE_NAME --build-arg GITHUB_SHA="$GITHUB_SHA" --build-arg NPM_TOKEN="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"
 BUILD_RESULT=$?
 if [ $BUILD_RESULT -ne 0 ]; then
     echo

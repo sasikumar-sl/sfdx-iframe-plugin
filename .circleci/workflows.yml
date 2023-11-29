@@ -1,0 +1,79 @@
+version: 2.1
+
+orbs:
+  gcp-cli: circleci/gcp-cli@3.1.1
+  gcp-gcr: circleci/gcp-gcr@0.15.1
+  gcp-gke: circleci/gcp-gke@2.2.0
+  node: circleci/node@5.1.0
+  python: circleci/python@2.1.1
+  toolkit: supportlogic/circleci-toolkit-orb@0.4
+  sonarcloud: sonarsource/sonarcloud@1.1.0
+  shiftleft: shiftleft/shiftleft@1.0
+#  newman: postman/newman@0.0.2
+
+parameters:
+  generally-modified:
+    type: boolean
+    default: true
+  sfdc-modified:
+    type: boolean
+    default: false
+  run_docker_build:
+    type: boolean
+    default: true
+
+
+jobs:
+  precommit-hook:
+    docker:
+      - image: cimg/python:3.9.9
+    environment:
+      GIT_LFS_SKIP_SMUDGE: 1
+    steps:
+      - checkout
+      - run:
+          name: install pre-commit
+          command: |
+            python -m pip install --upgrade pip
+            pip install pre-commit
+      - run:
+          name: run static analysis
+          command: |
+            pre-commit run --all-files
+
+
+workflows:
+  version: 2
+  manual-docker-build:
+    when: << pipeline.parameters.run_docker_build >>
+    jobs:
+      - toolkit/docker-build:
+          name: manual-docker-build-sfdc-iframe
+          deployment_directory: .
+          # pull-lfs: true
+          context: KansasDev
+
+
+  sync-branches:
+    when:
+      matches:
+        pattern: "^(master|staging)$"
+        value: << pipeline.git.branch >>
+    jobs:
+      - toolkit/sync-branches:
+          name: sync-staging-to-develop
+          from_branch: staging
+          to_branch: develop
+          reviewer: supportlogic/backend-maintainers
+          context:
+            - GitHub
+
+      - toolkit/sync-branches:
+          name: sync-master-to-staging
+          from_branch: master
+          to_branch: staging
+          reviewer: supportlogic/backend-maintainers
+          context:
+            - GitHub
+
+# VS Code Extension Version: 1.5.1

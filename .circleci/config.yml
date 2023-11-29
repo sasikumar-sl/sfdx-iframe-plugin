@@ -1,0 +1,35 @@
+version: 2.1
+
+setup: true
+
+orbs:
+  path-filtering: circleci/path-filtering@0.1.3
+
+parameters:
+  run_docker_build:
+    type: boolean
+    default: true
+  inference-modified:
+    type: boolean
+    default: false
+  inference_b-modified:
+    type: boolean
+    default: false
+
+workflows:
+  version: 2
+  setup:
+    jobs:
+      - path-filtering/filter:
+          tag: 3.9.9
+          base-revision: develop
+          mapping: |
+            ./.* run_docker_build << pipeline.parameters.run_docker_build >>
+            ./.* generally-modified true
+            ./.* sfdc-modified true
+
+          filters:
+            tags:
+              only:
+                - /^v.*/
+          config-path: .circleci/workflows.yml
