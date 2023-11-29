@@ -43,7 +43,10 @@ function Sentiment({ sentiment, tooltipStyles, isBlured }: Props) {
         <BluredTitle>
           Visit{' '}
           <a
-            href={`${salesforceData?.sl_api_url}/support/cases/${Number(salesforceData?.parent_number) ?? salesforceData?.parent_number}`}
+            href={`${salesforceData?.sl_api_url}/support/cases/${
+              Number(salesforceData?.parent_number) ??
+              salesforceData?.parent_number
+            }`}
             target="_blank"
             rel="noreferrer"
           >
