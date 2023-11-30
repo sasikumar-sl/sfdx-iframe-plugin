@@ -28,7 +28,7 @@
     "start-watch": "WDS_SOCKET_HOST=127.0.0.1  CHOKIDAR_USEPOLLING=true WATCHPACK_POLLING=true react-scripts start",
     "predeploy": "npm run build",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!@copy-anything)/\"",
     "eject": "react-scripts eject",
     "develop": "PORT=3006 react-scripts start",
     "lint": "eslint . --ext .ts,.tsx --fix",

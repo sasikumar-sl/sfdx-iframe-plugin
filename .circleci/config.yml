@@ -13,7 +13,6 @@ workflows:
   ci:
     jobs:
       - toolkit/js-test:
-          parallelism: 4
           context:
             - GitHub
           pre-steps:
