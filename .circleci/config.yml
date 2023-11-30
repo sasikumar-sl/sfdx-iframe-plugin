@@ -1,35 +1,80 @@
 version: 2.1
 
-setup: true
 
 orbs:
-  path-filtering: circleci/path-filtering@0.1.3
+  toolkit: supportlogic/circleci-toolkit-orb@0.4
 
 parameters:
   run_docker_build:
     type: boolean
     default: true
-  inference-modified:
-    type: boolean
-    default: false
-  inference_b-modified:
-    type: boolean
-    default: false
 
 workflows:
-  version: 2
-  setup:
+  ci:
     jobs:
-      - path-filtering/filter:
-          tag: 3.9.9
-          base-revision: develop
-          mapping: |
-            ./.* run_docker_build << pipeline.parameters.run_docker_build >>
-            ./.* generally-modified true
-            ./.* sfdc-modified true
+      - toolkit/js-test:
+          parallelism: 4
+          context:
+            - GitHub
+          pre-steps:
+            - toolkit/npm-login:
+                token: $GITHUB_TOKEN
 
+  audit:
+    jobs:
+      - toolkit/js-audit:
+          context:
+            - GitHub
+
+  lint:
+    jobs:
+      - toolkit/js-lint:
+          context:
+            - GitHub
+          pre-steps:
+            - toolkit/npm-login:
+                token: $GITHUB_TOKEN
+
+  docker-build:
+    when:
+      or:
+        - << pipeline.parameters.run_docker_build >>
+        - matches:
+            pattern: "^(master|staging|develop|release)$"
+            value: << pipeline.git.branch >>
+    jobs:
+      - toolkit/docker-build:
+          context:
+            - KansasDev
+            - GitHub
+
+  tagged-docker-build:
+    jobs:
+      - toolkit/docker-build:
+          tag: << pipeline.git.tag >>
+          context:
+            - Kansas
+            - GitHub
           filters:
+            branches:
+              ignore: /.*/
             tags:
-              only:
-                - /^v.*/
-          config-path: .circleci/workflows.yml
+              only: /^v.*/
+
+  sync-branches:
+    when:
+      matches:
+        pattern: "^(master|staging)$"
+        value: << pipeline.git.branch >>
+    jobs:
+      - toolkit/sync-branches:
+          from_branch: staging
+          to_branch: develop
+          context:
+            - GitHub
+
+      - toolkit/sync-branches:
+          from_branch: master
+          to_branch: staging
+          context:
+            - GitHub
