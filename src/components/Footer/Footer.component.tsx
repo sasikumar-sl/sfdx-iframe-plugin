@@ -3,7 +3,6 @@ import Collapsible from 'react-collapsible';
 import isArray from 'lodash/isArray';
 import orderBy from 'lodash/orderBy';
 
-
 import { TSegment, SkeletonLoader, TNotes } from '../../common';
 import useCaseContext from '../../reactCustomHooks/useCaseContext';
 
