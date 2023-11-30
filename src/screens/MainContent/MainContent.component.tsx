@@ -23,18 +23,14 @@ import {
   TSalesforceData,
   getTransformSFPayload,
   getCaseBasedDetails,
-  TNotes,
   sfDefaultValue,
   TCaseBasedSLData,
   TComments,
-  waitResolve,
   TSegment,
 } from '../../common';
 
 import { MainContainer, Content } from './MainContent.styles';
 import { GET_SESSION_DETAILS } from '../../common/constants';
-
-import mockCaseDetails from './mock/caseDetails';
 
 export function MainContent() {
   const [currentSegmentIdx, setCurrentSegmentIdx] = useState(0);
@@ -68,13 +64,10 @@ export function MainContent() {
   }: UseQueryResult<TCaseBasedSLData, Error> = useQuery<any, Error>(
     ['caseBasedDetails', salesforceData?.parent_id],
     () =>
-      // getCaseBasedDetails({ salesforceData })
-      waitResolve(500)
-        .then(() => mockCaseDetails)
-        .catch((error: any) => {
-          showBoundary(error);
-          Promise.reject(error);
-        }),
+      getCaseBasedDetails({ salesforceData }).catch((error: any) => {
+        showBoundary(error);
+        Promise.reject(error);
+      }),
     {
       enabled: !!salesforceData?.parent_id,
     },
