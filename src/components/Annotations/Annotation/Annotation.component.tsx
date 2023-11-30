@@ -1,5 +1,4 @@
-import React from 'react';
-import { formatDistance } from 'date-fns';
+import React, { useMemo } from 'react';
 import { AgentAvatar } from '@supportlogic/frontend-library';
 
 import {
@@ -10,14 +9,19 @@ import {
   AnnotationHeader,
   AnnotationWrapper,
 } from './Annotation.styles';
-import { TAnnotation } from '../../../common';
+import { TNotes, formatDate } from '../../../common';
 
 type Props = {
-  annotation?: TAnnotation;
+  annotation?: TNotes;
 };
 
 function Annotation({ annotation }: Props) {
-  const timestamp = new Date(annotation?.s_created_at ?? '').getTime();
+  const createAt = useMemo(() => {
+    if (!annotation?.s_created_at) return null;
+
+    return formatDate(annotation?.s_created_at ?? '');
+  }, [annotation?.s_created_at]);
+
   return (
     <Container>
       <AnnotationWrapper>
@@ -31,9 +35,7 @@ function Annotation({ annotation }: Props) {
             />
             <span>{annotation?.creator?.name ?? 'NA'}</span>
           </Profile>
-          <AnnotationAt>
-            {formatDistance(timestamp, Date.now(), { addSuffix: true })}
-          </AnnotationAt>
+          <AnnotationAt>{createAt}</AnnotationAt>
         </AnnotationHeader>
         <AnnotationBody>{annotation?.body}</AnnotationBody>
       </AnnotationWrapper>

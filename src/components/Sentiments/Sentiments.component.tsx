@@ -5,7 +5,7 @@ import PlaceHolder from '../PlaceHolder/PlaceHolder.components';
 import useCaseContext from '../../reactCustomHooks/useCaseContext';
 
 import Sliders from '../Slider/Slider.component';
-import { TCommentData, generateUniqKey } from '../../common';
+import { TComments, generateUniqKey } from '../../common';
 
 import SentimentLoader from './components/Sentiment/SentimentLoader.component';
 import Sentiment from './components/Sentiment/Sentiment.component';
@@ -25,7 +25,7 @@ const tooltipStyles = { width: 'auto', maxWidth: 'calc(75% - 40px)' };
 
 type Props = {
   scores: { [key in TScore]: number };
-  sentiments?: TCommentData[];
+  sentiments?: TComments[];
 };
 
 function Sentiments({
@@ -48,7 +48,7 @@ function Sentiments({
     className: 'sentiment-slider',
   };
 
-  const renderer = (sentiment: TCommentData, index: number) => (
+  const renderer = (sentiment: TComments, index: number) => (
     <SentimentSlide
       className="sentiment-slide-wrapper"
       key={sentiment?.id ?? generateUniqKey()}

@@ -19,11 +19,11 @@ import {
   SignalFooterText,
   SignalTextContainer,
 } from './Sentiment.styles';
-import { TCommentData } from '../../../../common';
+import { TComments, formatToLocal } from '../../../../common';
 
 type Props = {
   isBlured: boolean;
-  sentiment: TCommentData;
+  sentiment: TComments;
   tooltipStyles?: CSSProperties;
 };
 
@@ -34,7 +34,18 @@ function Sentiment({ sentiment, tooltipStyles, isBlured }: Props) {
     ?.map((span: any) => Object.keys(span).filter((key) => span[key] === true))
     .flat();
   const labels = formatLabels(spans);
-  const timestamp = new Date(sentiment.sl_created_at).getTime();
+
+  const createdAt = useMemo(() => {
+    if (!sentiment?.sl_created_at) return null;
+
+    const formattedDate = new Date(
+      formatToLocal(sentiment.sl_created_at).toDate(),
+    ).getTime();
+
+    return `${formatDistance(formattedDate, Date.now(), {
+      addSuffix: true,
+    })} | Most Recent`;
+  }, [sentiment?.sl_created_at]);
 
   const Blured = useMemo(() => {
     if (!isBlured) return null;
@@ -82,11 +93,7 @@ function Sentiment({ sentiment, tooltipStyles, isBlured }: Props) {
             <SignalText>{sentiment?.body}</SignalText>
           </WithTooltip>
         </SignalTextContainer>
-        <SignalFooterText>
-          {`${formatDistance(timestamp, Date.now(), {
-            addSuffix: true,
-          })} | Most Recent`}
-        </SignalFooterText>
+        <SignalFooterText>{createdAt}</SignalFooterText>
       </Wrapper>
     </Container>
   );

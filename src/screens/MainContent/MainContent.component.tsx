@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import orderBy from 'lodash/orderBy';
 
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
@@ -22,17 +23,21 @@ import {
   TSalesforceData,
   getTransformSFPayload,
   getCaseBasedDetails,
-  TAnnotation,
+  TNotes,
   sfDefaultValue,
   TCaseBasedSLData,
-  TCommentData,
+  TComments,
+  waitResolve,
+  TSegment,
 } from '../../common';
 
 import { MainContainer, Content } from './MainContent.styles';
 import { GET_SESSION_DETAILS } from '../../common/constants';
 
+import mockCaseDetails from './mock/caseDetails';
+
 export function MainContent() {
-  const [currentAnnotationIdx, setCurrentAnnotationIdx] = useState(0);
+  const [currentSegmentIdx, setCurrentSegmentIdx] = useState(0);
   const [hasError] = useState(false);
   const { showBoundary } = useErrorBoundary();
 
@@ -63,10 +68,13 @@ export function MainContent() {
   }: UseQueryResult<TCaseBasedSLData, Error> = useQuery<any, Error>(
     ['caseBasedDetails', salesforceData?.parent_id],
     () =>
-      getCaseBasedDetails({ salesforceData }).catch((error: any) => {
-        showBoundary(error);
-        Promise.reject(error);
-      }),
+      // getCaseBasedDetails({ salesforceData })
+      waitResolve(500)
+        .then(() => mockCaseDetails)
+        .catch((error: any) => {
+          showBoundary(error);
+          Promise.reject(error);
+        }),
     {
       enabled: !!salesforceData?.parent_id,
     },
@@ -79,38 +87,34 @@ export function MainContent() {
     () => ({
       hasError,
       salesforceData,
-      currentAnnotationIdx,
-      setCurrentAnnotationIdx,
+      currentSegmentIdx,
+      setCurrentSegmentIdx,
       isCaseDetailsLoading,
     }),
-    [hasError, salesforceData, currentAnnotationIdx, isCaseDetailsLoading],
+    [hasError, salesforceData, currentSegmentIdx, isCaseDetailsLoading],
   );
 
   const {
     caseScores,
     caseSentiments,
-    caseAnnotations,
+    caseSegments,
   }: {
     caseScores: any;
-    caseSentiments: TCommentData[] | undefined;
-    caseAnnotations: TAnnotation[] | undefined;
-  } = useMemo(() => {
-    const scores = {
-      Sentiment: caseDetails?.case_data?.sl_sentiment_score ?? 0,
-      Attention: caseDetails?.case_data?.sl_need_attention_score ?? 0,
-    };
-
-    const sentiments =
-      caseDetails?.comments?.slice(0, 5) ?? caseDetails?.comments;
-
-    const annotations = caseDetails?.notes?.slice(0, 5) ?? caseDetails?.notes;
-
-    return {
-      caseScores: scores,
-      caseSentiments: sentiments,
-      caseAnnotations: annotations,
-    };
-  }, [caseDetails]);
+    caseSentiments: TComments[] | undefined;
+    caseSegments: TSegment[] | undefined;
+  } = useMemo(
+    () =>
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      ({
+        caseScores: {
+          Sentiment: caseDetails?.case_data?.sl_sentiment_score ?? 0,
+          Attention: caseDetails?.case_data?.sl_need_attention_score ?? 0,
+        },
+        caseSentiments: caseDetails?.comments?.slice(0, 5) ?? [],
+        caseSegments: orderBy(caseDetails?.segments, 's_created_at', 'desc'),
+      }),
+    [caseDetails],
+  );
 
   return (
     <MainContainer>
@@ -119,7 +123,7 @@ export function MainContent() {
         <Content>
           <Sentiments scores={caseScores} sentiments={caseSentiments} />
         </Content>
-        <Footer isOpen caseAnnotations={caseAnnotations} />
+        <Footer isOpen caseSegments={caseSegments} />
       </CaseContext.Provider>
     </MainContainer>
   );

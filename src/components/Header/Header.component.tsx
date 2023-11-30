@@ -11,7 +11,7 @@ function Header() {
   return (
     <HeaderContainer>
       <SupportLogicIcon />
-      <Text className="case-number">{salesforceData?.parent_number}</Text>
+      {/* <Text className="case-number">{salesforceData?.parent_number}</Text> */}
       <LinkWrapper
         href={`${salesforceData?.sl_api_url}/support/cases/${
           Number(salesforceData?.parent_number) ?? salesforceData?.parent_number

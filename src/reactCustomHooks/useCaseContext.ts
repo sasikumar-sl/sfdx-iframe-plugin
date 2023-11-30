@@ -6,8 +6,8 @@ export type TCaseContext = {
   hasError: boolean;
   salesforceData: TSalesforceData;
 
-  currentAnnotationIdx: number;
-  setCurrentAnnotationIdx: React.Dispatch<React.SetStateAction<number>>;
+  currentSegmentIdx: number;
+  setCurrentSegmentIdx: React.Dispatch<React.SetStateAction<number>>;
   isCaseDetailsLoading: boolean;
 };
 
@@ -15,8 +15,8 @@ export const CaseContext = createContext<TCaseContext>({
   hasError: false,
   salesforceData: sfDefaultValue,
 
-  currentAnnotationIdx: 0,
-  setCurrentAnnotationIdx: noop,
+  currentSegmentIdx: 0,
+  setCurrentSegmentIdx: noop,
 
   isCaseDetailsLoading: false,
 });
