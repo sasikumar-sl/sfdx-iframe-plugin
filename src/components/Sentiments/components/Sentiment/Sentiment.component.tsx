@@ -17,6 +17,7 @@ import {
   SignalLabels,
   BluredWrapper,
   SignalFooterText,
+  TooltipContainer,
   SignalTextContainer,
 } from './Sentiment.styles';
 import { TComments, formatToLocal } from '../../../../common';
@@ -87,7 +88,7 @@ function Sentiment({ sentiment, tooltipStyles, isBlured }: Props) {
             styles={tooltipStyles}
             zIndex={9999}
             placement="bottom"
-            content={sentiment?.body}
+            content={<TooltipContainer>{sentiment?.body}</TooltipContainer>}
             containerStyle={{ width: '100%' }}
           >
             <SignalText>{sentiment?.body}</SignalText>

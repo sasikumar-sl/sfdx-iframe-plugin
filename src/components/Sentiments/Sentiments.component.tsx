@@ -21,7 +21,10 @@ import {
   SentimentsContainer,
 } from './Sentiments.styles';
 
-const tooltipStyles = { width: 'auto', maxWidth: 'calc(75% - 40px)' };
+const tooltipStyles: React.CSSProperties = {
+  width: 'auto',
+  maxWidth: 'calc(75% - 40px)',
+};
 
 type Props = {
   scores: { [key in TScore]: number };

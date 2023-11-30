@@ -148,3 +148,10 @@ export const SkeletonSentimentCard = styled(Container)`
   flex-direction: column;
   gap: 10px;
 `;
+
+export const TooltipContainer = styled.div`
+  max-height: 450px;
+  overflow-y: auto;
+  text-align: justify;
+  padding: 2px;
+`;

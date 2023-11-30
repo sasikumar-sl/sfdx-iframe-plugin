@@ -17,6 +17,66 @@ export default {
         },
       ],
     },
+    {
+      body: '2 - From Bugzilla Helper:\nUser-Agent: Mozilla/4.75 [en] (X11; U; SunOS 5.6 sun4u)\n\nThis may be an issue with the ext2 filesystem itself rather than e2fsprogs,\nbut this\nis the nearest appropriate component I could find.  I have been having files go missing for a couple of days',
+      author_name: 'Dos Admin',
+      sl_created_at: '2023-11-24 14:18:45+00:00',
+      spans: [
+        {
+          c_begin: 473,
+          c_end: 577,
+          Frustration: true,
+        },
+      ],
+    },
+    {
+      body: '3 - From Bugzilla Helper:\nUser-Agent: Mozilla/4.',
+      author_name: 'Dos Admin',
+      sl_created_at: '2023-11-24 13:18:45+00:00',
+      spans: [
+        {
+          c_begin: 473,
+          c_end: 577,
+          Frustration: true,
+        },
+      ],
+    },
+    {
+      body: '4 - From Bugzilla ',
+      author_name: 'Dos Admin',
+      sl_created_at: '2023-11-22 12:18:45+00:00',
+      spans: [
+        {
+          c_begin: 473,
+          c_end: 577,
+          Frustration: true,
+        },
+      ],
+    },
+    {
+      body: '5 -  have been having files go missing for a couple of days',
+      author_name: 'Dos Admin',
+      sl_created_at: '2023-11-25 10:18:45+00:00',
+      spans: [
+        {
+          c_begin: 473,
+          c_end: 577,
+          Frustration: true,
+        },
+      ],
+    },
+    {
+      body: '6 -I could find.  I have been having files go missing for a couple of days',
+      author_name: 'Dos Admin',
+      sl_created_at: '2023-11-20 11:18:45+00:00',
+      spans: [
+        {
+          c_begin: 473,
+          c_end: 577,
+          Frustration: true,
+        },
+      ],
+    },
   ],
   segments: [
     {
