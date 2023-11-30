@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import Sliders from '../Slider/Slider.component';
 
-import { generateUniqKey, TAnnotation } from '../../common';
+import { generateUniqKey, TNotes } from '../../common';
 import Annotation from './Annotation/Annotation.component';
 
 import {
@@ -10,10 +10,9 @@ import {
   AnnoationSlide,
   NoAnnoationPlaceholder,
 } from './Annotations.styes';
-import useCaseContext from '../../reactCustomHooks/useCaseContext';
 
 type Props = {
-  annotations: TAnnotation[];
+  annotations: TNotes[];
 };
 
 function Annotations({ annotations = [] }: Props) {
@@ -27,14 +26,6 @@ function Annotations({ annotations = [] }: Props) {
     arrows: false,
     className: 'annotations-slider',
   };
-  const { setCurrentAnnotationIdx } = useCaseContext();
-
-  const onHandleSliderChange = useCallback(
-    (current: number): void => {
-      setCurrentAnnotationIdx(current ?? 0);
-    },
-    [setCurrentAnnotationIdx],
-  );
 
   if (!annotations?.length) {
     return (
@@ -42,7 +33,7 @@ function Annotations({ annotations = [] }: Props) {
     );
   }
 
-  const renderer = (annotation: TAnnotation) => (
+  const renderer = (annotation: TNotes) => (
     <AnnoationSlide
       className="annotation-slide-wrapper"
       key={annotation?.s_id ?? generateUniqKey()}
@@ -60,7 +51,6 @@ function Annotations({ annotations = [] }: Props) {
         items={annotations}
         renderer={renderer}
         sliderSettings={sliderSettings}
-        onAfterChange={onHandleSliderChange}
       />
     </Wrapper>
   );

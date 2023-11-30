@@ -5,3 +5,4 @@ export * from './promise';
 export * from './path';
 export * from './transformSFPayload';
 export * from './fetch';
+export * from './date';

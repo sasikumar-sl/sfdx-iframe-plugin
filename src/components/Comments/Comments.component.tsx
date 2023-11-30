@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import Sliders from '../Slider/Slider.component';
 import Comment from './Comment/Comment.component';
 
-import { TComment, generateUniqKey } from '../../common';
+import { TSegment, generateUniqKey } from '../../common';
 import { CaseCommmentSlide } from './comments.styels';
+import useCaseContext from '../../reactCustomHooks/useCaseContext';
 
 type Props = {
-  comments: TComment[];
+  comments: TSegment[];
 };
 function Comments({ comments }: Props) {
+  const { setCurrentSegmentIdx } = useCaseContext();
+
   const sliderSettings = {
     dots: false,
     infinite: false,
@@ -21,7 +24,14 @@ function Comments({ comments }: Props) {
     className: 'case-comments-slider',
   };
 
-  const renderer = (caseCommment: TComment) => (
+  const onHandleSliderChange = useCallback(
+    (current: number): void => {
+      setCurrentSegmentIdx(current ?? 0);
+    },
+    [setCurrentSegmentIdx],
+  );
+
+  const renderer = (caseCommment: TSegment) => (
     <CaseCommmentSlide
       className="case-comments-slide-wrapper"
       key={caseCommment?.s_id ?? generateUniqKey()}
@@ -37,6 +47,7 @@ function Comments({ comments }: Props) {
       renderer={renderer}
       items={comments ?? []}
       sliderSettings={sliderSettings}
+      onAfterChange={onHandleSliderChange}
     />
   );
 }

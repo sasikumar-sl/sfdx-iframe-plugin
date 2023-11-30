@@ -1,8 +1,9 @@
 import React, { useState, useId, useMemo } from 'react';
 import Collapsible from 'react-collapsible';
 import isArray from 'lodash/isArray';
+import orderBy from 'lodash/orderBy';
 
-import { TAnnotation, TComment, SkeletonLoader } from '../../common';
+import { TSegment, SkeletonLoader, TNotes } from '../../common';
 import useCaseContext from '../../reactCustomHooks/useCaseContext';
 
 import {
@@ -22,19 +23,21 @@ import CommentLoader from '../Comments/Comment/CommentLoader.component';
 
 type Props = {
   isOpen?: boolean;
-  caseAnnotations?: TAnnotation[];
+  caseSegments?: TSegment[];
 };
 
-function Footer({ isOpen = false, caseAnnotations = [] }: Props) {
+function Footer({ isOpen = false, caseSegments = [] }: Props) {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(isOpen);
-  const { hasError, isCaseDetailsLoading, currentAnnotationIdx } =
+  const { hasError, isCaseDetailsLoading, currentSegmentIdx } =
     useCaseContext();
   const collapsibleId = useId();
 
-  const caseAnnotationSegments: TComment[] = useMemo(() => {
-    const segment = caseAnnotations?.[currentAnnotationIdx]?.segment ?? [];
-    return isArray(segment) ? segment?.slice(0, 5) : [segment];
-  }, [caseAnnotations, currentAnnotationIdx]);
+  const caseAnnotations: TNotes[] = useMemo(() => {
+    const annotations = caseSegments?.[currentSegmentIdx]?.notes ?? [];
+    return isArray(annotations)
+      ? orderBy(annotations, 's_created_at', 'desc')
+      : [];
+  }, [caseSegments, currentSegmentIdx]);
 
   if (!isCaseDetailsLoading && !caseAnnotations.length) {
     return (
@@ -72,17 +75,20 @@ function Footer({ isOpen = false, caseAnnotations = [] }: Props) {
     >
       <CollapsibleBody>
         {isCaseDetailsLoading ? (
-          <CommentLoader />
+          <>
+            <CommentLoader />
+            <AnnotationWrapper>
+              <AnnotationLoader />
+            </AnnotationWrapper>
+          </>
         ) : (
-          <Comments comments={caseAnnotationSegments} />
+          <>
+            <Comments comments={caseSegments} />
+            <AnnotationWrapper>
+              <Annotations annotations={caseAnnotations ?? []} />
+            </AnnotationWrapper>
+          </>
         )}
-        <AnnotationWrapper>
-          {isCaseDetailsLoading ? (
-            <AnnotationLoader />
-          ) : (
-            <Annotations annotations={caseAnnotations ?? []} />
-          )}
-        </AnnotationWrapper>
       </CollapsibleBody>
     </Collapsible>
   );
