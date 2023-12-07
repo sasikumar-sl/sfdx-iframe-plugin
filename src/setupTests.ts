@@ -1,1 +1,12 @@
-import '@testing-library/jest-dom';
+/* eslint-disable */
+import "@testing-library/jest-dom/extend-expect";
+
+window.matchMedia =
+  window.matchMedia ||
+  function() {
+    return {
+      matches: false,
+      addListener: function() {},
+      removeListener: function() {}
+    };
+  };
