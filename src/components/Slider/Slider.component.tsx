@@ -72,7 +72,7 @@ function Sliders({
       height={height}
       hasPagination={showPagination}
     >
-      {showArrows && items?.length ? (
+      {showArrows && items?.length > 1 ? (
         <ArrowsWrapper>
           <ArrowLeftIcon
             id="pre-arrow"
