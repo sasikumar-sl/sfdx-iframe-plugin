@@ -1,0 +1,79 @@
+version: 2.1
+
+
+orbs:
+  toolkit: supportlogic/circleci-toolkit-orb@0.4
+
+parameters:
+  run_docker_build:
+    type: boolean
+    default: true
+
+workflows:
+  ci:
+    jobs:
+      - toolkit/js-test:
+          context:
+            - GitHub
+          pre-steps:
+            - toolkit/npm-login:
+                token: $GITHUB_TOKEN
+
+  audit:
+    jobs:
+      - toolkit/js-audit:
+          context:
+            - GitHub
+
+  lint:
+    jobs:
+      - toolkit/js-lint:
+          context:
+            - GitHub
+          pre-steps:
+            - toolkit/npm-login:
+                token: $GITHUB_TOKEN
+
+  docker-build:
+    when:
+      or:
+        - << pipeline.parameters.run_docker_build >>
+        - matches:
+            pattern: "^(master|staging|develop|release)$"
+            value: << pipeline.git.branch >>
+    jobs:
+      - toolkit/docker-build:
+          context:
+            - KansasDev
+            - GitHub
+
+  tagged-docker-build:
+    jobs:
+      - toolkit/docker-build:
+          tag: << pipeline.git.tag >>
+          context:
+            - Kansas
+            - GitHub
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/
+
+  sync-branches:
+    when:
+      matches:
+        pattern: "^(master|staging)$"
+        value: << pipeline.git.branch >>
+    jobs:
+      - toolkit/sync-branches:
+          from_branch: staging
+          to_branch: develop
+          context:
+            - GitHub
+
+      - toolkit/sync-branches:
+          from_branch: master
+          to_branch: staging
+          context:
+            - GitHub

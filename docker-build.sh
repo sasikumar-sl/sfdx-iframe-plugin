@@ -4,7 +4,7 @@ BUILD_TOOL=${BUILD_TOOL:-docker}
 
 # Run '$ PUSH=true ./docker-build.sh' to push image after building
 PUSH=${PUSH:-false}
-TAG=${TAG:-iframe}
+TAG=iframe-develop
 PROJECT=${PROJECT:-kansas-150323}
 
 BASE_NAME=gcr.io/$PROJECT/ui
