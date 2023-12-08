@@ -74,8 +74,8 @@ export const CollapsibleHeader = styled.div<TCollapsibleHeader>`
   justify-content: space-between;
 
   border-top: 1px solid #d7d7d7;
-  border-left: 1px solid #d7d7d7;
-  border-right: 1px solid #d7d7d7;
+  /* border-left: 1px solid #d7d7d7; */
+  /* border-right: 1px solid #d7d7d7; */
   border-bottom: ${(props) =>
     props?.hasBorder ? 'none' : '1px solid #d7d7d7'};
 
@@ -98,8 +98,9 @@ export const CollapsibleBody = styled.div`
   padding-top: 10px;
   height: 270px;
   width: 100%;
-  border: 1px solid #d7d7d7;
-  border-top: none;
+  /* border: 1px solid #d7d7d7;
+  border-top: none; */
+  border-bottom: 1px solid #d7d7d7;
   background: #ffffff;
   position: relative;
 `;
@@ -107,7 +108,9 @@ export const CollapsibleBody = styled.div`
 export const AnnotationWrapper = styled.div`
   height: 140px;
   width: 100%;
-  border: 1px solid #d7d7d7;
+  /* border: 1px solid #d7d7d7; */
+  border-top: 1px solid #d7d7d7;
+  border-bottom: 1px solid #d7d7d7;
   background: #fff;
 
   position: absolute;

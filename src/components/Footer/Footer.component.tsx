@@ -54,9 +54,9 @@ function Footer({ isOpen = false, caseSegments = [] }: Props) {
       key={collapsibleId}
       openedClassName="collapse-open"
       open={isCollapsed && !hasError}
-      handleTriggerClick={() =>
-        hasError ? null : setIsCollapsed((val) => !val)
-      }
+      transitionTime={200}
+      triggerDisabled={hasError}
+      handleTriggerClick={() => setIsCollapsed((val) => !val)}
       trigger={
         <CollapsibleHeader
           hasBorder={isCollapsed && !hasError}
