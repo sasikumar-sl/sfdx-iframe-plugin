@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import PlaceHolder from '../PlaceHolder/PlaceHolder.components';
 
@@ -40,7 +40,7 @@ function Sentiments({
 }: Props) {
   const { isCaseDetailsLoading } = useCaseContext();
 
-  const sliderSettings = {
+  const sliderSettings = useRef({
     dots: true,
     infinite: false,
     speed: 500,
@@ -49,7 +49,7 @@ function Sentiments({
     swipe: false,
     arrows: false,
     className: 'sentiment-slider',
-  };
+  });
 
   const renderer = (sentiment: TComments, index: number) => (
     <SentimentSlide
@@ -73,7 +73,7 @@ function Sentiments({
         showPagination
         items={sentiments}
         renderer={renderer}
-        sliderSettings={sliderSettings}
+        sliderSettings={sliderSettings?.current}
       />
     </>
   ) : (

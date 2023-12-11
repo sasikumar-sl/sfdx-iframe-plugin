@@ -1,1 +1,2 @@
 export const GET_SESSION_DETAILS: string = 'GET_SESSION_DETAILS';
+export const CHANGE_WIDGET_HEIGHT: string = 'CHANGE_WIDGET_HEIGHT';

@@ -5,7 +5,7 @@ export const Card = styled.div`
   background: #f7f7f7;
   width: 70%;
   height: 124px;
-  min-width: 280px;
+  min-width: 250px;
 `;
 
 export const CaseComment = styled.div`
@@ -27,7 +27,7 @@ export const LoaderWrapper = styled.div`
 `;
 export const LoaderContainer = styled.div`
   width: 70%;
-  min-width: 280px;
+  min-width: 250px;
   height: 100%;
   margin: 10px auto;
 

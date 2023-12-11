@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 import Sliders from '../Slider/Slider.component';
 import Comment from './Comment/Comment.component';
@@ -13,7 +13,7 @@ type Props = {
 function Comments({ comments }: Props) {
   const { setCurrentSegmentIdx } = useCaseContext();
 
-  const sliderSettings = {
+  const sliderSettings = useRef({
     dots: false,
     infinite: false,
     speed: 500,
@@ -21,8 +21,8 @@ function Comments({ comments }: Props) {
     slidesToScroll: 1,
     swipe: false,
     arrows: false,
-    className: 'case-comments-slider',
-  };
+    className: 'case-segments-slider',
+  });
 
   const onHandleSliderChange = useCallback(
     (current: number): void => {
@@ -33,7 +33,7 @@ function Comments({ comments }: Props) {
 
   const renderer = (caseCommment: TSegment) => (
     <CaseCommmentSlide
-      className="case-comments-slide-wrapper"
+      className="case-segments-slide-wrapper"
       key={caseCommment?.s_id ?? generateUniqKey()}
     >
       <Comment comment={caseCommment} />
@@ -41,12 +41,12 @@ function Comments({ comments }: Props) {
   );
   return (
     <Sliders
-      id="sliders-wrapper-case-comments"
+      id="sliders-wrapper-segments"
       height={124}
       showPagination
       renderer={renderer}
       items={comments ?? []}
-      sliderSettings={sliderSettings}
+      sliderSettings={sliderSettings?.current}
       onAfterChange={onHandleSliderChange}
     />
   );

@@ -20,6 +20,7 @@ import Annotations from '../Annotations/Annotations.component';
 import Comments from '../Comments/Comments.component';
 import AnnotationLoader from '../Annotations/Annotation/AnnotationLoader.component';
 import CommentLoader from '../Comments/Comment/CommentLoader.component';
+import { CHANGE_WIDGET_HEIGHT } from '../../common/constants';
 
 type Props = {
   isOpen?: boolean;
@@ -46,8 +47,18 @@ function Footer({ isOpen = false, caseSegments = [] }: Props) {
       </FooterContainer>
     );
   }
-
   const icon = isCollapsed ? <StyledDoubleUpIcon /> : <StyledDoubleDownIcon />;
+
+  const handleCollapse = (val: boolean) => {
+    setIsCollapsed(val);
+    window?.parent?.postMessage(
+      {
+        methodName: CHANGE_WIDGET_HEIGHT,
+        data: { isCollapsed: val },
+      },
+      '*',
+    );
+  };
 
   return (
     <Collapsible
@@ -56,7 +67,7 @@ function Footer({ isOpen = false, caseSegments = [] }: Props) {
       open={isCollapsed && !hasError}
       transitionTime={200}
       triggerDisabled={hasError}
-      handleTriggerClick={() => setIsCollapsed((val) => !val)}
+      handleTriggerClick={() => handleCollapse(!isCollapsed)}
       trigger={
         <CollapsibleHeader
           hasBorder={isCollapsed && !hasError}

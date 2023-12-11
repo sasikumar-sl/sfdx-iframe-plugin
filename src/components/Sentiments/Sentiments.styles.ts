@@ -12,6 +12,10 @@ export const Scorers = styled.div`
   display: inline-flex;
   justify-content: center;
   gap: 40px;
+
+  @media (max-width: 305px) {
+    gap: 10px;
+  }
 `;
 
 export const ScoreCardsWrapper = styled.div`
@@ -52,4 +56,5 @@ export const Title = styled.div`
   font-weight: 800;
   line-height: normal;
   text-align: center;
+  padding: 5px 0;
 `;

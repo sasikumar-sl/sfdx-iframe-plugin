@@ -8,6 +8,12 @@ export const ScaleWrapper = styled.div`
   align-items: center;
   position: relative;
   padding: 5px 15px 25px;
+  min-width: 265px;
+
+  @media (max-width: 305px) {
+    padding: 5px 5px 38px;
+    width: 265px;
+  }
 `;
 
 export const RangeWrapper = styled.div`
@@ -34,12 +40,31 @@ export const RangeBall = styled.div<TRangeBall>`
     font-weight: 500;
     line-height: normal;
   }
+
+  @media (max-width: 305px) {
+    height: 25px;
+    width: 25px;
+  }
+
+  @media (min-width: 400px) {
+    height: 26px;
+    width: 26px;
+  }
+
+  @media (min-width: 430px) {
+    height: 26px;
+    width: 26px;
+  }
 `;
 
 export const LinkingLine = styled.div<TLinkLine>`
   height: 5px;
-  width: 1.3vw;
+  min-width: 1rem;
   background: linear-gradient(90deg, ${({ from }) => from}, ${({ to }) => to});
+
+  @media (max-width: 305px) {
+    min-width: 0.6rem;
+  }
 `;
 
 export const Label = styled.div<TLabel>`
@@ -60,4 +85,18 @@ export const Label = styled.div<TLabel>`
   white-space: nowrap;
   line-height: normal;
   margin-left: -14px;
+
+  @media (max-width: 305px) {
+    font-size: 11px;
+    white-space: pre-wrap;
+  }
+  /* Media query for screens with a width of 396 pixels and a height of 600 pixels or more */
+  @media (min-width: 400px) {
+    font-size: 11px;
+  }
+
+  /* Media query for screens with a width of 423 pixels and a height of 600 pixels or more */
+  @media (min-width: 430px) {
+    font-size: 11px;
+  }
 `;

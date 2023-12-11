@@ -11,8 +11,11 @@ export const HeaderContainer = styled.section`
   border-radius: 4px 4px 0px 0px;
   border-bottom: 1px solid #d7d7d7;
   background: #f8f8f8;
-
   padding: 0 12px;
+
+  @media (max-width: 305px) {
+    padding: 0 6px;
+  }
 `;
 
 export const LinkWrapper = styled.a`

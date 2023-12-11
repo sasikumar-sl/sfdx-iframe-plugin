@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 70%;
-  min-width: 280px;
+  min-width: 250px;
   height: 100%;
   /* padding: 10px; */
 `;
@@ -13,6 +13,11 @@ export const AnnotationWrapper = styled.div`
   align-items: center;
   gap: 20px;
   padding: 18px 0;
+
+  /* @media (max-width: 305px) {
+    gap: 15px;
+    padding: 0 18px;
+  } */
 `;
 
 export const AnnotationHeader = styled.div`
@@ -56,6 +61,11 @@ export const AnnotationBody = styled.div`
   font-weight: 400;
   height: 54px;
   ${commonFontStyles}
+
+  @media (max-width: 305px) {
+    font-size: 12px;
+    min-height: 75px;
+  }
 `;
 
 export const LoaderWrapper = styled.div`
@@ -65,7 +75,7 @@ export const LoaderWrapper = styled.div`
 `;
 export const LoaderContainer = styled.div`
   width: 70%;
-  min-width: 280px;
+  min-width: 250px;
   height: 100%;
   margin: 10px auto;
 
