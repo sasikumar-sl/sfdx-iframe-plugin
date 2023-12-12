@@ -24,7 +24,7 @@ export const SignalLabels = styled.div`
 
   @media (max-width: 767px) {
     overflow-x: auto;
-    width: 250px;
+    width: 100%;
     flex-wrap: nowrap;
     overflow-y: hidden;
   }
