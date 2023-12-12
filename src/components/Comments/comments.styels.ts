@@ -16,7 +16,7 @@ export const CaseCommmentSlide = styled.div`
     }
   }
 
-  &.case-comments-slide-wrapper {
+  &.case-segments-slide-wrapper {
     display: inline-flex !important;
     align-items: center;
     justify-content: center;

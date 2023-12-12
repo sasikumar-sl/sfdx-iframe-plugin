@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import Sliders from '../Slider/Slider.component';
 
@@ -16,7 +16,7 @@ type Props = {
 };
 
 function Annotations({ annotations = [] }: Props) {
-  const sliderSettings = {
+  const sliderSettings = useRef({
     dots: false,
     infinite: false,
     speed: 500,
@@ -25,7 +25,7 @@ function Annotations({ annotations = [] }: Props) {
     swipe: false,
     arrows: false,
     className: 'annotations-slider',
-  };
+  });
 
   if (!annotations?.length) {
     return (
@@ -45,12 +45,12 @@ function Annotations({ annotations = [] }: Props) {
   return (
     <Wrapper>
       <Sliders
-        id="sliders-wrapper-comments"
+        id="sliders-wrapper-annotations"
         height={140}
         showArrows
         items={annotations}
         renderer={renderer}
-        sliderSettings={sliderSettings}
+        sliderSettings={sliderSettings?.current}
       />
     </Wrapper>
   );

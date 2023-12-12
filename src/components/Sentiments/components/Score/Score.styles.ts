@@ -10,6 +10,23 @@ export const ScoreWrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 8px;
+
+  @media (max-width: 305px) {
+    gap: 6px;
+  }
+
+  & > div {
+    & > div:nth-child(1) {
+      @media (max-width: 305px) {
+        font-size: 11px;
+      }
+    }
+    & > div:nth-child(2) {
+      @media (max-width: 305px) {
+        font-size: 12px;
+      }
+    }
+  }
 `;
 
 export const StyledScore = styled(Score)`
@@ -20,8 +37,7 @@ export const StyledScore = styled(Score)`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  div:nth-child(2) {
-  }
+  margin: 5px;
 `;
 
 export const StyledInfoIcon = styled(InfoIcon)`
@@ -40,6 +56,9 @@ export const SkeletonName = styled(SkeletonLoader)`
   width: 100px;
   height: 16px;
   font-size: 13px;
+  @media (max-width: 305px) {
+    width: 80px;
+  }
 `;
 
 export const SkeletonIcon = styled(SkeletonLoader)`

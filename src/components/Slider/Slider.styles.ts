@@ -154,6 +154,11 @@ export const ArrowsWrapper = styled.div`
       @media (max-width: 767px) {
         left: 3%;
       }
+      @media (max-width: 305px) {
+        width: 24px;
+        height: 24px;
+        left: 0.5%;
+      }
     }
 
     &#next-arrow {
@@ -161,6 +166,11 @@ export const ArrowsWrapper = styled.div`
       right: 10%;
       @media (max-width: 767px) {
         right: 3%;
+      }
+      @media (max-width: 305px) {
+        width: 24px;
+        height: 24px;
+        right: 0.5%;
       }
     }
   }
