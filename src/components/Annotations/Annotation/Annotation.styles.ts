@@ -43,6 +43,10 @@ export const Profile = styled.div`
     font-size: 14px;
     font-weight: 500;
     ${commonFontStyles}
+
+    @media (max-width: 305px) {
+      font-size: 13px;
+    }
   }
 `;
 
