@@ -17,7 +17,7 @@ export function getCaseBasedDetails({
 }: TCommonParams): Promise<any> {
   const sfHeaders: TSFCustomHeaders = getSFHeaders(salesforceData);
   // const url = `${salesforceData?.sl_api_url}/api/iframe/case/${salesforceData.parent_id}`;
-  const base = baseUrl ?? salesforceData?.sl_api_url;
+  const base = salesforceData?.sl_api_url ?? baseUrl;
   const url = `${base}/${caseDetailsEndPoint}/${salesforceData.parent_id}`;
   return fetch(url, {
     ...getHeadersWithBody(null, sfHeaders),
