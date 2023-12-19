@@ -21,6 +21,7 @@ import {
   SignalTextContainer,
 } from './Sentiment.styles';
 import { TComments, formatToLocal } from '../../../../common';
+import { supportDetailsEndPoint } from '../../../../common/constants';
 
 type Props = {
   isBlured: boolean;
@@ -50,18 +51,17 @@ function Sentiment({ sentiment, tooltipStyles, isBlured }: Props) {
 
   const Blured = useMemo(() => {
     if (!isBlured) return null;
+
+    const baseUrl = salesforceData?.sl_api_url?.replace('iframe.', '');
+    const caseNumber =
+      Number(salesforceData?.parent_number) ?? salesforceData?.parent_number;
+    const caseLink = `${baseUrl}/${supportDetailsEndPoint}/${caseNumber}`;
+
     return (
       <BluredWrapper>
         <BluredTitle>
           Visit{' '}
-          <a
-            href={`${salesforceData?.sl_api_url}/support/cases/${
-              Number(salesforceData?.parent_number) ??
-              salesforceData?.parent_number
-            }`}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href={caseLink} target="_blank" rel="noreferrer">
             SupportLogic
           </a>{' '}
           to view more sentiments{' '}
